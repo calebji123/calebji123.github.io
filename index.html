@@ -12,10 +12,12 @@
     <input type="button" class="button button1" value="Stone" onClick="stone()">
     <input type="button" class="button button1" value="Wood" onClick="wood()">
     <input type="button" class="button button1"  value="Windmill" id="windmill" onClick="windmill()">
+    <div class = "info">
     <p id="stones"></p>
     <p id="woods"></p>
     <p id="windmills"></p>
-
+    <p id="cost" class="p1"></p>
+  </div>
     <script>
     var x = 0;
     var y = 0;
@@ -23,6 +25,7 @@
     var v = 1;
     var n = 1;
     var t = 0;
+    var f = 0;
     var wind = document.getElementById("windmill")
 
     wind.style.display = "none"
@@ -41,19 +44,21 @@
       function windmill(){
         if (x > (v*100) && (y > (v*100))){
           z = z + 1;
-          x = x - (100 * v);
-          y = y - (100 * v);
-          v = v * 1.25;
+          x = Math.round(x - (100 * v));
+          y = Math.round(y - (100 * v));
+          v = v * 1.17;
+          f = Math.round(v*100)
           document.getElementById("windmills").innerHTML = z + " windmills";
           document.getElementById("stones").innerHTML = x + " stone";
-          document.getElementById("woods").innerHTML = y + " wood"
+          document.getElementById("woods").innerHTML = y + " wood";
           n = 2 * z
         }
         else{
-          
+
         }
 
         refreshButtons()
+        document.getElementById("cost").innerHTML = f + " wood, " + f + " stone";
       }
       function refreshButtons (){
         if (x > 100 && y > 100) {
