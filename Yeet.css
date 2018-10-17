@@ -19,3 +19,17 @@ h1{
   border: 1px solid black;
   outline: none;
 }
+.button2{
+  font-size: 30px;
+}
+p{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.p1{
+  margin-top: 20px;
+}
+.info{
+  padding: inherit;
+}
