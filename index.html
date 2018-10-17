@@ -12,11 +12,14 @@
     <input type="button" class="button button1" value="Stone" onClick="stone()">
     <input type="button" class="button button1" value="Wood" onClick="wood()">
     <input type="button" class="button button1"  value="Windmill" id="windmill" onClick="windmill()">
+    <input type="button" class="button button1 button2" value="Sell Hardest Worker For Glue" id="sell" onClick="selling()">
     <div class = "info">
     <p id="stones"></p>
     <p id="woods"></p>
     <p id="windmills"></p>
+    <p id="glue"></p>
     <p id="cost" class="p1"></p>
+
   </div>
     <script>
     var x = 0;
@@ -26,9 +29,13 @@
     var n = 1;
     var t = 0;
     var f = 0;
+    var g = 0;
+    var w = 1.25
     var wind = document.getElementById("windmill")
+    var sells = document.getElementById("sell")
 
     wind.style.display = "none"
+    sells.style.display = "none"
       function stone(){
         x = x + n;
         document.getElementById("stones").innerHTML = x + " stone";
@@ -46,24 +53,45 @@
           z = z + 1;
           x = Math.round(x - (100 * v));
           y = Math.round(y - (100 * v));
-          v = v * 1.17;
+          v = v * w;
           f = Math.round(v*100)
           document.getElementById("windmills").innerHTML = z + " windmills";
           document.getElementById("stones").innerHTML = x + " stone";
           document.getElementById("woods").innerHTML = y + " wood";
-          n = 2 * z
+          n = 1.5 * z
         }
         else{
 
         }
 
         refreshButtons()
-        document.getElementById("cost").innerHTML = f + " wood, " + f + " stone";
+        document.getElementById("cost").innerHTML = "Cost of Windmill: " + f + " wood, " + f + " stone";
       }
+      function selling(){
+        if (z > 4){
+        z = z - 5;
+        g = g + 1;
+        n = n / 1.5 / 1.5 / 1.5 / 1.5 / 1.5 / 1.5;
+        v = v / w / w / w / w;
+        w = w - 0.05;
+        f = Math.round(v*100);
+        document.getElementById("windmills").innerHTML = z + " windmills";
+        document.getElementById("glue").innerHTML = g + " glue";
+        document.getElementById("cost").innerHTML = "Cost of Windmill: " + f + " wood, " + f + " stone";
+
+        refreshButtons()
+      }
+      }
+
       function refreshButtons (){
         if (x > 100 && y > 100) {
           if (wind.style.display = "none") {
             wind.style.display = "inline"
+          }
+        }
+        if (z > 20){
+          if (sell.style.display = "none"){
+            sell.style.display = "inline"
           }
         }
       }
