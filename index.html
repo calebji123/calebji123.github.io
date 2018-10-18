@@ -1,101 +1,144 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="Yeet.css">
-    <link rel="script" href="Speet.js">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>This could be a cool thing</title>
-  </head>
-  <body>
 
-    <div><h1>Animal Farm but Bad</h1></div>
-    <input type="button" class="button button1" value="Stone" onClick="stone()">
-    <input type="button" class="button button1" value="Wood" onClick="wood()">
-    <input type="button" class="button button1"  value="Windmill" id="windmill" onClick="windmill()">
-    <input type="button" class="button button1 button2" value="Sell Hardest Worker For Glue" id="sell" onClick="selling()">
-    <div class = "info">
-    <p id="stones"></p>
-    <p id="woods"></p>
-    <p id="windmills"></p>
-    <p id="glue"></p>
-    <p id="cost" class="p1"></p>
+<head>
+  <link rel="stylesheet" href="Yeet.css">
+  <link rel="script" href="Speet.js">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>This could be a cool thing</title>
+</head>
 
+<body>
+
+  <div>
+    <h1>Animal Farm but Bad</h1>
   </div>
-    <script>
-    var x = 0;
-    var y = 0;
-    var z = 0;
-    var v = 1;
+  <div class="buttons">
+    <input type="button" class="button button1" value="Grain" onClick="grain()">
+    <input type="button" class="button button1" value="Wood" onClick="wood()">
+    <input type="button" class="button button1" value="Stone" onClick="stone()">
+    <div class="info" id="info">
+      <p id="grains"></p>
+      <p id="woods"></p>
+      <p id="stones"></p>
+      <p id="windmills"></p>
+      <p id="glue"></p>
+    </div>
+    <input type="button" class="button button1" value="Windmill" id="windmill" onClick="windmill()">
+    <input type="button" class="button button1 button2" value="Sell Hardest Worker For Glue" id="sell" onClick="selling()">
+  </div>
+  <p id="cost" class="p1"></p>
+
+
+  <script>
+    var st = 0;
+    var wo = 0;
+    var gr = 0;
+    var mill = 0;
+    var inc = 1;
     var n = 1;
     var t = 0;
     var f = 0;
-    var g = 0;
+    var glue = 0;
     var w = 1.25
     var wind = document.getElementById("windmill")
     var sells = document.getElementById("sell")
+    var infor = document.getElementById("info")
 
     wind.style.display = "none"
     sells.style.display = "none"
-      function stone(){
-        x = x + n;
-        document.getElementById("stones").innerHTML = x + " stone";
+    infor.style.display = "none"
 
-        refreshButtons()
+    function grain() {
+      gr = gr + n;
+      document.getElementById("grains").innerHTML = gr + " grain";
+      refreshButtons()
+    }
+
+    function stone() {
+      st = st + n;
+      document.getElementById("stones").innerHTML = st + " stone";
+      refreshButtons()
+    }
+
+    function wood() {
+      wo = wo + n;
+      document.getElementById("woods").innerHTML = wo + " wood";
+      refreshButtons()
+    }
+
+    function windmill() {
+      if (st > (inc * 100) && (wo > (inc * 100))) {
+        mill = mill + 1;
+        st = Math.round(st - (100 * inc));
+        wo = Math.round(wo - (100 * inc));
+        inc = inc * w;
+        f = Math.round(inc * 100)
+        n = 1.5 * mill + 2 * glue
+      } else {
+
       }
-      function wood() {
-        y = y + n;
-        document.getElementById("woods").innerHTML = y + " wood";
 
-        refreshButtons()
-      }
-      function windmill(){
-        if (x > (v*100) && (y > (v*100))){
-          z = z + 1;
-          x = Math.round(x - (100 * v));
-          y = Math.round(y - (100 * v));
-          v = v * w;
-          f = Math.round(v*100)
-          document.getElementById("windmills").innerHTML = z + " windmills";
-          document.getElementById("stones").innerHTML = x + " stone";
-          document.getElementById("woods").innerHTML = y + " wood";
-          n = 1.5 * z
-        }
-        else{
+      refreshButtons()
+      reloadNumbers()
+    }
 
-        }
-
-        refreshButtons()
+    function selling() {
+      if (z >= 20) {
+        st = 0
+        wo = 0
+        w = 1.25 - (.05 * glue)
+        inc = 1
+        mill = 0
+        n = 1
+        f = Math.round(inc * 100)
+        glue = 1
+        document.getElementById("windmills").innerHTML = mill + " windmills";
         document.getElementById("cost").innerHTML = "Cost of Windmill: " + f + " wood, " + f + " stone";
+        reloadNumbers()
+        n = n + glue
       }
-      function selling(){
-        if (z > 4){
-        z = z - 5;
-        g = g + 1;
-        n = n / 1.5 / 1.5 / 1.5 / 1.5 / 1.5 / 1.5;
-        v = v / w / w / w / w;
-        w = w - 0.05;
-        f = Math.round(v*100);
-        document.getElementById("windmills").innerHTML = z + " windmills";
-        document.getElementById("glue").innerHTML = g + " glue";
+
+      refreshButtons()
+    }
+
+
+    function reloadNumbers() {
+      document.getElementById("grains").innerHTML = gr + " grain";
+      document.getElementById("stones").innerHTML = st + " stone";
+      document.getElementById("woods").innerHTML = wo + " wood";
+
+      if (mill > 0) {
+        if (mill < 2) {
+          document.getElementById("windmills").innerHTML = mill + " windmill";
+        } else {
+          document.getElementById("windmills").innerHTML = mill + " windmills";
+        }
         document.getElementById("cost").innerHTML = "Cost of Windmill: " + f + " wood, " + f + " stone";
+      } else {
 
-        refreshButtons()
       }
-      }
+      if (glue > 0) {
+        document.getElementById("glue").innerHTML = glue + " glue";
+      } else {
 
-      function refreshButtons (){
-        if (x > 100 && y > 100) {
-          if (wind.style.display = "none") {
-            wind.style.display = "inline"
-          }
+      }
+    }
+
+    function refreshButtons() {
+      if (st >= 100 && wo >= 100) {
+        if (wind.style.display = "none") {
+          wind.style.display = "block"
         }
-        if (z > 20){
-          if (sell.style.display = "none"){
-            sell.style.display = "inline"
-          }
+      }
+      if (mill >= 20) {
+        if (sell.style.display = "none") {
+          sell.style.display = "block"
         }
       }
+      infor.style.display = "inline"
+    }
+  </script>
+</body>
 
-    </script>
-  </body>
 </html>
