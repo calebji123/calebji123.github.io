@@ -26,10 +26,6 @@ h1 {
   outline: none;
 }
 
-.button2 {
-  font-size: 30px;
-}
-
 p {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -47,6 +43,6 @@ p {
   padding-left: 20px;
   border-width: thin;
   border-style: solid;
-  margin-top: 20px;
+  margin-right: 100px;
   float: right;
 }
