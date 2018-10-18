@@ -1,35 +1,52 @@
-h1{
+h1 {
   text-align: center;
   font-family: verdana;
 }
-.button{
+
+.buttons {
+  padding-left: 220px;
+}
+
+.button {
   text-align: center;
-  padding: 20px 40px;
-  font-size: 30px;
+  padding: 10px 20px;
+  font-size: 15px;
   cursor: pointer;
   color: black;
   text-decoration: none;
   border: none;
   border-radius: 2px;
-  margin-top: 20px;
-  margin-right: 10px;
+  margin-top: 10px;
+  margin-right: 5px;
+  margin-left
 }
 
-.button1{
+.button1 {
   border: 1px solid black;
   outline: none;
 }
-.button2{
+
+.button2 {
   font-size: 30px;
 }
-p{
+
+p {
   margin-top: 10px;
   margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
-.p1{
+.p1 {
   margin-top: 20px;
+  margin-left: 220px;
 }
-.info{
-  padding: inherit;
+
+.info {
+  padding-right: 20px;
+  padding-left: 20px;
+  border-width: thin;
+  border-style: solid;
+  margin-top: 20px;
+  float: right;
 }
