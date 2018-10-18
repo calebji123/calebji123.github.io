@@ -14,31 +14,33 @@
     <h1>Animal Farm but Bad</h1>
   </div>
   <div class="buttons">
-    <input type="button" class="button button1" value="Grain" onClick="grain()">
-    <input type="button" class="button button1" value="Wood" onClick="wood()">
-    <input type="button" class="button button1" value="Stone" onClick="stone()">
+    <input type="button" class="button button1" value="Grain" onClick="grain()" onmouseover="mouseGrain()" onmouseout="NotmouseGrain()">
+    <input type="button" class="button button1" value="Wood" onClick="wood()" onmouseover="mouseWood()" onmouseout="NotmouseWood()">
+    <input type="button" class="button button1" value="Stone" onClick="stone()" onmouseover="mouseStone()" onmouseout="NotmouseStone()">
     <div class="info" id="info">
       <p id="grains"></p>
       <p id="woods"></p>
       <p id="stones"></p>
       <p id="windmills"></p>
       <p id="glue"></p>
+
     </div>
     <input type="button" class="button button1" value="Windmill" id="windmill" onClick="windmill()">
-    <input type="button" class="button button1 button2" value="Sell Hardest Worker For Glue" id="sell" onClick="selling()">
+    <input type="button" class="button button1" value="Sell Hardest Worker For Glue" id="sell" onClick="selling()">
   </div>
-  <p id="cost" class="p1"></p>
+  <p id="desc" class="p1"></p>
+
 
 
   <script>
-    var st = 0;
-    var wo = 0;
-    var gr = 0;
+    var st = 1000000;
+    var wo = 1000000;
+    var gr = 1000000;
     var mill = 0;
     var inc = 1;
     var n = 1;
     var t = 0;
-    var f = 0;
+    var f = 100;
     var glue = 0;
     var w = 1.25
     var wind = document.getElementById("windmill")
@@ -68,7 +70,7 @@
     }
 
     function windmill() {
-      if (st > (inc * 100) && (wo > (inc * 100))) {
+      if (st >= (inc * 100) && (wo >= (inc * 100))) {
         mill = mill + 1;
         st = Math.round(st - (100 * inc));
         wo = Math.round(wo - (100 * inc));
@@ -87,21 +89,61 @@
       if (z >= 20) {
         st = 0
         wo = 0
+        glue = 1
         w = 1.25 - (.05 * glue)
         inc = 1
         mill = 0
         n = 1
         f = Math.round(inc * 100)
-        glue = 1
+
         document.getElementById("windmills").innerHTML = mill + " windmills";
-        document.getElementById("cost").innerHTML = "Cost of Windmill: " + f + " wood, " + f + " stone";
+
         reloadNumbers()
         n = n + glue
       }
 
       refreshButtons()
     }
+    document.getElementById("windmill").onmouseover = function() {
+      mouseWind()
+    }
+    document.getElementById("windmill").onmouseout = function() {
+      NotmouseWind()
+    }
 
+    function mouseWood() {
+      document.getElementById("desc").innerHTML = "Punch a tree, it doesn't work because this is not minecraft."
+    }
+
+    function NotmouseWood() {
+      document.getElementById("desc").innerHTML = " "
+    }
+
+    function mouseGrain() {
+      document.getElementById("desc").innerHTML = "Harvest the wheat. Right now is useless so don't bother."
+
+    }
+
+    function NotmouseGrain() {
+      document.getElementById("desc").innerHTML = " "
+    }
+
+    function mouseStone() {
+      document.getElementById("desc").innerHTML = "stone"
+    }
+
+    function NotmouseStone() {
+      document.getElementById("desc").innerHTML = " "
+
+    }
+
+    function mouseWind() {
+      document.getElementById("desc").innerHTML = "Windmills are very good. Cost: " + f + " wood, " + f + " stone"
+    }
+
+    function NotmouseWind() {
+      document.getElementById("desc").innerHTML = " "
+    }
 
     function reloadNumbers() {
       document.getElementById("grains").innerHTML = gr + " grain";
@@ -114,7 +156,6 @@
         } else {
           document.getElementById("windmills").innerHTML = mill + " windmills";
         }
-        document.getElementById("cost").innerHTML = "Cost of Windmill: " + f + " wood, " + f + " stone";
       } else {
 
       }
@@ -133,7 +174,7 @@
       }
       if (mill >= 20) {
         if (sell.style.display = "none") {
-          sell.style.display = "block"
+          sell.style.display = "inline"
         }
       }
       infor.style.display = "inline"
