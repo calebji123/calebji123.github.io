@@ -837,7 +837,7 @@ document.getElementById("sellStall3").onclick = function(){
 var grainEvent = 0;
 function refreshEvents(){
   if (gr == 10 && grainEvent < 1){
-    alert("You have found a map on the floor while threshing. It peaks your curiosity")
+    alert("You have found a map on the ground while threshing. It peaks your curiosity")
     grainEvent = 1
   }
   if (grainEvent == 1){
