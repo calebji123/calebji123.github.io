@@ -226,6 +226,12 @@ p.p3 {
   font-size: 10px;
 }
 
+.buttonBarn {
+  outline: none;
+  border: none;
+  font-size: 10px;
+}
+
 /*Market stalls*/
 .marketTitle p {
   text-align: center;
@@ -281,4 +287,10 @@ p.p3 {
 .marketItemPrice {
   font-size: 12px;
   margin-top: 2px;
+}
+
+#version {
+  position: absolute;
+  bottom: 0px;
+  float: right;
 }
