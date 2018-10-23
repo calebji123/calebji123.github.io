@@ -856,7 +856,9 @@ function display(){
   document.getElementById("grains").innerHTML = gr + " grain"
   document.getElementById("stones").innerHTML = st + " stones"
   document.getElementById("woods").innerHTML = wo + " wood"
-  document.getElementById("corns").innerHTML = co + " corn"
+  if (co >= 1) {
+      document.getElementById("corns").innerHTML = co + " corn"
+  }
 }
 function landUnlock(){
   if (landUnlockRoad == 1) {
