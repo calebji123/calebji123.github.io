@@ -10,7 +10,7 @@ var gr = 0;
 var co = 0;
 var money = 0;
 var click = 1;
-var adminTest = 1;
+var adminTest = 0;
 //material buttons
 var grainShort = document.getElementById("grain");
 var woodShort = document.getElementById("wood");
@@ -778,7 +778,6 @@ document.getElementById("sellStall1").onclick = function(){
 
 }
 document.getElementById("sellStall2").onclick = function(){
-  console.log(stallSell22)
   if (stallSell22 == 1) {
     if (gr >= stallSell2Amount2) {
       gr = gr - stallSell2Amount2
@@ -807,7 +806,6 @@ document.getElementById("sellStall2").onclick = function(){
   display()
 }
 document.getElementById("sellStall3").onclick = function(){
-  console.log(stallSell32)
   if (stallSell32 == 1) {
     if (gr >= stallSell3Amount2) {
       gr = gr - stallSell3Amount2
