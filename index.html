@@ -22,15 +22,15 @@
   <div class="tabContent" id="resources">
     <div class="buttons">
       <input type="button" class="button button1" value="Grain" id="grain">
+      <input type="button" class="button button1" value="Corn" id="corn">
       <input type="button" class="button button1" value="Wood" id="wood">
       <input type="button" class="button button1" value="Stone" id="stone">
       <div class="info" id="info">
         <p class="p2" id="money"></p>
         <p class="p2" id="grains"></p>
+        <p class="p2" id="corns"></p>
         <p class="p2" id="woods"></p>
         <p class="p2" id="stones"></p>
-        <p class="p2" id="windmills"></p>
-        <p class="p2" id="glue"></p>
       </div>
     </div>
     <p id="desc" class="p1"></p>
@@ -45,6 +45,13 @@
           <div class="column">
           </div>
           <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw1clm3">
+              <span class="toolTiptext" id="textTooltip3">60 grain</span>
+            </div>
+            <div class="stable exploreBox">
+              <p class="exploreText">The Stable</p>
+            </div>
           </div>
           <div class="column">
           </div>
@@ -66,6 +73,13 @@
             </div>
           </div>
           <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw2clm4">
+              <span class="toolTiptext" id="textTooltip9">70 grain</span>
+            </div>
+            <div class="anotherField1 exploreBox">
+              <p class="exploreText">Another Field</p>
+            </div>
           </div>
           <div class="column">
           </div>
@@ -165,6 +179,7 @@
         </span>
         <p class="animals" id="poultryNumber"></p>
         <p class="animals" id="poultryProduction"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedPoultry">
       </div>
       <div class="animalShed" id="sheepShed">
         <span title="The sheep are hardworking individuals. They gather crops, and chop trees yet rather inefficiently. Produces 1 crop every 4 seconds and 1 wood every 10 seconds each.">
@@ -173,6 +188,7 @@
         <p class="animals" id="sheepNumber"></p>
         <p class="animals" id="sheepProduction1"></p>
         <p class="animals" id="sheepProduction2"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedSheep">
       </div>
       <div class="animalShed" id="cowShed">
         <span title="Cows are sturdy and strong animals, but a specialist, however, only wanting to do one thing, yet does it well. They chop 1 tree every 3 seconds each">
@@ -180,6 +196,7 @@
         </span>
         <p class="animals" id="cowNumber"></p>
         <p class="animals" id="cowProduction"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedCows">
       </div>
       <div class="animalShed" id="horseShed">
         <span title="Horses are the muscle in the farm. Therefore are reserved for doing the hardest tasks, pushing stone blocks off the cliff. Produces 1 stone every 5 seconds each>">
@@ -187,6 +204,7 @@
         </span>
         <p class="animals" id="horseNumber"></p>
         <p class="animals" id="horseProduction"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedHorses">
       </div>
       <div class="animalShed" id="dogShed">
         <span title="Dogs are the snapping power, helping to gather wheat, chop wood, and collect stone, yet they are also all over the place. Produce 1 grain every 8 seconds, 1 wood every 18 seconds and 1 stone every 25 seconds">
@@ -197,6 +215,7 @@
         <p class="animals" id="dogProduction1"></p>
         <p class="animals" id="dogProduction2"></p>
         <p class="animals" id="dogProduction3"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedDogs">
       </div>
 
     </div>
@@ -244,7 +263,10 @@
       <p id="stuffs"></p>
     </div>
   </div>
-
+  <!-- Version -->
+  <div id="version">
+    <p class="version">version: 0.1.2</p>
+  </div>
 
   <script type="text/javascript" src="Speet.js"></script>
 
