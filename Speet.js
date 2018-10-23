@@ -7,14 +7,18 @@ infor.style.display = "none";
 var st = 0;
 var wo = 0;
 var gr = 0;
+var co = 0;
 var money = 0;
 var click = 1;
+var adminTest = 1;
 //material buttons
 var grainShort = document.getElementById("grain");
 var woodShort = document.getElementById("wood");
 var stoneShort = document.getElementById("stone")
+var cornShort = document.getElementById("corn")
 woodShort.style.display = "none";
 stoneShort.style.display = "none";
+cornShort.style.display = "none";
 grainShort.onclick = function(){
   grain()
   grainShort.disabled = true;
@@ -34,6 +38,12 @@ stoneShort.onclick = function(){
   stoneShort.classList.add("timeout")
   setTimeout(function() {stoneShort.disabled = false; stoneShort.classList.remove("timeout");}, 10000)
 }
+cornShort.onclick = function(){
+  corn()
+  cornShort.disabled = true;
+  cornShort.classList.add("timeout")
+  setTimeout(function() {cornShort.disabled = false; cornShort.classList.remove("timeout");}, 3000)
+}
 function grain() {
   gr = gr + click;
   document.getElementById("grains").innerHTML = gr + " grain";
@@ -46,6 +56,10 @@ function stone() {
 function wood() {
   wo = wo + click;
   document.getElementById("woods").innerHTML = wo + " wood";
+}
+function corn() {
+  co = co + click;
+  document.getElementById("corns").innerHTML = co + " corn";
 }
 document.getElementById("grain").onmouseover = function() {
   mouseGrain()
@@ -128,16 +142,21 @@ function openTab(evt, tabName) {
 var costGrain = 15;
 var grainInterval = 0;
 var landUnlockRoad = 0;
-var costrw2clm3 = 35
-var costrw3clm2 = 10
-var costrw3clm4 = 15
-var costrw4clm1 = 40
-var costrw4clm2 = 30
-var costrw4clm3 = 20
-var costrw4clm4 = 70
+var landUnlockTop = 0;
+var costrw1clm3 = 60;
+var costrw2clm3 = 35;
+var costrw2clm4 = 70;
+var costrw3clm2 = 10;
+var costrw3clm4 = 15;
+var costrw4clm1 = 40;
+var costrw4clm2 = 30;
+var costrw4clm3 = 20;
+var costrw4clm4 = 70;
+var buttonrw1clm3 = document.getElementById("rw1clm3");
 var buttonrw2clm3 = document.getElementById("rw2clm3");
-var buttonrw3clm4 = document.getElementById("rw3clm4");
+var buttonrw2clm4 = document.getElementById("rw2clm4");
 var buttonrw3clm2 = document.getElementById("rw3clm2");
+var buttonrw3clm4 = document.getElementById("rw3clm4");
 var buttonrw4clm1 = document.getElementById("rw4clm1");
 var buttonrw4clm2 = document.getElementById("rw4clm2");
 var buttonrw4clm3 = document.getElementById("rw4clm3");
@@ -150,11 +169,32 @@ document.getElementsByClassName("barn")[0].style.display = "none";
 document.getElementsByClassName("market")[0].style.display = "none";
 document.getElementsByClassName("roadToTown")[0].style.display = "none";
 document.getElementsByClassName("roadNothing")[0].style.display = "none";
+document.getElementsByClassName("anotherField1")[0].style.display = "none";
+document.getElementsByClassName("stable")[0].style.display = "none";
 //hide the items
+buttonrw1clm3.style.display = "none"
+buttonrw2clm4.style.display = "none"
 buttonrw4clm1.style.display = "none"
 buttonrw4clm2.style.display = "none"
 buttonrw4clm4.style.display = "none"
 //clicking items
+buttonrw1clm3.onclick = function(){
+  if (gr >= costrw1clm3) {
+    gr = gr - costrw1clm3;
+    document.getElementById("grains").innerHTML = gr + " grain";
+    buttonrw1clm3.style.display = "none"
+    document.getElementsByClassName("stable")[0].style.display = "inline-block";
+    alert("A stable is seen in the distance. Around it, a number of animals mill, barely surviving in the field and stable. More comrades join your society.")
+    document.getElementById("title").innerHTML = ("Animal Farm 2.0")
+    poultryNum = poultryNum + 2
+    sheepNum = sheepNum + 2
+    horseNum = horseNum + 2
+    cowNum = cowNum + 2
+    dogNum = dogNum + 2
+    barnCheck()
+    breedPoultry.style.display = "inline-block"
+  }
+}
 buttonrw2clm3.onclick = function(){
   if (gr >= costrw2clm3){
     gr = gr - costrw2clm3;
@@ -163,6 +203,18 @@ buttonrw2clm3.onclick = function(){
     document.getElementsByClassName("barn")[0].style.display = "inline-block"
     alert("An old rickety worn down barn stands in a clearing. You see some animals roaming, and an idea pops into your head. You grab a chicken and a sheep.")
     barnUnlock()
+    landUnlockTop = 1
+    landUnlock()
+  }
+}
+buttonrw2clm4.onclick = function(){
+  if (gr >= costrw2clm4) {
+    gr = gr - costrw2clm4;
+    document.getElementById("grains").innerHTML = gr + " grain";
+    buttonrw2clm4.style.display = "none"
+    document.getElementsByClassName("anotherField1")[0].style.display = "inline-block";
+    alert("A field is seen spanning an acre. already planted and overripe are corn. You learn about this valuable food source.")
+    cornShort.style.display = "inline-block";
   }
 }
 buttonrw3clm2.onclick = function(){
@@ -533,7 +585,7 @@ function marketIsOpen(){
   }
   stallSell2Price2 = stallSell2Price
   stallSell2Amount2 = stallSell2Amount
-  stallSell22 = stallSell1
+  stallSell22 = stallSell2
   document.getElementById("marketItemNameStallSell2").innerHTML = stallSell2Amount + stallSell2Type;
   document.getElementById("marketItemPriceStallSell2").innerHTML = stallSell2Price + " pounds"
   stallSell3 = Math.floor((Math.random() * 3)+ 1)
@@ -579,7 +631,7 @@ function marketIsOpen(){
   }
   stallSell3Price2 = stallSell3Price
   stallSell3Amount2 = stallSell3Amount
-  stallSell32 = stallSell1
+  stallSell32 = stallSell3
   document.getElementById("marketItemNameStallSell3").innerHTML = stallSell3Amount + stallSell3Type;
   document.getElementById("marketItemPriceStallSell3").innerHTML = stallSell3Price + " pounds"
 }
@@ -726,6 +778,7 @@ document.getElementById("sellStall1").onclick = function(){
 
 }
 document.getElementById("sellStall2").onclick = function(){
+  console.log(stallSell22)
   if (stallSell22 == 1) {
     if (gr >= stallSell2Amount2) {
       gr = gr - stallSell2Amount2
@@ -751,8 +804,10 @@ document.getElementById("sellStall2").onclick = function(){
       doRed2()
     }
   }
+  display()
 }
 document.getElementById("sellStall3").onclick = function(){
+  console.log(stallSell32)
   if (stallSell32 == 1) {
     if (gr >= stallSell3Amount2) {
       gr = gr - stallSell3Amount2
@@ -802,7 +857,8 @@ function display(){
   document.getElementById("money").innerHTML = money + " pounds"
   document.getElementById("grains").innerHTML = gr + " grain"
   document.getElementById("stones").innerHTML = st + " stones"
-  document.getElementById("wood").innerHTML = wo + " wood"
+  document.getElementById("woods").innerHTML = wo + " wood"
+  document.getElementById("corns").innerHTML = co + " corn"
 }
 function landUnlock(){
   if (landUnlockRoad == 1) {
@@ -812,7 +868,10 @@ function landUnlock(){
   if (landUnlockRoad == 2) {
     buttonrw4clm1.style.display = "inline-block"
   }
-
+  if (landUnlockTop == 1) {
+  buttonrw1clm3.style.display = "inline-block"
+  buttonrw2clm4.style.display = "inline-block"
+  }
 }
 //barn
 var poultryNum = 0
@@ -820,6 +879,12 @@ var sheepNum = 0
 var horseNum = 0
 var cowNum = 0
 var dogNum = 0
+var breedPoultry = document.getElementById("breedPoultry")
+var breedSheep = document.getElementById("breedSheep")
+var breedHorses = document.getElementById("breedHorses")
+var breedCows = document.getElementById("breedCows")
+var breedDogs = document.getElementById("breedDogs")
+document.getElementsByClassName("buttonBarn")[0].style.display = "none"
 document.getElementsByClassName("sheds")[0].style.display = "none"
 document.getElementById("poultryShed").style.display = "none"
 document.getElementById("sheepShed").style.display = "none"
@@ -832,10 +897,84 @@ document.getElementById("fixBarn").onclick = function(){
     document.getElementsByClassName("brokenBarn")[0].style.display = "none"
   }
 }
+breedPoultry.onclick = function(){
+  if (poultryNum >= 2) {
+    poultryNum = poultryNum - 2;
+    barnCheck()
+    breedPoultry.disabled = "true"
+    breedPoultry.style.backgroundColor = "#A9A9A9"
+    setTimeout(function(){
+      breedPoultry.disabled = "false";
+      breedPoultry.style.backgroundColor = "white"
+      poultryNum = poultryNum + 3
+      barnCheck()
+    }, 60000)
+  }
+}
+breedSheep.onclick = function(){
+  if (sheepNum >= 2) {
+    sheepNum = sheepNum - 2;
+    barnCheck()
+    breedSheep.disabled = "true"
+    breedSheep.style.backgroundColor = "#A9A9A9"
+    setTimeout(function(){
+      breedSheep.disabled = "false";
+      breedSheep.style.backgroundColor = "white"
+      sheepNum = sheepNum + 3
+      barnCheck()
+    }, 90000)
+  }
+}
+breedHorses.onclick = function(){
+  if (horseNum >= 2) {
+    horseNum = horseNum - 2;
+    barnCheck()
+    breedHorses.disabled = "true"
+    breedHorses.style.backgroundColor = "#A9A9A9"
+    setTimeout(function(){
+      breedHorses.disabled = "false";
+      breedHorses.style.backgroundColor = "white"
+      horseNum = horseNum + 3
+      barnCheck()
+    }, 120000)
+  }
+}
+breedCows.onclick = function(){
+  if (cowNum >= 2) {
+    cowNum = cowNum - 2;
+    barnCheck()
+    breedCows.disabled = "true"
+    breedCows.style.backgroundColor = "#A9A9A9"
+    setTimeout(function(){
+      breedCows.disabled = "false";
+      breedCows.style.backgroundColor = "white"
+      cowNum = cowNum + 3
+      barnCheck()
+    }, 105000)
+  }
+}
+breedDogs.onclick = function(){
+  if (dogNum >= 2) {
+    dogNum = dogNum - 2;
+    barnCheck()
+    breedDogs.disabled = "true"
+    breedDogs.style.backgroundColor = "#A9A9A9"
+    setTimeout(function(){
+      breedDogs.disabled = "false";
+      breedDogs.style.backgroundColor = "white"
+      dogNum = dogNum + 3
+      barnCheck()
+    }, 75000)
+  }
+}
+
 function barnUnlock(){
   barnButton.style.display = "inline-block"
   poultryNum = 1
   sheepNum = 1
+  barnCheck()
+}
+function barnCheck(){
   checkAnimallevels()
   checkAnimalNumbers()
   checkAnimalIntervals()
@@ -915,4 +1054,20 @@ function checkAnimalIntervals(){
     document.getElementById("stones").innerHTML = st + " stone"
   }, 30000)
   }
+}
+
+if (adminTest == 1) {
+  var st = 1000;
+  var wo = 1000;
+  var gr = 1000;
+  var co = 1000;
+  var money = 1000;
+  buttonrw1clm3.style.display = "inline-block"
+  buttonrw2clm4.style.display = "inline-block"
+  buttonrw4clm1.style.display = "inline-block"
+  buttonrw4clm2.style.display = "inline-block"
+  buttonrw4clm4.style.display = "inline-block"
+  exploreButton.style.display = "inline-block"
+  barnButton.style.display = "inline-block";
+  marketButton.style.display = "inline-block";
 }
