@@ -10,7 +10,7 @@ var gr = 0;
 var co = 0;
 var money = 0;
 var click = 1;
-var isAdmin = true;
+var isAdmin = false;
 //material buttons
 var grainShort = document.getElementById("grain");
 var woodShort = document.getElementById("wood");
@@ -1065,14 +1065,14 @@ function checkAnimalNumbers() {
   document.getElementById("horseNumber").innerHTML = horseNum + " horses"
   document.getElementById("cowNumber").innerHTML = cowNum + " cows"
   document.getElementById("dogNumber").innerHTML = dogNum + " dogs"
-  document.getElementById("poultryProduction").innerHTML = poultryNum + " grain / 6 sec"
-  document.getElementById("sheepProduction1").innerHTML = sheepNum + sheepAllegiance + " / 8 sec; "
-  document.getElementById("sheepProduction2").innerHTML = sheepNum + " wood / 23 sec"
+  document.getElementById("poultryProduction").innerHTML = poultryNum + " grain / 3 sec"
+  document.getElementById("sheepProduction1").innerHTML = sheepNum + sheepAllegiance + " / 4 sec; "
+  document.getElementById("sheepProduction2").innerHTML = sheepNum + " wood / 10 sec"
   document.getElementById("horseProduction").innerHTML = horseNum + " stone / 5 sec"
-  document.getElementById("cowProduction").innerHTML = cowNum + " wood / 6 sec"
-  document.getElementById("dogProduction1").innerHTML = dogNum + " grain / 15 sec; "
-  document.getElementById("dogProduction2").innerHTML = dogNum + " wood / 25 sec; "
-  document.getElementById("dogProduction3").innerHTML = dogNum + " stone / 35 sec"
+  document.getElementById("cowProduction").innerHTML = cowNum + " wood / 3 sec"
+  document.getElementById("dogProduction1").innerHTML = dogNum + " grain / 10 sec; "
+  document.getElementById("dogProduction2").innerHTML = dogNum + " wood / 20 sec; "
+  document.getElementById("dogProduction3").innerHTML = dogNum + " stone / 30 sec"
 }
 
   function once(fn, context) {
