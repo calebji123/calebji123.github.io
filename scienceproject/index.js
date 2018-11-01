@@ -25,6 +25,6 @@ document.getElementById("slideButtonBack").onclick = function(){
     slide2.style.display = "block"
   }
   if (slideNum >= 2) {
-      slideNum = slideNum 1 1
+      slideNum = slideNum + 1
   }
 }
