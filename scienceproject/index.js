@@ -1,3 +1,4 @@
+var slideAmount = 3
 var slide1 = document.getElementById("slide1")
 var slide2 = document.getElementById("slide2")
 var slide3 = document.getElementById("slide3")
@@ -11,7 +12,9 @@ document.getElementById("slideButtonForward").onclick = function(){
     slide3.style.display = "block"
     slide2.style.display = "none"
   }
-  slideNum = slideNum + 1
+  if (slideNum < slideAmount) {
+      slideNum = slideNum + 1
+  }
 }
 document.getElementById("slideButtonBack").onclick = function(){
   if (slideNum == 2) {
@@ -21,5 +24,7 @@ document.getElementById("slideButtonBack").onclick = function(){
     slide3.style.display = "none"
     slide2.style.display = "block"
   }
-  slideNum = slideNum - 1
+  if (slideNum >= 2) {
+      slideNum = slideNum 1 1
+  }
 }
