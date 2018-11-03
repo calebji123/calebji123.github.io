@@ -1,20 +1,41 @@
 html {}
 
+h1 {
+  font-style: helvetica;
+  font-size: 300%;
+  margin-top: 3%;
+  text-align: center;
+}
+
+img {
+  width: 70%;
+}
+
+li {
+  font-size: 200%;
+  font-style: arial;
+}
+
 .largeOverseer {
   width: 100%;
   height: 100%;
 }
 
 .slideDiv {
-  width: 80%;
+  width: 84%;
   margin: 0px;
   height: 100%;
   display: none;
-  margin-left: 10%;
+  margin-left: 8%;
+}
+
+.button-div {
+  height: 100%;
+  width: 10%;
 }
 
 .button {
-  width: 10%;
+  width: 6%;
   height: 10%;
   margin: 0px;
   cursor: pointer;
@@ -28,14 +49,44 @@ html {}
   outline: none;
 }
 
+.button:hover {
+  background-color: black;
+  color: white;
+}
+
 #slideButtonBack {
   left: 0px;
+  margin-left: 1%;
 }
 
 #slideButtonForward {
   right: 0px;
+  margin-right: 1%;
 }
 
-img {
-  width: 70%;
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 2s;
+  animation-name: fade;
+  animation-duration: 2s;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: .3
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: .3
+  }
+
+  to {
+    opacity: 1
+  }
 }
