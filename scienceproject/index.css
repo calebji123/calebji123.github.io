@@ -48,6 +48,7 @@ li {
   border-radius: 2px;
   border: none;
   outline: none;
+  background-color: white;
 }
 
 .button:hover {
