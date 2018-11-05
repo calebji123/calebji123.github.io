@@ -17,8 +17,10 @@ li {
 }
 
 .bubble{
+  background-color: white;
   height:10%;
   width:10%;
+  
 }
 .largeOverseer {
   width: 100%;
