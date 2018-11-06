@@ -148,28 +148,28 @@ li {
 #SRimg {
   width: 10%;
   position: absolute;
-  left: 20%;
+  left: 40%;
   display: none;
 }
 
 #HDimg {
   width: 10%;
   position: absolute;
-  left: 20%;
+  left: 40%;
   display: none;
 }
 
 #OFimg {
   width: 10%;
   position: absolute;
-  left: 20%;
+  left: 40%;
   display: none;
 }
 
 #PCimg {
   width: 10%;
   position: absolute;
-  left: 20%;
+  left: 40%;
   display: none;
 }
 
@@ -182,14 +182,14 @@ li {
   top: 10%;
   color: black;
   transition: 0.6s ease;
-  font-size: 200%;
+  font-size: 300%;
   border-radius: 2px;
   border: none;
   outline: none;
   background-color: white;
 }
 
-.button:hover {
+#mainMain:hover {
   background-color: black;
   color: white;
 }
