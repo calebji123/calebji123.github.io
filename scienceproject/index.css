@@ -1,5 +1,9 @@
 html {}
 
+body {
+  width: 100%;
+}
+
 h1 {
   font-style: helvetica;
   font-size: 300%;
@@ -16,15 +20,74 @@ li {
   font-style: arial;
 }
 
-.bubble{
-  background-color: white;
-  height:10%;
-  width:10%;
-  
+.main {
+  height: 200%;
 }
+
+#imgMain {
+  width: 50%;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
+
+.bubble {
+  background-color: white;
+  width: 4%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.bubble1 {
+  position: absolute;
+  top: 5%;
+  left: 20%;
+}
+
+.bubble1 img {
+  width: 150%;
+}
+
+.bubble2 {
+  position: absolute;
+  top: 17%;
+  left: 25%;
+}
+
+.bubble2 img {
+  width: 120%;
+}
+
+.bubble3 {
+  position: absolute;
+  top: 27%;
+  left: 20%;
+}
+
+.bubble3 img {
+  width: 100%;
+}
+
+.bubble4 {
+  position: absolute;
+  top: 37%;
+  left: 25%;
+}
+
+.bubble4 img {
+  width: 80%;
+}
+
+.bubble5 {
+  position: absolute;
+  top: 47%;
+  left: 30%;
+}
+
 .largeOverseer {
   width: 100%;
-  height: 100%;
+  height: 200%;
 }
 
 .slideDiv {
@@ -35,10 +98,71 @@ li {
   margin-left: 8%;
 }
 
+.slideDiv img {
+  width: 50%;
+}
+
 .button-div {
   height: 100%;
   width: 10%;
   background-color: white;
+}
+
+.slowRecovery {
+  position: absolute;
+  top: 15%;
+  left: 10%;
+}
+
+.habitatDestruction {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+}
+
+.overfishing {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+}
+
+.poaching {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+}
+
+.explaination {
+  margin-left: 40%;
+  width: 30%;
+}
+
+#SRimg {
+  width: 10%;
+  position: absolute;
+  left: 20%;
+  display: none;
+}
+
+#HDimg {
+  width: 10%;
+  position: absolute;
+  left: 20%;
+  display: none;
+}
+
+#OFimg {
+  width: 10%;
+  position: absolute;
+  left: 20%;
+  display: none;
+}
+
+#PCimg {
+  width: 10%;
+  position: absolute;
+  left: 20%;
+  display: none;
 }
 
 #mainMain {
