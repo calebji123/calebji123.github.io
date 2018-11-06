@@ -35,9 +35,7 @@ li {
   top: 30%;
   left: 30%;
 }
-#mainMain{
-  width:10%;
-}
+
 .bubble {
   background-color: white;
   width: 4%;
@@ -174,7 +172,7 @@ li {
 }
 
 #mainMain {
-  width: 6%;
+  width: 10%;
   height: 10%;
   margin: 0px;
   cursor: pointer;
