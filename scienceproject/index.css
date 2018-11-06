@@ -14,7 +14,9 @@ h1 {
 img {
   width: 50%;
 }
-
+#slide4 img{
+  width 70%;
+}
 li {
   font-size: 200%;
   font-style: arial;
@@ -140,6 +142,7 @@ li {
 .explaination {
   margin-left: 40%;
   width: 30%;
+  font-size: 120%;
 }
 
 #SRimg {
