@@ -69,33 +69,30 @@ document.getElementById("HD").onmouseover = function(){
   document.getElementById("SRimg").style.display = "none"
   document.getElementById("OFimg").style.display = "none"
   document.getElementById("PCimg").style.display = "none"
+    document.getElementById("explain").innerHTML = "Habitat Destruction. The Wrasse is a coral fish, and its survival is closely linked with that of the  struggling coral reefs."
 setTimeout(function(){document.getElementById("HDimg").style.display = "none"}, 3000)
 }
-document.getElementById("HD").onclick = function(){
-  document.getElementById("explain").innerHTML = "Habitat Destruction. The Wrasse is a coral fish, and its survival is closely linked with that of the  struggling coral reefs."
-}
+
 
 document.getElementById("OF").onmouseover = function(){
   document.getElementById("OFimg").style.display = "inline-block"
     document.getElementById("HDimg").style.display = "none"
       document.getElementById("SRimg").style.display = "none"
         document.getElementById("PCimg").style.display = "none"
+      document.getElementById("explain").innerHTML = "Overfishing. The Wrasse is a prized food fish, popular in SE Asia. Its market price is up to $130.00 per kilogram USD."
+
   setTimeout(function(){document.getElementById("OFimg").style.display = "none"}, 3000)
 
 }
 
-document.getElementById("OF").onclick = function(){
-  document.getElementById("explain").innerHTML = "Overfishing. The Wrasse is a prized food fish, popular in SE Asia. Its market price is up to $130.00 per kilogram USD."
-}
 
 document.getElementById("PC").onmouseover = function(){
   document.getElementById("PCimg").style.display = "inline-block"
   document.getElementById("HDimg").style.display = "none"
     document.getElementById("SRimg").style.display = "none"
       document.getElementById("OFimg").style.display = "none"
+     document.getElementById("explain").innerHTML = poaching7
   setTimeout(function(){document.getElementById("PCimg").style.display = "none"}, 3000)
 
 }
-document.getElementById("PC").onclick = function(){
-  document.getElementById("explain").innerHTML = poaching7
-}
+
