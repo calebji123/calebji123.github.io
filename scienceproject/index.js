@@ -60,10 +60,8 @@ document.getElementById("SR").onmouseover = function(){
   document.getElementById("HDimg").style.display = "none"
   document.getElementById("OFimg").style.display = "none"
   document.getElementById("PCimg").style.display = "none"
+    document.getElementById("explain").innerHTML = "Slow Recovery. The Wrasse reproduces slowly, making it more vulnerable to overfishing."
  setTimeout(function(){document.getElementById("SRimg").style.display = "none"}, 3000)
-}
-document.getElementById("SR").onclick = function(){
-  document.getElementById("explain").innerHTML = "Slow Recovery. The Wrasse reproduces slowly, making it more vulnerable to overfishing."
 }
 
 document.getElementById("HD").onmouseover = function(){
