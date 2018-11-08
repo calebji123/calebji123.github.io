@@ -8,6 +8,7 @@ slide2.style.display = "none"
 slide3.style.display = "none"
 slide4.style.display = "none"
 slide5.style.display = "none"
+  document.getElementById("sourcesy").style.display = "none"
 document.getElementById("clicky").style.display = "none"
 
 document.getElementById("mainMain").style.display = "none"
@@ -51,7 +52,11 @@ document.getElementById("clicky").onclick = function() {
   clicky.style.display = "block"
   document.getElementById("mainMain").style.display = "block"
 }
-
+document.getElementById("sources").onclick = function(){
+  main.style.display = "none"
+  document.getElementById("sourcesy").style.display = "block"
+  document.getElementById("mainMain").style.display = "block"
+}
 
 var poaching0 = "Poaching"
 var poaching1 = poaching0 + "."
