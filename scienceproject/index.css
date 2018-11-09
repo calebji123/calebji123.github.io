@@ -112,12 +112,41 @@ li {
   left: 30%;
 }
 
+.button {
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 .bubble {
   background-color: white;
   width: 4%;
   border: none;
   outline: none;
   cursor: pointer;
+}
+
+#clicky {
+  text-align: center;
+  width: 100%;
+}
+
+.imges {
+  text-align: center;
+}
+
+.clicky {
+  width: 20%;
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 120%;
+}
+
+#clicky img {
+  width: 30%;
 }
 
 .bubble1 {
