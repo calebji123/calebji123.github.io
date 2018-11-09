@@ -143,7 +143,7 @@ var imgDisplay = 0
   function saveFish() {
    savedfish = savedfish + 1
   document.getElementById("fishCount").innerHTML = "Saved fish: " + savedfish
-  imgDisplay = Math.floor((Math.random() * 4)+1)
+  imgDisplay = Math.floor((Math.random() * 5)+1)
   displayImg()
   }
 
