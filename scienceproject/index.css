@@ -62,6 +62,9 @@ li {
   font-size: 50%;
   margin-top: 1%;
 }
+#slide1 li{
+  font-size: 150%;
+}
 
 .main {
   height: 200%;
