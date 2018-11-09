@@ -8,7 +8,7 @@ slide2.style.display = "none"
 slide3.style.display = "none"
 slide4.style.display = "none"
 slide5.style.display = "none"
-  document.getElementById("sourcesy").style.display = "none"
+document.getElementById("sourcesy").style.display = "none"
 document.getElementById("clicky").style.display = "none"
 
 document.getElementById("mainMain").style.display = "none"
@@ -122,3 +122,62 @@ document.getElementById("PC").onmouseover = function() {
 //  }, 3000)
 
 }
+var img1 = document.getElementById("img1")
+var img2 = document.getElementById("img2")
+var img3 = document.getElementById("img3")
+var img4 = document.getElementById("img4")
+var img5= document.getElementById("img5")
+
+img1.style.display= "none"
+img2.style.display= "none"
+img3.style.display= "none"
+img4.style.display= "none"
+img5.style.display= "none"
+document.getElementById("mainFishButton").onclick = function(){
+  document.getElementById("clicky").style.display = "inline-block"
+  main.style.display = "none"
+  document.getElementById("mainMain").style.display = "inline-block"
+}
+var imgDisplay = 0
+  var savedfish = 0
+  function saveFish() {
+   savedfish = savedfish + 1
+  document.getElementById("fishCount").innerHTML = "Saved fish: " + savedfish
+  imgDisplay = Math.floor((Math.random() * 4)+1)
+  displayImg()
+  }
+
+  function displayImg(){
+    if (imgDisplay == 1) {
+      img1.style.display= "inline-block"
+      img2.style.display= "none"
+      img3.style.display= "none"
+      img4.style.display= "none"
+      img5.style.display= "none"
+    }else if (imgDisplay == 2) {
+      img2.style.display= "inline-block"
+      img3.style.display= "none"
+      img4.style.display= "none"
+      img5.style.display= "none"
+      img1.style.display= "none"
+    }else if (imgDisplay == 3) {
+      img3.style.display= "inline-block"
+      img4.style.display= "none"
+      img5.style.display= "none"
+      img1.style.display= "none"
+      img2.style.display= "none"
+    }else if (imgDisplay == 4) {
+      img4.style.display= "inline-block"
+      img5.style.display= "none"
+      img1.style.display= "none"
+      img2.style.display= "none"
+      img3.style.display= "none"
+    }else if (imgDisplay == 5) {
+      img5.style.display = "inline-block"
+      img4.style.display= "none"
+      img1.style.display= "none"
+      img2.style.display= "none"
+      img3.style.display= "none"
+
+    }
+  }
