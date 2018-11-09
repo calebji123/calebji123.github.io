@@ -67,9 +67,14 @@ li {
   height: 200%;
 }
 
-.main h1 {
+.title {
   position: absolute;
   left: 55%;
+  text-align: center;
+}
+
+.title h6 {
+  font-family: cursive;
 }
 
 .main p {
@@ -84,6 +89,10 @@ li {
   outline: none;
   border: none;
   background-color: white;
+}
+
+.main h5 {
+  font-size: 10%;
 }
 
 #sourcesy div {
