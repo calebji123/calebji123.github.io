@@ -101,6 +101,10 @@ li {
   left: 10%;
 }
 
+#sourcesy h5 {
+  font-size: 120%;
+}
+
 #imgMain {
   width: 50%;
   position: absolute;
