@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="Yeet.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>This could be a cool thing</title>
+</head>
+
+<body>
+
+  <div>
+    <h1 id="title"></h1>
+    <div class="tabsdiv">
+      <input type="button" class="tabs tabs1" value="Resources" id="resourcesTab">
+      <input type="button" class="tabs tabs1" value="Explore" id="exploreTab">
+      <input type="button" class="tabs tabs1" value="The Barn" id="barnTab">
+      <input type="button" class="tabs tabs1" value="The Market" id="marketTab">
+    </div>
+  </div>
+  <!-- resource tab -->
+  <div class="tabContent" id="resources">
+    <div class="buttons">
+      <input type="button" class="button button1" value="Grain" id="grain">
+      <input type="button" class="button button1" value="Corn" id="corn">
+      <input type="button" class="button button1" value="Wood" id="wood">
+      <input type="button" class="button button1" value="Stone" id="stone">
+      <div class="info" id="info">
+        <p class="p2" id="money"></p>
+        <p class="p2" id="grains"></p>
+        <p class="p2" id="corns"></p>
+        <p class="p2" id="woods"></p>
+        <p class="p2" id="stones"></p>
+      </div>
+    </div>
+    <p id="desc" class="p1"></p>
+  </div>
+  <!-- explore tab-->
+  <div class="tabContent" id="explore">
+    <div class="controller">
+      <div class="grid">
+        <div class="row">
+          <div class="column">
+          </div>
+          <div class="column">
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw1clm3">
+              <span class="toolTiptext" id="textTooltip3">60 grain</span>
+            </div>
+            <div class="stable exploreBox">
+              <p class="exploreText">The Stable</p>
+            </div>
+          </div>
+          <div class="column">
+          </div>
+          <div class="column">
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+          </div>
+          <div class="column">
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw2clm3">
+              <span class="toolTiptext" id="textTooltip8">35 grain</span>
+            </div>
+            <div class="barn exploreBox">
+              <p class="exploreText">The Barn</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw2clm4">
+              <span class="toolTiptext" id="textTooltip9">70 grain</span>
+            </div>
+            <div class="anotherField1 exploreBox">
+              <p class="exploreText">Another Field</p>
+            </div>
+          </div>
+          <div class="column">
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw3clm2">
+              <span class="toolTiptext" id="textTooltip12">10 grain</span>
+            </div>
+            <div class="birchForest exploreBox">
+              <p class="exploreText">Birch Forest</p>
+            </div>
+          </div>
+          <div class="column">
+            <p class="p3">Your Fields</p>
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw3clm4">
+              <span class="toolTiptext" id="textTooltip13">15 grain</span>
+            </div>
+            <div class="quarry exploreBox">
+              <p class="exploreText">Quarry</p>
+            </div>
+          </div>
+          <div class="column">
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw4clm1">
+              <span class="toolTiptext" id="textTooltip16">40 grain</span>
+            </div>
+            <div class="market exploreBox">
+              <p class="exploreText">Market</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw4clm2">
+              <span class="toolTiptext" id="textTooltip17">30 grain</span>
+            </div>
+            <div class="roadToTown exploreBox">
+              <p class="exploreText">Road</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw4clm3">
+              <span class="toolTiptext" id="textTooltip18">20 grain</span>
+            </div>
+            <div class="pastureRoad exploreBox">
+              <p class="exploreText">Pasture / road</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="toolTip">
+              <input type="button" class="exploreButton" value="Explore Land" id="rw4clm4">
+              <span class="toolTiptext" id="textTooltip4">70 grain</span>
+            </div>
+            <div class="roadNothing exploreBox">
+              <p class="exploreText">Road</p>
+            </div>
+          </div>
+          <div class="column">
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+          </div>
+          <div class="column">
+          </div>
+          <div class="column">
+          </div>
+          <div class="column">
+          </div>
+          <div class="column">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--barn Tab-->
+  <div class="tabContent" id="barn">
+    <div class="brokenBarn">
+      <p class="brokenBarntext">The barn is broken, and inhabitable. The animals you collected aren't able to like in an organized way like you promised. This will cost 15 wood and 10 stone</p>
+      <input type="button" class="button button1" value="Fix Barn" id="fixBarn">
+    </div>
+    <div class="sheds">
+      <div class="animalShed" id="poultryShed">
+        <span title="The poultry are very accurate in the field picking up every last stalk of wheat. Prodces 1 crop every 3 seconds each.">
+          <p class="shedTitle">Poultry</p>
+        </span>
+        <p class="animals" id="poultryNumber"></p>
+        <p class="animals" id="poultryProduction"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedPoultry">
+      </div>
+      <div class="animalShed" id="sheepShed">
+        <span title="The sheep are hardworking individuals. They gather crops, and chop trees yet rather inefficiently. Produces 1 crop every 4 seconds and 1 wood every 10 seconds each.">
+          <p class="shedTitle">Sheep</p>
+        </span>
+        <p class="animals" id="sheepNumber"></p>
+        <p class="animals" id="sheepProduction1"></p>
+        <p class="animals" id="sheepProduction2"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedSheep">
+      </div>
+      <div class="animalShed" id="cowShed">
+        <span title="Cows are sturdy and strong animals, but a specialist, however, only wanting to do one thing, yet does it well. They chop 1 tree every 3 seconds each">
+          <p class="shedTitle">Cows</p>
+        </span>
+        <p class="animals" id="cowNumber"></p>
+        <p class="animals" id="cowProduction"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedCows">
+      </div>
+      <div class="animalShed" id="horseShed">
+        <span title="Horses are the muscle in the farm. Therefore are reserved for doing the hardest tasks, pushing stone blocks off the cliff. Produces 1 stone every 5 seconds each>">
+          <p class="shedTitle">Horses</p>
+        </span>
+        <p class="animals" id="horseNumber"></p>
+        <p class="animals" id="horseProduction"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedHorses">
+      </div>
+      <div class="animalShed" id="dogShed">
+        <span title="Dogs are the snapping power, helping to gather wheat, chop wood, and collect stone, yet they are also all over the place. Produce 1 grain every 8 seconds, 1 wood every 18 seconds and 1 stone every 25 seconds">
+          <p class="shedTitle">Dogs</p>
+        </span>
+        <p></p>
+        <p class="animals" id="dogNumber"></p>
+        <p class="animals" id="dogProduction1"></p>
+        <p class="animals" id="dogProduction2"></p>
+        <p class="animals" id="dogProduction3"></p>
+        <input type="button" class="button buttonBarn" value="Breed Animal" id="breedDogs">
+      </div>
+
+    </div>
+  </div>
+  <!-- market tab -->
+  <div class="tabContent" id="market">
+    <div class="marketTitle">
+      <p>Today's Offers</p>
+    </div>
+    <div class="marketOffers">
+      <div class="marketBuy">
+        <div class="marketBuyStall marketBuy1" id="marketBuy1">
+          <button class="button marketType" id="buyStall1">Buy</button>
+          <p class="marketItemName" id="marketItemNameStall1"></p>
+          <p class="marketItemPrice" id="marketItemPriceStall1"></p>
+        </div>
+        <div class="marketBuyStall marketBuy2" id="marketBuy2">
+          <button class="button marketType" id="buyStall2">Buy</button>
+          <p class="marketItemName" id="marketItemNameStall2"></p>
+          <p class="marketItemPrice" id="marketItemPriceStall2"></p>
+        </div>
+        <div class="marketBuyStall marketBuy3" id="marketBuy3">
+          <button class="button marketType" id="buyStall3">Buy</button>
+          <p class="marketItemName" id="marketItemNameStall3"></p>
+          <p class="marketItemPrice" id="marketItemPriceStall3"></p>
+        </div>
+      </div>
+      <div class="marketSell">
+        <div class="marketSellStall marketSell1" id="marketSell1">
+          <p class="button marketType" id="sellStall1">Sell</p>
+          <p class="marketItemName" id="marketItemNameStallSell1"></p>
+          <p class="marketItemPrice" id="marketItemPriceStallSell1"></p>
+        </div>
+        <div class="marketSellStall marketSell2" id="marketSell2">
+          <p class="button marketType" id="sellStall2">Sell</p>
+          <p class="marketItemName" id="marketItemNameStallSell2"></p>
+          <p class="marketItemPrice" id="marketItemPriceStallSell2"></p>
+        </div>
+        <div class="marketSellStall marketSell3" id="marketSell3">
+          <p class="button marketType" id="sellStall3">Sell</p>
+          <p class="marketItemName" id="marketItemNameStallSell3"></p>
+          <p class="marketItemPrice" id="marketItemPriceStallSell3"></p>
+        </div>
+      </div>
+      <p id="stuffs"></p>
+    </div>
+  </div>
+  <!-- Version -->
+  <div id="version">
+    <p class="version">version: 0.1.1.3</p>
+  </div>
+
+  <script type="text/javascript" src="Speet.js"></script>
+
+
+</body>
+
+</html>
