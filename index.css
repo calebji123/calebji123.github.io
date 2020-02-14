@@ -1,5 +1,64 @@
+#window{
+  height: 96vh;
+  border-style: solid;
+}
+
+
 h1 {
   text-align: center;
   font-family: cursive;
+  padding-top: 20px;
   margin: 20px;
 }
+
+#nav{
+  margin: 0 auto;
+  height: 50px;
+  width: 95vw;
+  text-align: center;
+}
+
+.navButton{
+  height: 50px;
+  width: 100px;
+  display: inline-block;
+}
+
+#home{
+  vertical-align: top;
+}
+
+#games{
+  vertical-align: top;
+}
+
+.pageTitle{
+  text-align: center;
+}
+
+.page{
+  margin: 0 auto;
+  width:95vw;
+  height:80vw;
+}
+
+
+
+.linksboi{
+  font-family: cursive;
+  text-decoration: none;
+  color: black;
+  position: fixed;
+  bottom: 20px;
+  left: 15px;
+}
+
+#meme{
+  height: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
