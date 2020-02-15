@@ -131,7 +131,7 @@ document.getElementById("explore").style.display = "none";
 document.getElementById("barn").style.display = "none";
 document.getElementById("market").style.display = "none";
 resourceButton.style.display = "inline-block";
-exploreButton.style.display = "none"
+exploreButton.style.display = "none";
 barnButton.style.display = "none";
 marketButton.style.display = "none";
 //tabs code

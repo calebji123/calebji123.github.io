@@ -24,6 +24,20 @@ h1 {
   display: inline-block;
 }
 
+.button{
+  height: 100%;
+  width: 100%;
+  border-style: none;
+  background-color: white;
+  border-radius: 5px;
+  font-family: serif;
+  font-size: 15px;
+}
+
+.button:hover{
+  background-color: #e7e7e7;
+}
+
 #home{
   vertical-align: top;
 }
@@ -43,6 +57,13 @@ h1 {
 }
 
 
+#meme{
+  height: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .linksboi{
   font-family: cursive;
@@ -53,12 +74,7 @@ h1 {
   left: 15px;
 }
 
-#meme{
-  height: 200px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 
 
 
