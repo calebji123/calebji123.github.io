@@ -1,0 +1,97 @@
+body{
+    background-color:255,255,0;
+}
+
+#gameWindow{
+    height: 90vh;
+    margin: 0 auto;
+    display: inline-block;
+    position: absolute;
+}
+
+#gameOverWindow{
+    height: 90vh;
+    width: 95vw;
+    margin: 0 auto;
+    display: none;
+    text-align: center;
+}
+
+#bananapng{
+    height: 60px;
+    margin: auto;
+    position: absolute;
+    top: 40vh;
+    left: 48vw;
+    position: absolute;
+    opacity:1;
+}
+
+#counterbox{
+    width: auto;
+    height: 5vh;
+    margin-top: 0;
+    margin-left: auto;
+    margin-left: auto;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#counter{
+    text-align: center;
+    font-size: 20px;
+    margin: 0;
+    width: 80vw;
+    font-family: 'Brush Script MT';
+}
+
+#timer{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Brush Script MT';
+    margin: 0;
+    width: 10vw;
+    color: green;
+}
+#balance{
+    width: 10vw;
+    margin: 0;
+
+}
+
+.button{
+    outline: none;
+}
+
+#restartButton{
+    background-color:red;
+    border-color: red;
+}
+
+#restartButton:hover{
+    border-color: black;
+    border-radius: 10;
+    border-width: 2;
+}
+
+#gameOverTextBox{
+    position: relative;
+    margin:auto;
+    display:block;
+    top: 30vh;
+}
+
+#gameOverText{
+    position:relative;
+    display: block;
+    font-size: 30px;
+}
+
+#otherTextBox{
+    margin:auto;
+    display:block;
+    justify-content: center;
+    position: relative;
+    top: 30vh;
+}

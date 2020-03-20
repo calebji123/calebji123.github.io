@@ -32,10 +32,12 @@ h1 {
   border-radius: 5px;
   font-family: serif;
   font-size: 15px;
+  outline: none;
 }
 
 .button:hover{
   background-color: #e7e7e7;
+  cursor: pointer;
 }
 
 #home{

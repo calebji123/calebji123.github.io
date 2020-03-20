@@ -22,7 +22,6 @@ function openTab(evt, tabName) {
     for (i = 0; i < tabs.length; i++) {
       tabs[i].className = tabs[i].className.replace(" active", "");
     }
-    console.log(document.getElementById(tabName))
-    document.getElementById(tabName).style.display = "inline-block";
+    document.getElementById(tabName).style.display = "block";
     evt.currentTarget.tabName += " active";
   }
