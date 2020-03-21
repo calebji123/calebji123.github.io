@@ -5190,7 +5190,7 @@ var $author$project$SharedState$StartOff = {$: 'StartOff'};
 var $author$project$Data$Explore$init = {wanderCost: 10};
 var $author$project$Data$Resources$init = {canClickGrain: true, canClickStone: true, canClickWood: true, grainDelay: 2000, grainGetAmount: 1, stoneDelay: 4000, stoneGetAmount: 1, woodDelay: 3000, woodGetAmount: 1};
 var $author$project$SharedState$init = function (height) {
-	return {canStone: false, canWood: false, exploreData: $author$project$Data$Explore$init, exploreTabUnlocked: false, farmName: 'A Lone Field', gameState: $author$project$SharedState$StartOff, grainAmount: 9, resourcesData: $author$project$Data$Resources$init, resourcesTabUnlocked: true, stoneAmount: 0, windowHeight: height, woodAmount: 0};
+	return {canStone: false, canWood: false, exploreData: $author$project$Data$Explore$init, exploreTabUnlocked: true, farmName: 'A Lone Field', gameState: $author$project$SharedState$StartOff, grainAmount: 11, resourcesData: $author$project$Data$Resources$init, resourcesTabUnlocked: true, stoneAmount: 0, windowHeight: height, woodAmount: 0};
 };
 var $author$project$Tabs$Resources$init = {};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
@@ -5212,84 +5212,14 @@ var $author$project$Main$subscriptions = function (model) {
 var $author$project$Main$ResourcesMsg = function (a) {
 	return {$: 'ResourcesMsg', a: a};
 };
-var $author$project$SharedState$NoUpdate = {$: 'NoUpdate'};
-var $author$project$Tabs$Resources$ResetGrain = {$: 'ResetGrain'};
-var $author$project$Tabs$Resources$ResetStone = {$: 'ResetStone'};
-var $author$project$Tabs$Resources$ResetWood = {$: 'ResetWood'};
+var $author$project$SharedState$ResetGrain = {$: 'ResetGrain'};
+var $author$project$SharedState$TenGrain = {$: 'TenGrain'};
 var $author$project$Data$Resources$UpdateCanClick = F2(
 	function (a, b) {
 		return {$: 'UpdateCanClick', a: a, b: b};
 	});
-var $author$project$SharedState$UpdateGrain = function (a) {
-	return {$: 'UpdateGrain', a: a};
-};
-var $author$project$SharedState$UpdateResources = function (a) {
-	return {$: 'UpdateResources', a: a};
-};
-var $author$project$SharedState$UpdateStone = function (a) {
-	return {$: 'UpdateStone', a: a};
-};
-var $author$project$SharedState$UpdateWood = function (a) {
-	return {$: 'UpdateWood', a: a};
-};
+var $elm$core$Debug$log = _Debug_log;
 var $elm$core$Process$sleep = _Process_sleep;
-var $author$project$Tabs$Resources$update = F3(
-	function (sharedState, msg, model) {
-		switch (msg.$) {
-			case 'IncreaseGrain':
-				return _Utils_Tuple3(
-					model,
-					sharedState.resourcesData.canClickGrain ? A2(
-						$elm$core$Task$perform,
-						function (_v1) {
-							return $author$project$Tabs$Resources$ResetGrain;
-						},
-						$elm$core$Process$sleep(sharedState.resourcesData.grainDelay)) : $elm$core$Platform$Cmd$none,
-					sharedState.resourcesData.canClickGrain ? $author$project$SharedState$UpdateGrain(sharedState.resourcesData.grainGetAmount) : $author$project$SharedState$NoUpdate);
-			case 'IncreaseWood':
-				return _Utils_Tuple3(
-					model,
-					sharedState.resourcesData.canClickWood ? A2(
-						$elm$core$Task$perform,
-						function (_v2) {
-							return $author$project$Tabs$Resources$ResetWood;
-						},
-						$elm$core$Process$sleep(sharedState.resourcesData.woodDelay)) : $elm$core$Platform$Cmd$none,
-					sharedState.resourcesData.canClickWood ? $author$project$SharedState$UpdateWood(sharedState.resourcesData.woodGetAmount) : $author$project$SharedState$NoUpdate);
-			case 'IncreaseStone':
-				return _Utils_Tuple3(
-					model,
-					sharedState.resourcesData.canClickStone ? A2(
-						$elm$core$Task$perform,
-						function (_v3) {
-							return $author$project$Tabs$Resources$ResetStone;
-						},
-						$elm$core$Process$sleep(sharedState.resourcesData.stoneDelay)) : $elm$core$Platform$Cmd$none,
-					sharedState.resourcesData.canClickStone ? $author$project$SharedState$UpdateStone(sharedState.resourcesData.stoneGetAmount) : $author$project$SharedState$NoUpdate);
-			case 'ResetGrain':
-				return _Utils_Tuple3(
-					model,
-					$elm$core$Platform$Cmd$none,
-					$author$project$SharedState$UpdateResources(
-						A2($author$project$Data$Resources$UpdateCanClick, 'grain', true)));
-			case 'ResetWood':
-				return _Utils_Tuple3(
-					model,
-					$elm$core$Platform$Cmd$none,
-					$author$project$SharedState$UpdateResources(
-						A2($author$project$Data$Resources$UpdateCanClick, 'wood', true)));
-			case 'ResetStone':
-				return _Utils_Tuple3(
-					model,
-					$elm$core$Platform$Cmd$none,
-					$author$project$SharedState$UpdateResources(
-						A2($author$project$Data$Resources$UpdateCanClick, 'stone', true)));
-			default:
-				return _Utils_Tuple3(model, $elm$core$Platform$Cmd$none, $author$project$SharedState$NoUpdate);
-		}
-	});
-var $elm$core$Platform$Cmd$map = _Platform_map;
-var $author$project$SharedState$TenGrain = {$: 'TenGrain'};
 var $author$project$Data$Explore$update = F2(
 	function (exploreData, exploreUpdate) {
 		var _int = exploreUpdate.a;
@@ -5339,84 +5269,220 @@ var $author$project$SharedState$update = F2(
 		switch (sharedStateUpdate.$) {
 			case 'UpdateGrain':
 				var _int = sharedStateUpdate.a;
-				var newResourcesData = A2(
-					$author$project$Data$Resources$update,
-					sharedState.resourcesData,
-					A2($author$project$Data$Resources$UpdateCanClick, 'grain', false));
-				var newGrainAmount = sharedState.grainAmount + _int;
-				var newGameState = (newGrainAmount === 10) ? $author$project$SharedState$TenGrain : sharedState.gameState;
-				return _Utils_update(
-					sharedState,
-					{
-						exploreTabUnlocked: function () {
-							if (newGameState.$ === 'TenGrain') {
-								return true;
-							} else {
-								return false;
-							}
-						}(),
-						gameState: newGameState,
-						grainAmount: newGrainAmount,
-						resourcesData: newResourcesData
-					});
+				return _Utils_Tuple2(
+					function () {
+						var newResourcesData = A2(
+							$author$project$Data$Resources$update,
+							sharedState.resourcesData,
+							A2($author$project$Data$Resources$UpdateCanClick, 'grain', false));
+						var newGrainAmount = sharedState.grainAmount + _int;
+						var newGameState = (newGrainAmount === 10) ? $author$project$SharedState$TenGrain : sharedState.gameState;
+						return _Utils_update(
+							sharedState,
+							{
+								exploreTabUnlocked: function () {
+									if (newGameState.$ === 'TenGrain') {
+										return true;
+									} else {
+										return sharedState.exploreTabUnlocked;
+									}
+								}(),
+								gameState: newGameState,
+								grainAmount: newGrainAmount,
+								resourcesData: newResourcesData
+							});
+					}(),
+					sharedState.resourcesData.canClickGrain ? A2(
+						$elm$core$Task$perform,
+						function (_v2) {
+							return $author$project$SharedState$ResetGrain;
+						},
+						A2(
+							$elm$core$Debug$log,
+							'sleeping',
+							$elm$core$Process$sleep(sharedState.resourcesData.grainDelay))) : $elm$core$Platform$Cmd$none);
 			case 'UpdateWood':
 				var _int = sharedStateUpdate.a;
-				return _Utils_update(
-					sharedState,
-					{
-						resourcesData: A2(
-							$author$project$Data$Resources$update,
-							sharedState.resourcesData,
-							A2($author$project$Data$Resources$UpdateCanClick, 'wood', false)),
-						woodAmount: sharedState.woodAmount + _int
-					});
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{
+							resourcesData: A2(
+								$author$project$Data$Resources$update,
+								sharedState.resourcesData,
+								A2($author$project$Data$Resources$UpdateCanClick, 'wood', false)),
+							woodAmount: sharedState.woodAmount + _int
+						}),
+					$elm$core$Platform$Cmd$none);
 			case 'UpdateStone':
 				var _int = sharedStateUpdate.a;
-				return _Utils_update(
-					sharedState,
-					{
-						resourcesData: A2(
-							$author$project$Data$Resources$update,
-							sharedState.resourcesData,
-							A2($author$project$Data$Resources$UpdateCanClick, 'stone', false)),
-						stoneAmount: sharedState.woodAmount + _int
-					});
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{
+							resourcesData: A2(
+								$author$project$Data$Resources$update,
+								sharedState.resourcesData,
+								A2($author$project$Data$Resources$UpdateCanClick, 'stone', false)),
+							stoneAmount: sharedState.woodAmount + _int
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'ResetGrain':
+				return _Utils_Tuple2(
+					A2(
+						$elm$core$Debug$log,
+						'pog',
+						_Utils_update(
+							sharedState,
+							{
+								resourcesData: A2(
+									$author$project$Data$Resources$update,
+									sharedState.resourcesData,
+									A2($author$project$Data$Resources$UpdateCanClick, 'grain', true))
+							})),
+					$elm$core$Platform$Cmd$none);
+			case 'ResetWood':
+				return A2(
+					$elm$core$Debug$log,
+					'Resetted!',
+					_Utils_Tuple2(
+						_Utils_update(
+							sharedState,
+							{
+								resourcesData: A2(
+									$author$project$Data$Resources$update,
+									sharedState.resourcesData,
+									A2($author$project$Data$Resources$UpdateCanClick, 'wood', true))
+							}),
+						$elm$core$Platform$Cmd$none));
+			case 'ResetStone':
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{
+							resourcesData: A2(
+								$author$project$Data$Resources$update,
+								sharedState.resourcesData,
+								A2($author$project$Data$Resources$UpdateCanClick, 'stone', true))
+						}),
+					$elm$core$Platform$Cmd$none);
 			case 'UpdateResources':
 				var resourcesUpdate = sharedStateUpdate.a;
-				return _Utils_update(
-					sharedState,
-					{
-						resourcesData: A2($author$project$Data$Resources$update, sharedState.resourcesData, resourcesUpdate)
-					});
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{
+							resourcesData: A2($author$project$Data$Resources$update, sharedState.resourcesData, resourcesUpdate)
+						}),
+					$elm$core$Platform$Cmd$none);
 			case 'UpdateExplore':
 				var exploreUpdate = sharedStateUpdate.a;
-				return _Utils_update(
-					sharedState,
-					{
-						exploreData: A2($author$project$Data$Explore$update, sharedState.exploreData, exploreUpdate)
-					});
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{
+							exploreData: A2($author$project$Data$Explore$update, sharedState.exploreData, exploreUpdate)
+						}),
+					$elm$core$Platform$Cmd$none);
 			default:
-				return sharedState;
+				return _Utils_Tuple2(sharedState, $elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$SharedState$NoUpdate = {$: 'NoUpdate'};
+var $author$project$Tabs$Resources$ResetStone = {$: 'ResetStone'};
+var $author$project$Tabs$Resources$ResetWood = {$: 'ResetWood'};
+var $author$project$SharedState$UpdateGrain = function (a) {
+	return {$: 'UpdateGrain', a: a};
+};
+var $author$project$SharedState$UpdateResources = function (a) {
+	return {$: 'UpdateResources', a: a};
+};
+var $author$project$SharedState$UpdateStone = function (a) {
+	return {$: 'UpdateStone', a: a};
+};
+var $author$project$SharedState$UpdateWood = function (a) {
+	return {$: 'UpdateWood', a: a};
+};
+var $author$project$Tabs$Resources$update = F3(
+	function (sharedState, msg, model) {
+		switch (msg.$) {
+			case 'IncreaseGrain':
+				return _Utils_Tuple3(
+					model,
+					$elm$core$Platform$Cmd$none,
+					sharedState.resourcesData.canClickGrain ? $author$project$SharedState$UpdateGrain(sharedState.resourcesData.grainGetAmount) : $author$project$SharedState$NoUpdate);
+			case 'IncreaseWood':
+				return _Utils_Tuple3(
+					model,
+					sharedState.resourcesData.canClickWood ? A2(
+						$elm$core$Task$perform,
+						function (_v1) {
+							return $author$project$Tabs$Resources$ResetWood;
+						},
+						$elm$core$Process$sleep(sharedState.resourcesData.woodDelay)) : $elm$core$Platform$Cmd$none,
+					sharedState.resourcesData.canClickWood ? $author$project$SharedState$UpdateWood(sharedState.resourcesData.woodGetAmount) : $author$project$SharedState$NoUpdate);
+			case 'IncreaseStone':
+				return _Utils_Tuple3(
+					model,
+					sharedState.resourcesData.canClickStone ? A2(
+						$elm$core$Task$perform,
+						function (_v2) {
+							return $author$project$Tabs$Resources$ResetStone;
+						},
+						$elm$core$Process$sleep(sharedState.resourcesData.stoneDelay)) : $elm$core$Platform$Cmd$none,
+					sharedState.resourcesData.canClickStone ? $author$project$SharedState$UpdateStone(sharedState.resourcesData.stoneGetAmount) : $author$project$SharedState$NoUpdate);
+			case 'ResetGrain':
+				return _Utils_Tuple3(
+					model,
+					$elm$core$Platform$Cmd$none,
+					$author$project$SharedState$UpdateResources(
+						A2($author$project$Data$Resources$UpdateCanClick, 'grain', true)));
+			case 'ResetWood':
+				return _Utils_Tuple3(
+					model,
+					$elm$core$Platform$Cmd$none,
+					$author$project$SharedState$UpdateResources(
+						A2($author$project$Data$Resources$UpdateCanClick, 'wood', true)));
+			case 'ResetStone':
+				return _Utils_Tuple3(
+					model,
+					$elm$core$Platform$Cmd$none,
+					$author$project$SharedState$UpdateResources(
+						A2($author$project$Data$Resources$UpdateCanClick, 'stone', true)));
+			default:
+				return _Utils_Tuple3(model, $elm$core$Platform$Cmd$none, $author$project$SharedState$NoUpdate);
+		}
+	});
+var $author$project$Main$SharedStateUpdate = function (a) {
+	return {$: 'SharedStateUpdate', a: a};
+};
+var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$Main$updateWith = F4(
 	function (toTab, toMsg, model, _v0) {
 		var subModel = _v0.a;
 		var subMsg = _v0.b;
 		var sharedStateUpdate = _v0.c;
+		var _v1 = A2($author$project$SharedState$update, model.sharedState, sharedStateUpdate);
+		var newSharedState = _v1.a;
+		var sharedStateMsg = _v1.b;
 		return _Utils_Tuple2(
 			_Utils_update(
 				model,
 				{
 					currentTab: toTab(subModel),
-					sharedState: A2($author$project$SharedState$update, model.sharedState, sharedStateUpdate)
+					sharedState: newSharedState
 				}),
-			A2($elm$core$Platform$Cmd$map, toMsg, subMsg));
+			$elm$core$Platform$Cmd$batch(
+				_List_fromArray(
+					[
+						A2($elm$core$Platform$Cmd$map, toMsg, subMsg),
+						A2($elm$core$Platform$Cmd$map, $author$project$Main$SharedStateUpdate, sharedStateMsg)
+					])));
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		var _v0 = _Utils_Tuple2(model.currentTab, msg);
-		_v0$2:
+		_v0$3:
 		while (true) {
 			switch (_v0.b.$) {
 				case 'ResourcesMsg':
@@ -5430,7 +5496,7 @@ var $author$project$Main$update = F2(
 							model,
 							A3($author$project$Tabs$Resources$update, model.sharedState, resourcesMsg, resourcesModel));
 					} else {
-						break _v0$2;
+						break _v0$3;
 					}
 				case 'ToTab':
 					var currentTab = _v0.a;
@@ -5440,8 +5506,18 @@ var $author$project$Main$update = F2(
 							model,
 							{currentTab: tab}),
 						$elm$core$Platform$Cmd$none);
+				case 'SharedStateUpdate':
+					var ssUpdate = _v0.b.a;
+					var _v1 = A2($author$project$SharedState$update, model.sharedState, ssUpdate);
+					var newSharedState = _v1.a;
+					var sharedStateMsg = _v1.b;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{sharedState: newSharedState}),
+						$elm$core$Platform$Cmd$none);
 				default:
-					break _v0$2;
+					break _v0$3;
 			}
 		}
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -11232,7 +11308,12 @@ var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
 };
 var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
 var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
-var $author$project$Tabs$Explore$padding = {bottom: 0, left: 0, right: 0, top: 0};
+var $mdgriffith$elm_ui$Element$htmlAttribute = $mdgriffith$elm_ui$Internal$Model$Attr;
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Tabs$Explore$noOutline = $mdgriffith$elm_ui$Element$htmlAttribute(
+	A2($elm$html$Html$Attributes$style, 'box-shadow', 'none'));
+var $author$project$Tabs$Explore$padding = {bottom: 2, left: 2, right: 2, top: 2};
 var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
 	function (a, b, c, d, e) {
 		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
@@ -11456,7 +11537,7 @@ var $author$project$Tabs$Explore$view = F2(
 										]),
 									_List_fromArray(
 										[
-											$mdgriffith$elm_ui$Element$text('Wander')
+											$mdgriffith$elm_ui$Element$text('Wander:')
 										])),
 									A2(
 									$mdgriffith$elm_ui$Element$paragraph,
@@ -11476,7 +11557,15 @@ var $author$project$Tabs$Explore$view = F2(
 										])),
 									A2(
 									$mdgriffith$elm_ui$Element$Input$button,
-									_List_Nil,
+									_List_fromArray(
+										[
+											$author$project$Tabs$Explore$noOutline,
+											$mdgriffith$elm_ui$Element$centerX,
+											$mdgriffith$elm_ui$Element$paddingEach($author$project$Tabs$Explore$padding),
+											$mdgriffith$elm_ui$Element$htmlAttribute(
+											A2($elm$html$Html$Attributes$style, 'margin-top', '50')),
+											$mdgriffith$elm_ui$Element$Font$size(15)
+										]),
 									{
 										label: $mdgriffith$elm_ui$Element$text('Wander!'),
 										onPress: $elm$core$Maybe$Just($author$project$Tabs$Explore$NoOp)
@@ -11543,9 +11632,6 @@ var $author$project$Tabs$Resources$endAppend = F2(
 	function (string1, string2) {
 		return _Utils_ap(string2, string1);
 	});
-var $mdgriffith$elm_ui$Element$htmlAttribute = $mdgriffith$elm_ui$Internal$Model$Attr;
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Tabs$Resources$noOutline = $mdgriffith$elm_ui$Element$htmlAttribute(
 	A2($elm$html$Html$Attributes$style, 'box-shadow', 'none'));
 var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;

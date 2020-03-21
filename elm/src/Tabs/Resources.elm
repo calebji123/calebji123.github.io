@@ -175,12 +175,7 @@ update sharedState msg model =
     case msg of
         IncreaseGrain ->
             ( model
-            , if sharedState.resourcesData.canClickGrain then
-                Process.sleep sharedState.resourcesData.grainDelay
-                    |> Task.perform (\() -> ResetGrain)
-
-              else
-                Cmd.none
+            , Cmd.none
             , if sharedState.resourcesData.canClickGrain then
                 UpdateGrain sharedState.resourcesData.grainGetAmount
 

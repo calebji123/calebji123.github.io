@@ -69,6 +69,7 @@ type Msg
     = ResourcesMsg Resources.Msg
     | ExploreMsg Explore.Msg
     | ToTab Tab
+    | SharedStateUpdate SharedState.SharedStateUpdate
     | NoOp
 
 
@@ -86,8 +87,20 @@ update msg model =
             else
                 ( { model | currentTab = tab }, Cmd.none )
 
+        ( _, SharedStateUpdate ssUpdate ) ->
+            let
+                ( newSharedState, sharedStateMsg ) =
+                    SharedState.update model.sharedState ssUpdate
+            in
+            ( { model | sharedState = newSharedState }, Cmd.none )
+
         ( _, _ ) ->
             ( model, Cmd.none )
+
+
+strip : ( SharedState, Cmd SharedStateUpdate ) -> SharedState
+strip ( sharedState, sharedStateUpdate ) =
+    sharedState
 
 
 updateWith :
@@ -97,11 +110,18 @@ updateWith :
     -> ( subModel, Cmd subMsg, SharedStateUpdate )
     -> ( Model, Cmd Msg )
 updateWith toTab toMsg model ( subModel, subMsg, sharedStateUpdate ) =
+    let
+        ( newSharedState, sharedStateMsg ) =
+            SharedState.update model.sharedState sharedStateUpdate
+    in
     ( { model
         | currentTab = toTab subModel
-        , sharedState = SharedState.update model.sharedState sharedStateUpdate
+        , sharedState = newSharedState
       }
-    , Cmd.map toMsg subMsg
+    , Cmd.batch
+        [ Cmd.map toMsg subMsg
+        , Cmd.map SharedStateUpdate sharedStateMsg
+        ]
     )
 
 

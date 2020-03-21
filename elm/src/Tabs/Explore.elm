@@ -30,11 +30,15 @@ init =
 
 
 padding =
-    { top = 0
-    , right = 0
-    , bottom = 0
-    , left = 0
+    { top = 2
+    , right = 2
+    , bottom = 2
+    , left = 2
     }
+
+
+noOutline =
+    Element.htmlAttribute <| style "box-shadow" "none"
 
 
 view : Model -> SharedState -> Element Msg
@@ -71,7 +75,7 @@ view model sharedState =
                     [ Font.center
                     , Element.paddingXY 0 10
                     ]
-                    [ text "Wander" ]
+                    [ text "Wander:" ]
                 , Element.paragraph
                     [ Font.size 15
                     , Font.center
@@ -79,7 +83,12 @@ view model sharedState =
                     ]
                     [ "Cost: " ++ String.fromInt sharedState.exploreData.wanderCost ++ " grain" |> text ]
                 , Input.button
-                    []
+                    [ noOutline
+                    , Element.centerX
+                    , Element.paddingEach padding
+                    , Element.htmlAttribute <| style "margin-top" "50"
+                    , Font.size 15
+                    ]
                     { label = text "Wander!"
                     , onPress = Just NoOp
                     }
