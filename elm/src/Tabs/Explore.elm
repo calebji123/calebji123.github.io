@@ -2,9 +2,7 @@ module Tabs.Explore exposing (..)
 
 -- import Routes exposing (Route)
 
-import Browser.Navigation as Navigation
 import Element exposing (Element, text)
-import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
@@ -44,7 +42,7 @@ noOutline =
 view : Model -> SharedState -> Element Msg
 view model sharedState =
     Element.column
-        [ sharedState.windowHeight - 115 |> Element.px |> Element.height
+        [ sharedState.windowHeight - 135 |> Element.px |> Element.height
         , Element.width Element.fill
         ]
         [ -- Top Margin
@@ -89,8 +87,8 @@ view model sharedState =
                     , Element.htmlAttribute <| style "margin-top" "50"
                     , Font.size 15
                     ]
-                    { label = text "Wander!"
-                    , onPress = Just NoOp
+                    { onPress = Just Wander
+                    , label = text "Wander!"
                     }
                 ]
 
@@ -99,7 +97,20 @@ view model sharedState =
                 [ Element.width (Element.fillPortion 2)
                 , Element.height Element.fill
                 ]
-                []
+                [ if sharedState.mapUnlocked then
+                    Element.image
+                        [ Element.height (Element.px 120)
+                        , Element.width (Element.px 120)
+                        , Element.centerX
+                        , Element.centerY
+                        ]
+                        { src = "ALoneField.png"
+                        , description = ""
+                        }
+
+                  else
+                    Element.none
+                ]
 
             --rightMargin
             , Element.column
@@ -119,12 +130,23 @@ view model sharedState =
 
 
 type Msg
-    = NoOp
+    = Wander
+    | NoOp
 
 
 update : SharedState -> Msg -> Model -> ( Model, Cmd Msg, SharedStateUpdate )
 update sharedState msg model =
     case msg of
+        Wander ->
+            ( model
+            , Cmd.none
+            , if sharedState.grainAmount >= sharedState.exploreData.wanderCost then
+                CreateRandomWander
+
+              else
+                NoUpdate
+            )
+
         NoOp ->
             ( model, Cmd.none, NoUpdate )
 

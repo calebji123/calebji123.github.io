@@ -4358,6 +4358,52 @@ function _Browser_load(url)
 
 
 
+function _Time_now(millisToPosix)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		callback(_Scheduler_succeed(millisToPosix(Date.now())));
+	});
+}
+
+var _Time_setInterval = F2(function(interval, task)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		var id = setInterval(function() { _Scheduler_rawSpawn(task); }, interval);
+		return function() { clearInterval(id); };
+	});
+});
+
+function _Time_here()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		callback(_Scheduler_succeed(
+			A2($elm$time$Time$customZone, -(new Date().getTimezoneOffset()), _List_Nil)
+		));
+	});
+}
+
+
+function _Time_getZoneName()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		try
+		{
+			var name = $elm$time$Time$Name(Intl.DateTimeFormat().resolvedOptions().timeZone);
+		}
+		catch (e)
+		{
+			var name = $elm$time$Time$Offset(new Date().getTimezoneOffset());
+		}
+		callback(_Scheduler_succeed(name));
+	});
+}
+
+
+
 var _Bitwise_and = F2(function(a, b)
 {
 	return a & b;
@@ -5186,46 +5232,727 @@ var $elm$json$Json$Decode$field = _Json_decodeField;
 var $author$project$Main$Resources = function (a) {
 	return {$: 'Resources', a: a};
 };
-var $author$project$SharedState$StartOff = {$: 'StartOff'};
-var $author$project$Data$Explore$init = {wanderCost: 10};
-var $author$project$Data$Resources$init = {canClickGrain: true, canClickStone: true, canClickWood: true, grainDelay: 2000, grainGetAmount: 1, stoneDelay: 4000, stoneGetAmount: 1, woodDelay: 3000, woodGetAmount: 1};
-var $author$project$SharedState$init = function (height) {
-	return {canStone: false, canWood: false, exploreData: $author$project$Data$Explore$init, exploreTabUnlocked: true, farmName: 'A Lone Field', gameState: $author$project$SharedState$StartOff, grainAmount: 11, resourcesData: $author$project$Data$Resources$init, resourcesTabUnlocked: true, stoneAmount: 0, windowHeight: height, woodAmount: 0};
-};
+var $author$project$Gathering$init = {bruiserGatherAmount: 1, bruiserSpeed: 10000};
 var $author$project$Tabs$Resources$init = {};
+var $author$project$SharedState$Small = {$: 'Small'};
+var $author$project$SharedState$TenGrain = {$: 'TenGrain'};
+var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
+var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
+var $elm$core$Dict$Black = {$: 'Black'};
+var $elm$core$Dict$RBNode_elm_builtin = F5(
+	function (a, b, c, d, e) {
+		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
+	});
+var $elm$core$Dict$Red = {$: 'Red'};
+var $elm$core$Dict$balance = F5(
+	function (color, key, value, left, right) {
+		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
+			var _v1 = right.a;
+			var rK = right.b;
+			var rV = right.c;
+			var rLeft = right.d;
+			var rRight = right.e;
+			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+				var _v3 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var lLeft = left.d;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Red,
+					key,
+					value,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					rK,
+					rV,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, left, rLeft),
+					rRight);
+			}
+		} else {
+			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
+				var _v5 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var _v6 = left.d;
+				var _v7 = _v6.a;
+				var llK = _v6.b;
+				var llV = _v6.c;
+				var llLeft = _v6.d;
+				var llRight = _v6.e;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Red,
+					lK,
+					lV,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, lRight, right));
+			} else {
+				return A5($elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
+			}
+		}
+	});
+var $elm$core$Basics$compare = _Utils_compare;
+var $elm$core$Dict$insertHelp = F3(
+	function (key, value, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
+		} else {
+			var nColor = dict.a;
+			var nKey = dict.b;
+			var nValue = dict.c;
+			var nLeft = dict.d;
+			var nRight = dict.e;
+			var _v1 = A2($elm$core$Basics$compare, key, nKey);
+			switch (_v1.$) {
+				case 'LT':
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						A3($elm$core$Dict$insertHelp, key, value, nLeft),
+						nRight);
+				case 'EQ':
+					return A5($elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
+				default:
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						nLeft,
+						A3($elm$core$Dict$insertHelp, key, value, nRight));
+			}
+		}
+	});
+var $elm$core$Dict$insert = F3(
+	function (key, value, dict) {
+		var _v0 = A3($elm$core$Dict$insertHelp, key, value, dict);
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $author$project$Data$Explore$init = {
+	gatherDict: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2('grain', 0),
+				_Utils_Tuple2('stone', 0),
+				_Utils_Tuple2('wood', 0),
+				_Utils_Tuple2('knife', 0)
+			])),
+	wanderCost: 15,
+	wanderEventCount: 0
+};
+var $author$project$Data$Inventory$Hands = {$: 'Hands'};
+var $author$project$Data$Inventory$init = {knifeAmount: 0, toolType: $author$project$Data$Inventory$Hands};
+var $author$project$Data$Resources$init = {canClickGrain: true, canClickStone: true, canClickWood: true, grainDelay: 2000, grainGetAmount: 1, stoneDelay: 4000, stoneGetAmount: 1, woodDelay: 3000, woodGetAmount: 1};
+var $author$project$Monologues$init = {tenGrain: '\n        You\'ve been working long hours now, and a lump of tasty grain is beginning to grow. You look out into the horizon with lust. \n        Your paws are itching to stomp into the unknowns, but you are cautious. There is no guarantee of food, and your short legs can only go so fast. \n        Best to take it slow\n    ', twoGrain: '\n        You find yourself alone in a ripe wheat field. By instinct you harvest the crop. \n        Looking down you see your four hooves in action as your stubby, rounded body swings from side to side. \n        You\'re a pig, and you\'ve forgotten everything, except one thing, your name. You\'re Bonaparte, the pig, and no adversary will ever cut you down!!\n        You continue harvesting.\n        '};
+var $author$project$WanderText$init = {aimless: '\n        You set out with your grain. It isn\'t long until the great afternoon sun beats down on you. \n        You look around. In your excitedness to set out, you failed to realise that you\'ve set out in the direction that you went last time!\n        At this time wasted, with no reward. Knowing there is no possibility of exploring novel lands, you set to work picking up scraps along the pathside to make your trip meaningful.', aimlessTwo: '\n            The scorching sun beats on you as you leave the field. The hard day\'s work, intense heat, and sun\'s blinding rays make you wish for the comfort of mommy\'s home again. \n            To add to the luck, you stumble on a rock, which rolls you into a tree. This day is not for exploring, perhaps going back is the better option.\n            Walking back, you see a crate. It looks like it has some basic supplies in it! Perhaps this day isn\'t too bad after all! Nope, you fall into a ditch.\n            ', foundBruiser: '\n        Lol. Horsey do good. Good thing not glue\n    ', foundMap: '\n        You walk straight in a direction. Mind clear and muscles aching for a little stretch. While scouring the vicinity, you notice a pile of parchment lying on the corner.\n        ', foundTools: '\n        Good boiiiiiii\n        ', foundWood: '\n        Harvest!!!\n        ', robbed: 'You got robbed'};
+var $author$project$SharedState$initDevelop = function (height) {
+	return {bruiserFound: false, canStone: false, canWood: false, exploreData: $author$project$Data$Explore$init, exploreTabUnlocked: true, farmName: 'A Lone Field', gameState: $author$project$SharedState$TenGrain, grainAmount: 10000, inventoryData: $author$project$Data$Inventory$init, inventoryTabUnlocked: true, isPopupActive: false, mapUnlocked: true, monologues: $author$project$Monologues$init, popupMessage: '', popupSize: $author$project$SharedState$Small, resourcesData: $author$project$Data$Resources$init, resourcesTabUnlocked: true, stoneAmount: 0, wanderText: $author$project$WanderText$init, windowHeight: height, woodAmount: 0};
+};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (flags) {
 	return _Utils_Tuple2(
 		{
 			currentTab: $author$project$Main$Resources($author$project$Tabs$Resources$init),
-			sharedState: $author$project$SharedState$init(flags.height)
+			gatheringModel: $author$project$Gathering$init,
+			sharedState: $author$project$SharedState$initDevelop(flags.height)
 		},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $author$project$Main$GatheringMsg = function (a) {
+	return {$: 'GatheringMsg', a: a};
+};
+var $elm$core$Platform$Sub$map = _Platform_map;
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Gathering$AddGrain = function (a) {
+	return {$: 'AddGrain', a: a};
+};
+var $elm$time$Time$Every = F2(
+	function (a, b) {
+		return {$: 'Every', a: a, b: b};
+	});
+var $elm$time$Time$State = F2(
+	function (taggers, processes) {
+		return {processes: processes, taggers: taggers};
+	});
+var $elm$time$Time$init = $elm$core$Task$succeed(
+	A2($elm$time$Time$State, $elm$core$Dict$empty, $elm$core$Dict$empty));
+var $elm$core$Dict$get = F2(
+	function (targetKey, dict) {
+		get:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
+				switch (_v1.$) {
+					case 'LT':
+						var $temp$targetKey = targetKey,
+							$temp$dict = left;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+					case 'EQ':
+						return $elm$core$Maybe$Just(value);
+					default:
+						var $temp$targetKey = targetKey,
+							$temp$dict = right;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+				}
+			}
+		}
+	});
+var $elm$time$Time$addMySub = F2(
+	function (_v0, state) {
+		var interval = _v0.a;
+		var tagger = _v0.b;
+		var _v1 = A2($elm$core$Dict$get, interval, state);
+		if (_v1.$ === 'Nothing') {
+			return A3(
+				$elm$core$Dict$insert,
+				interval,
+				_List_fromArray(
+					[tagger]),
+				state);
+		} else {
+			var taggers = _v1.a;
+			return A3(
+				$elm$core$Dict$insert,
+				interval,
+				A2($elm$core$List$cons, tagger, taggers),
+				state);
+		}
+	});
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$time$Time$Name = function (a) {
+	return {$: 'Name', a: a};
+};
+var $elm$time$Time$Offset = function (a) {
+	return {$: 'Offset', a: a};
+};
+var $elm$time$Time$Zone = F2(
+	function (a, b) {
+		return {$: 'Zone', a: a, b: b};
+	});
+var $elm$time$Time$customZone = $elm$time$Time$Zone;
+var $elm$time$Time$setInterval = _Time_setInterval;
+var $elm$core$Process$spawn = _Scheduler_spawn;
+var $elm$time$Time$spawnHelp = F3(
+	function (router, intervals, processes) {
+		if (!intervals.b) {
+			return $elm$core$Task$succeed(processes);
+		} else {
+			var interval = intervals.a;
+			var rest = intervals.b;
+			var spawnTimer = $elm$core$Process$spawn(
+				A2(
+					$elm$time$Time$setInterval,
+					interval,
+					A2($elm$core$Platform$sendToSelf, router, interval)));
+			var spawnRest = function (id) {
+				return A3(
+					$elm$time$Time$spawnHelp,
+					router,
+					rest,
+					A3($elm$core$Dict$insert, interval, id, processes));
+			};
+			return A2($elm$core$Task$andThen, spawnRest, spawnTimer);
+		}
+	});
+var $elm$time$Time$onEffects = F3(
+	function (router, subs, _v0) {
+		var processes = _v0.processes;
+		var rightStep = F3(
+			function (_v6, id, _v7) {
+				var spawns = _v7.a;
+				var existing = _v7.b;
+				var kills = _v7.c;
+				return _Utils_Tuple3(
+					spawns,
+					existing,
+					A2(
+						$elm$core$Task$andThen,
+						function (_v5) {
+							return kills;
+						},
+						$elm$core$Process$kill(id)));
+			});
+		var newTaggers = A3($elm$core$List$foldl, $elm$time$Time$addMySub, $elm$core$Dict$empty, subs);
+		var leftStep = F3(
+			function (interval, taggers, _v4) {
+				var spawns = _v4.a;
+				var existing = _v4.b;
+				var kills = _v4.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, interval, spawns),
+					existing,
+					kills);
+			});
+		var bothStep = F4(
+			function (interval, taggers, id, _v3) {
+				var spawns = _v3.a;
+				var existing = _v3.b;
+				var kills = _v3.c;
+				return _Utils_Tuple3(
+					spawns,
+					A3($elm$core$Dict$insert, interval, id, existing),
+					kills);
+			});
+		var _v1 = A6(
+			$elm$core$Dict$merge,
+			leftStep,
+			bothStep,
+			rightStep,
+			newTaggers,
+			processes,
+			_Utils_Tuple3(
+				_List_Nil,
+				$elm$core$Dict$empty,
+				$elm$core$Task$succeed(_Utils_Tuple0)));
+		var spawnList = _v1.a;
+		var existingDict = _v1.b;
+		var killTask = _v1.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (newProcesses) {
+				return $elm$core$Task$succeed(
+					A2($elm$time$Time$State, newTaggers, newProcesses));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v2) {
+					return A3($elm$time$Time$spawnHelp, router, spawnList, existingDict);
+				},
+				killTask));
+	});
+var $elm$time$Time$Posix = function (a) {
+	return {$: 'Posix', a: a};
+};
+var $elm$time$Time$millisToPosix = $elm$time$Time$Posix;
+var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
+var $elm$time$Time$onSelfMsg = F3(
+	function (router, interval, state) {
+		var _v0 = A2($elm$core$Dict$get, interval, state.taggers);
+		if (_v0.$ === 'Nothing') {
+			return $elm$core$Task$succeed(state);
+		} else {
+			var taggers = _v0.a;
+			var tellTaggers = function (time) {
+				return $elm$core$Task$sequence(
+					A2(
+						$elm$core$List$map,
+						function (tagger) {
+							return A2(
+								$elm$core$Platform$sendToApp,
+								router,
+								tagger(time));
+						},
+						taggers));
+			};
+			return A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$succeed(state);
+				},
+				A2($elm$core$Task$andThen, tellTaggers, $elm$time$Time$now));
+		}
+	});
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$time$Time$subMap = F2(
+	function (f, _v0) {
+		var interval = _v0.a;
+		var tagger = _v0.b;
+		return A2(
+			$elm$time$Time$Every,
+			interval,
+			A2($elm$core$Basics$composeL, f, tagger));
+	});
+_Platform_effectManagers['Time'] = _Platform_createManager($elm$time$Time$init, $elm$time$Time$onEffects, $elm$time$Time$onSelfMsg, 0, $elm$time$Time$subMap);
+var $elm$time$Time$subscription = _Platform_leaf('Time');
+var $elm$time$Time$every = F2(
+	function (interval, tagger) {
+		return $elm$time$Time$subscription(
+			A2($elm$time$Time$Every, interval, tagger));
+	});
+var $author$project$Gathering$subscriptions = function (model) {
+	return A2(
+		$elm$time$Time$every,
+		model.bruiserSpeed,
+		function (_v0) {
+			return $author$project$Gathering$AddGrain(model.bruiserGatherAmount);
+		});
+};
 var $author$project$Main$subscriptions = function (model) {
-	return $elm$core$Platform$Sub$none;
+	return model.sharedState.bruiserFound ? A2(
+		$elm$core$Platform$Sub$map,
+		$author$project$Main$GatheringMsg,
+		$author$project$Gathering$subscriptions(model.gatheringModel)) : $elm$core$Platform$Sub$none;
+};
+var $author$project$Main$Explore = function (a) {
+	return {$: 'Explore', a: a};
+};
+var $author$project$Main$ExploreMsg = function (a) {
+	return {$: 'ExploreMsg', a: a};
+};
+var $author$project$Main$Inventory = function (a) {
+	return {$: 'Inventory', a: a};
+};
+var $author$project$Main$InventoryMsg = function (a) {
+	return {$: 'InventoryMsg', a: a};
 };
 var $author$project$Main$ResourcesMsg = function (a) {
 	return {$: 'ResourcesMsg', a: a};
 };
+var $author$project$Main$SharedStateUpdate = function (a) {
+	return {$: 'SharedStateUpdate', a: a};
+};
+var $author$project$SharedState$NoUpdate = {$: 'NoUpdate'};
+var $author$project$SharedState$UpdateGrain = function (a) {
+	return {$: 'UpdateGrain', a: a};
+};
+var $author$project$Gathering$update = F3(
+	function (msg, model, sharedState) {
+		if (msg.$ === 'AddGrain') {
+			var _int = msg.a;
+			return _Utils_Tuple2(
+				model,
+				$author$project$SharedState$UpdateGrain(_int));
+		} else {
+			return _Utils_Tuple2(model, $author$project$SharedState$NoUpdate);
+		}
+	});
+var $author$project$SharedState$Medium = {$: 'Medium'};
 var $author$project$SharedState$ResetGrain = {$: 'ResetGrain'};
-var $author$project$SharedState$TenGrain = {$: 'TenGrain'};
+var $author$project$SharedState$TogglePopup = {$: 'TogglePopup'};
+var $author$project$SharedState$TwoGrain = {$: 'TwoGrain'};
 var $author$project$Data$Resources$UpdateCanClick = F2(
 	function (a, b) {
 		return {$: 'UpdateCanClick', a: a, b: b};
 	});
-var $elm$core$Debug$log = _Debug_log;
+var $author$project$Data$Explore$UpdateWanderAmount = {$: 'UpdateWanderAmount'};
+var $author$project$SharedState$DoWander = function (a) {
+	return {$: 'DoWander', a: a};
+};
+var $elm$random$Random$Generate = function (a) {
+	return {$: 'Generate', a: a};
+};
+var $elm$random$Random$Seed = F2(
+	function (a, b) {
+		return {$: 'Seed', a: a, b: b};
+	});
+var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var $elm$random$Random$next = function (_v0) {
+	var state0 = _v0.a;
+	var incr = _v0.b;
+	return A2($elm$random$Random$Seed, ((state0 * 1664525) + incr) >>> 0, incr);
+};
+var $elm$random$Random$initialSeed = function (x) {
+	var _v0 = $elm$random$Random$next(
+		A2($elm$random$Random$Seed, 0, 1013904223));
+	var state1 = _v0.a;
+	var incr = _v0.b;
+	var state2 = (state1 + x) >>> 0;
+	return $elm$random$Random$next(
+		A2($elm$random$Random$Seed, state2, incr));
+};
+var $elm$time$Time$posixToMillis = function (_v0) {
+	var millis = _v0.a;
+	return millis;
+};
+var $elm$random$Random$init = A2(
+	$elm$core$Task$andThen,
+	function (time) {
+		return $elm$core$Task$succeed(
+			$elm$random$Random$initialSeed(
+				$elm$time$Time$posixToMillis(time)));
+	},
+	$elm$time$Time$now);
+var $elm$random$Random$step = F2(
+	function (_v0, seed) {
+		var generator = _v0.a;
+		return generator(seed);
+	});
+var $elm$random$Random$onEffects = F3(
+	function (router, commands, seed) {
+		if (!commands.b) {
+			return $elm$core$Task$succeed(seed);
+		} else {
+			var generator = commands.a.a;
+			var rest = commands.b;
+			var _v1 = A2($elm$random$Random$step, generator, seed);
+			var value = _v1.a;
+			var newSeed = _v1.b;
+			return A2(
+				$elm$core$Task$andThen,
+				function (_v2) {
+					return A3($elm$random$Random$onEffects, router, rest, newSeed);
+				},
+				A2($elm$core$Platform$sendToApp, router, value));
+		}
+	});
+var $elm$random$Random$onSelfMsg = F3(
+	function (_v0, _v1, seed) {
+		return $elm$core$Task$succeed(seed);
+	});
+var $elm$random$Random$Generator = function (a) {
+	return {$: 'Generator', a: a};
+};
+var $elm$random$Random$map = F2(
+	function (func, _v0) {
+		var genA = _v0.a;
+		return $elm$random$Random$Generator(
+			function (seed0) {
+				var _v1 = genA(seed0);
+				var a = _v1.a;
+				var seed1 = _v1.b;
+				return _Utils_Tuple2(
+					func(a),
+					seed1);
+			});
+	});
+var $elm$random$Random$cmdMap = F2(
+	function (func, _v0) {
+		var generator = _v0.a;
+		return $elm$random$Random$Generate(
+			A2($elm$random$Random$map, func, generator));
+	});
+_Platform_effectManagers['Random'] = _Platform_createManager($elm$random$Random$init, $elm$random$Random$onEffects, $elm$random$Random$onSelfMsg, $elm$random$Random$cmdMap);
+var $elm$random$Random$command = _Platform_leaf('Random');
+var $elm$random$Random$generate = F2(
+	function (tagger, generator) {
+		return $elm$random$Random$command(
+			$elm$random$Random$Generate(
+				A2($elm$random$Random$map, tagger, generator)));
+	});
+var $author$project$SharedState$FindEvent = {$: 'FindEvent'};
+var $author$project$SharedState$Robbed = {$: 'Robbed'};
+var $author$project$SharedState$WanderAimlessly = {$: 'WanderAimlessly'};
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$core$Basics$abs = function (n) {
+	return (n < 0) ? (-n) : n;
+};
+var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$core$Bitwise$xor = _Bitwise_xor;
+var $elm$random$Random$peel = function (_v0) {
+	var state = _v0.a;
+	var word = (state ^ (state >>> ((state >>> 28) + 4))) * 277803737;
+	return ((word >>> 22) ^ word) >>> 0;
+};
+var $elm$random$Random$float = F2(
+	function (a, b) {
+		return $elm$random$Random$Generator(
+			function (seed0) {
+				var seed1 = $elm$random$Random$next(seed0);
+				var range = $elm$core$Basics$abs(b - a);
+				var n1 = $elm$random$Random$peel(seed1);
+				var n0 = $elm$random$Random$peel(seed0);
+				var lo = (134217727 & n1) * 1.0;
+				var hi = (67108863 & n0) * 1.0;
+				var val = ((hi * 134217728.0) + lo) / 9007199254740992.0;
+				var scaled = (val * range) + a;
+				return _Utils_Tuple2(
+					scaled,
+					$elm$random$Random$next(seed1));
+			});
+	});
+var $elm$random$Random$getByWeight = F3(
+	function (_v0, others, countdown) {
+		getByWeight:
+		while (true) {
+			var weight = _v0.a;
+			var value = _v0.b;
+			if (!others.b) {
+				return value;
+			} else {
+				var second = others.a;
+				var otherOthers = others.b;
+				if (_Utils_cmp(
+					countdown,
+					$elm$core$Basics$abs(weight)) < 1) {
+					return value;
+				} else {
+					var $temp$_v0 = second,
+						$temp$others = otherOthers,
+						$temp$countdown = countdown - $elm$core$Basics$abs(weight);
+					_v0 = $temp$_v0;
+					others = $temp$others;
+					countdown = $temp$countdown;
+					continue getByWeight;
+				}
+			}
+		}
+	});
+var $elm$core$List$sum = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$add, 0, numbers);
+};
+var $elm$random$Random$weighted = F2(
+	function (first, others) {
+		var normalize = function (_v0) {
+			var weight = _v0.a;
+			return $elm$core$Basics$abs(weight);
+		};
+		var total = normalize(first) + $elm$core$List$sum(
+			A2($elm$core$List$map, normalize, others));
+		return A2(
+			$elm$random$Random$map,
+			A2($elm$random$Random$getByWeight, first, others),
+			A2($elm$random$Random$float, 0, total));
+	});
+var $author$project$SharedState$wanderRandom = A2(
+	$elm$random$Random$weighted,
+	_Utils_Tuple2(1, $author$project$SharedState$Robbed),
+	_List_fromArray(
+		[
+			_Utils_Tuple2(29, $author$project$SharedState$WanderAimlessly),
+			_Utils_Tuple2(80, $author$project$SharedState$FindEvent)
+		]));
+var $author$project$SharedState$doWander = A2($elm$random$Random$generate, $author$project$SharedState$DoWander, $author$project$SharedState$wanderRandom);
+var $elm$core$Basics$not = _Basics_not;
 var $elm$core$Process$sleep = _Process_sleep;
 var $author$project$Data$Explore$update = F2(
 	function (exploreData, exploreUpdate) {
-		var _int = exploreUpdate.a;
-		return _Utils_update(
-			exploreData,
-			{wanderCost: _int});
+		if (exploreUpdate.$ === 'UpdateWanderCost') {
+			var _int = exploreUpdate.a;
+			return _Utils_update(
+				exploreData,
+				{wanderCost: _int});
+		} else {
+			return _Utils_update(
+				exploreData,
+				{wanderEventCount: exploreData.wanderEventCount + 1});
+		}
 	});
 var $author$project$Data$Resources$update = F2(
 	function (resourcesData, resourcesUpdate) {
@@ -5267,7 +5994,7 @@ var $author$project$Data$Resources$update = F2(
 var $author$project$SharedState$update = F2(
 	function (sharedState, sharedStateUpdate) {
 		switch (sharedStateUpdate.$) {
-			case 'UpdateGrain':
+			case 'UpdateClickGrain':
 				var _int = sharedStateUpdate.a;
 				return _Utils_Tuple2(
 					function () {
@@ -5275,32 +6002,62 @@ var $author$project$SharedState$update = F2(
 							$author$project$Data$Resources$update,
 							sharedState.resourcesData,
 							A2($author$project$Data$Resources$UpdateCanClick, 'grain', false));
-						var newGrainAmount = sharedState.grainAmount + _int;
-						var newGameState = (newGrainAmount === 10) ? $author$project$SharedState$TenGrain : sharedState.gameState;
 						return _Utils_update(
 							sharedState,
-							{
-								exploreTabUnlocked: function () {
-									if (newGameState.$ === 'TenGrain') {
-										return true;
-									} else {
-										return sharedState.exploreTabUnlocked;
-									}
-								}(),
-								gameState: newGameState,
-								grainAmount: newGrainAmount,
-								resourcesData: newResourcesData
-							});
+							{resourcesData: newResourcesData});
 					}(),
-					sharedState.resourcesData.canClickGrain ? A2(
-						$elm$core$Task$perform,
-						function (_v2) {
-							return $author$project$SharedState$ResetGrain;
-						},
-						A2(
-							$elm$core$Debug$log,
-							'sleeping',
-							$elm$core$Process$sleep(sharedState.resourcesData.grainDelay))) : $elm$core$Platform$Cmd$none);
+					$elm$core$Platform$Cmd$batch(
+						_List_fromArray(
+							[
+								A2(
+								$elm$core$Task$perform,
+								function (_v1) {
+									return $author$project$SharedState$ResetGrain;
+								},
+								$elm$core$Process$sleep(sharedState.resourcesData.grainDelay)),
+								A2(
+								$elm$core$Task$perform,
+								function (_v2) {
+									return $author$project$SharedState$UpdateGrain(_int);
+								},
+								$elm$core$Process$sleep(0))
+							])));
+			case 'UpdateGrain':
+				var _int = sharedStateUpdate.a;
+				var newGrainAmount = sharedState.grainAmount + _int;
+				var newGameState = (newGrainAmount === 2) ? $author$project$SharedState$TwoGrain : ((newGrainAmount === 10) ? $author$project$SharedState$TenGrain : sharedState.gameState);
+				var _v3 = (((sharedState.grainAmount + _int) === 2) || ((sharedState.grainAmount + _int) === 10)) ? A2($author$project$SharedState$update, sharedState, $author$project$SharedState$TogglePopup) : _Utils_Tuple2(sharedState, $elm$core$Platform$Cmd$none);
+				var newSharedState = _v3.a;
+				var newSharedStateCmd = _v3.b;
+				return _Utils_Tuple2(
+					_Utils_update(
+						newSharedState,
+						{
+							exploreTabUnlocked: function () {
+								if (newGameState.$ === 'TenGrain') {
+									return true;
+								} else {
+									return sharedState.exploreTabUnlocked;
+								}
+							}(),
+							farmName: function () {
+								if (newGameState.$ === 'TwoGrain') {
+									return 'A Lone Field';
+								} else {
+									return sharedState.farmName;
+								}
+							}(),
+							gameState: newGameState,
+							grainAmount: newGrainAmount,
+							resourcesTabUnlocked: function () {
+								if (newGameState.$ === 'TwoGrain') {
+									return true;
+								} else {
+									return sharedState.resourcesTabUnlocked;
+								}
+							}()
+						}),
+					newSharedStateCmd);
 			case 'UpdateWood':
 				var _int = sharedStateUpdate.a;
 				return _Utils_Tuple2(
@@ -5329,32 +6086,26 @@ var $author$project$SharedState$update = F2(
 					$elm$core$Platform$Cmd$none);
 			case 'ResetGrain':
 				return _Utils_Tuple2(
-					A2(
-						$elm$core$Debug$log,
-						'pog',
-						_Utils_update(
-							sharedState,
-							{
-								resourcesData: A2(
-									$author$project$Data$Resources$update,
-									sharedState.resourcesData,
-									A2($author$project$Data$Resources$UpdateCanClick, 'grain', true))
-							})),
+					_Utils_update(
+						sharedState,
+						{
+							resourcesData: A2(
+								$author$project$Data$Resources$update,
+								sharedState.resourcesData,
+								A2($author$project$Data$Resources$UpdateCanClick, 'grain', true))
+						}),
 					$elm$core$Platform$Cmd$none);
 			case 'ResetWood':
-				return A2(
-					$elm$core$Debug$log,
-					'Resetted!',
-					_Utils_Tuple2(
-						_Utils_update(
-							sharedState,
-							{
-								resourcesData: A2(
-									$author$project$Data$Resources$update,
-									sharedState.resourcesData,
-									A2($author$project$Data$Resources$UpdateCanClick, 'wood', true))
-							}),
-						$elm$core$Platform$Cmd$none));
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{
+							resourcesData: A2(
+								$author$project$Data$Resources$update,
+								sharedState.resourcesData,
+								A2($author$project$Data$Resources$UpdateCanClick, 'wood', true))
+						}),
+					$elm$core$Platform$Cmd$none);
 			case 'ResetStone':
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -5366,6 +6117,62 @@ var $author$project$SharedState$update = F2(
 								A2($author$project$Data$Resources$UpdateCanClick, 'stone', true))
 						}),
 					$elm$core$Platform$Cmd$none);
+			case 'CreateRandomWander':
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{grainAmount: sharedState.grainAmount - sharedState.exploreData.wanderCost}),
+					$author$project$SharedState$doWander);
+			case 'DoWander':
+				var wanderState = sharedStateUpdate.a;
+				switch (wanderState.$) {
+					case 'WanderAimlessly':
+						return _Utils_Tuple2(
+							_Utils_update(
+								sharedState,
+								{isPopupActive: true, popupMessage: sharedState.wanderText.aimless, popupSize: $author$project$SharedState$Medium}),
+							$elm$core$Platform$Cmd$none);
+					case 'FindEvent':
+						var _v8 = sharedState.exploreData.wanderEventCount;
+						switch (_v8) {
+							case 0:
+								return _Utils_Tuple2(
+									_Utils_update(
+										sharedState,
+										{
+											exploreData: A2($author$project$Data$Explore$update, sharedState.exploreData, $author$project$Data$Explore$UpdateWanderAmount),
+											isPopupActive: true,
+											mapUnlocked: true,
+											popupMessage: sharedState.wanderText.foundMap,
+											popupSize: $author$project$SharedState$Small
+										}),
+									$elm$core$Platform$Cmd$none);
+							case 1:
+								return _Utils_Tuple2(
+									_Utils_update(
+										sharedState,
+										{
+											bruiserFound: true,
+											exploreData: A2($author$project$Data$Explore$update, sharedState.exploreData, $author$project$Data$Explore$UpdateWanderAmount),
+											isPopupActive: true,
+											popupMessage: sharedState.wanderText.foundBruiser,
+											popupSize: $author$project$SharedState$Small
+										}),
+									$elm$core$Platform$Cmd$none);
+							default:
+								return _Utils_Tuple2(
+									_Utils_update(
+										sharedState,
+										{isPopupActive: true}),
+									$elm$core$Platform$Cmd$none);
+						}
+					default:
+						return _Utils_Tuple2(
+							_Utils_update(
+								sharedState,
+								{isPopupActive: true, popupMessage: sharedState.wanderText.robbed}),
+							$elm$core$Platform$Cmd$none);
+				}
 			case 'UpdateResources':
 				var resourcesUpdate = sharedStateUpdate.a;
 				return _Utils_Tuple2(
@@ -5384,18 +6191,55 @@ var $author$project$SharedState$update = F2(
 							exploreData: A2($author$project$Data$Explore$update, sharedState.exploreData, exploreUpdate)
 						}),
 					$elm$core$Platform$Cmd$none);
+			case 'TogglePopup':
+				return _Utils_Tuple2(
+					_Utils_update(
+						sharedState,
+						{
+							isPopupActive: !sharedState.isPopupActive,
+							popupMessage: function () {
+								var _v9 = sharedState.gameState;
+								switch (_v9.$) {
+									case 'TwoGrain':
+										return sharedState.monologues.twoGrain;
+									case 'TenGrain':
+										return sharedState.monologues.tenGrain;
+									default:
+										return sharedState.popupMessage;
+								}
+							}()
+						}),
+					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(sharedState, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$SharedState$NoUpdate = {$: 'NoUpdate'};
-var $author$project$Tabs$Resources$ResetStone = {$: 'ResetStone'};
-var $author$project$Tabs$Resources$ResetWood = {$: 'ResetWood'};
-var $author$project$SharedState$UpdateGrain = function (a) {
-	return {$: 'UpdateGrain', a: a};
-};
-var $author$project$SharedState$UpdateResources = function (a) {
-	return {$: 'UpdateResources', a: a};
+var $author$project$SharedState$CreateRandomWander = {$: 'CreateRandomWander'};
+var $elm$core$Basics$ge = _Utils_ge;
+var $author$project$Tabs$Explore$update = F3(
+	function (sharedState, msg, model) {
+		if (msg.$ === 'Wander') {
+			return _Utils_Tuple3(
+				model,
+				$elm$core$Platform$Cmd$none,
+				(_Utils_cmp(sharedState.grainAmount, sharedState.exploreData.wanderCost) > -1) ? $author$project$SharedState$CreateRandomWander : $author$project$SharedState$NoUpdate);
+		} else {
+			return _Utils_Tuple3(model, $elm$core$Platform$Cmd$none, $author$project$SharedState$NoUpdate);
+		}
+	});
+var $author$project$Tabs$Inventory$update = F3(
+	function (sharedState, msg, model) {
+		if (msg.$ === 'Wander') {
+			return _Utils_Tuple3(
+				model,
+				$elm$core$Platform$Cmd$none,
+				(_Utils_cmp(sharedState.grainAmount, sharedState.exploreData.wanderCost) > -1) ? $author$project$SharedState$CreateRandomWander : $author$project$SharedState$NoUpdate);
+		} else {
+			return _Utils_Tuple3(model, $elm$core$Platform$Cmd$none, $author$project$SharedState$NoUpdate);
+		}
+	});
+var $author$project$SharedState$UpdateClickGrain = function (a) {
+	return {$: 'UpdateClickGrain', a: a};
 };
 var $author$project$SharedState$UpdateStone = function (a) {
 	return {$: 'UpdateStone', a: a};
@@ -5407,55 +6251,27 @@ var $author$project$Tabs$Resources$update = F3(
 	function (sharedState, msg, model) {
 		switch (msg.$) {
 			case 'IncreaseGrain':
+				var amount = msg.a;
 				return _Utils_Tuple3(
 					model,
 					$elm$core$Platform$Cmd$none,
-					sharedState.resourcesData.canClickGrain ? $author$project$SharedState$UpdateGrain(sharedState.resourcesData.grainGetAmount) : $author$project$SharedState$NoUpdate);
+					sharedState.resourcesData.canClickGrain ? $author$project$SharedState$UpdateClickGrain(amount) : $author$project$SharedState$NoUpdate);
 			case 'IncreaseWood':
+				var amount = msg.a;
 				return _Utils_Tuple3(
 					model,
-					sharedState.resourcesData.canClickWood ? A2(
-						$elm$core$Task$perform,
-						function (_v1) {
-							return $author$project$Tabs$Resources$ResetWood;
-						},
-						$elm$core$Process$sleep(sharedState.resourcesData.woodDelay)) : $elm$core$Platform$Cmd$none,
-					sharedState.resourcesData.canClickWood ? $author$project$SharedState$UpdateWood(sharedState.resourcesData.woodGetAmount) : $author$project$SharedState$NoUpdate);
+					$elm$core$Platform$Cmd$none,
+					sharedState.resourcesData.canClickWood ? $author$project$SharedState$UpdateWood(amount) : $author$project$SharedState$NoUpdate);
 			case 'IncreaseStone':
-				return _Utils_Tuple3(
-					model,
-					sharedState.resourcesData.canClickStone ? A2(
-						$elm$core$Task$perform,
-						function (_v2) {
-							return $author$project$Tabs$Resources$ResetStone;
-						},
-						$elm$core$Process$sleep(sharedState.resourcesData.stoneDelay)) : $elm$core$Platform$Cmd$none,
-					sharedState.resourcesData.canClickStone ? $author$project$SharedState$UpdateStone(sharedState.resourcesData.stoneGetAmount) : $author$project$SharedState$NoUpdate);
-			case 'ResetGrain':
+				var amount = msg.a;
 				return _Utils_Tuple3(
 					model,
 					$elm$core$Platform$Cmd$none,
-					$author$project$SharedState$UpdateResources(
-						A2($author$project$Data$Resources$UpdateCanClick, 'grain', true)));
-			case 'ResetWood':
-				return _Utils_Tuple3(
-					model,
-					$elm$core$Platform$Cmd$none,
-					$author$project$SharedState$UpdateResources(
-						A2($author$project$Data$Resources$UpdateCanClick, 'wood', true)));
-			case 'ResetStone':
-				return _Utils_Tuple3(
-					model,
-					$elm$core$Platform$Cmd$none,
-					$author$project$SharedState$UpdateResources(
-						A2($author$project$Data$Resources$UpdateCanClick, 'stone', true)));
+					sharedState.resourcesData.canClickStone ? $author$project$SharedState$UpdateStone(amount) : $author$project$SharedState$NoUpdate);
 			default:
 				return _Utils_Tuple3(model, $elm$core$Platform$Cmd$none, $author$project$SharedState$NoUpdate);
 		}
 	});
-var $author$project$Main$SharedStateUpdate = function (a) {
-	return {$: 'SharedStateUpdate', a: a};
-};
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$Main$updateWith = F4(
 	function (toTab, toMsg, model, _v0) {
@@ -5482,7 +6298,7 @@ var $author$project$Main$updateWith = F4(
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		var _v0 = _Utils_Tuple2(model.currentTab, msg);
-		_v0$3:
+		_v0$6:
 		while (true) {
 			switch (_v0.b.$) {
 				case 'ResourcesMsg':
@@ -5496,8 +6312,50 @@ var $author$project$Main$update = F2(
 							model,
 							A3($author$project$Tabs$Resources$update, model.sharedState, resourcesMsg, resourcesModel));
 					} else {
-						break _v0$3;
+						break _v0$6;
 					}
+				case 'ExploreMsg':
+					if (_v0.a.$ === 'Explore') {
+						var exploreModel = _v0.a.a;
+						var exploreMsg = _v0.b.a;
+						return A4(
+							$author$project$Main$updateWith,
+							$author$project$Main$Explore,
+							$author$project$Main$ExploreMsg,
+							model,
+							A3($author$project$Tabs$Explore$update, model.sharedState, exploreMsg, exploreModel));
+					} else {
+						break _v0$6;
+					}
+				case 'InventoryMsg':
+					if (_v0.a.$ === 'Inventory') {
+						var inventoryModel = _v0.a.a;
+						var inventoryMsg = _v0.b.a;
+						return A4(
+							$author$project$Main$updateWith,
+							$author$project$Main$Inventory,
+							$author$project$Main$InventoryMsg,
+							model,
+							A3($author$project$Tabs$Inventory$update, model.sharedState, inventoryMsg, inventoryModel));
+					} else {
+						break _v0$6;
+					}
+				case 'GatheringMsg':
+					var gatheringMsg = _v0.b.a;
+					var _v1 = A3($author$project$Gathering$update, gatheringMsg, model.gatheringModel, model.sharedState);
+					var newGatheringModel = _v1.a;
+					var ssUpdate = _v1.b;
+					var _v2 = A2(
+						$author$project$Main$update,
+						$author$project$Main$SharedStateUpdate(ssUpdate),
+						model);
+					var newModel = _v2.a;
+					var ssCmd = _v2.b;
+					return _Utils_Tuple2(
+						_Utils_update(
+							newModel,
+							{gatheringModel: newGatheringModel}),
+						ssCmd);
 				case 'ToTab':
 					var currentTab = _v0.a;
 					var tab = _v0.b.a;
@@ -5508,16 +6366,16 @@ var $author$project$Main$update = F2(
 						$elm$core$Platform$Cmd$none);
 				case 'SharedStateUpdate':
 					var ssUpdate = _v0.b.a;
-					var _v1 = A2($author$project$SharedState$update, model.sharedState, ssUpdate);
-					var newSharedState = _v1.a;
-					var sharedStateMsg = _v1.b;
+					var _v3 = A2($author$project$SharedState$update, model.sharedState, ssUpdate);
+					var newSharedState = _v3.a;
+					var sharedStateMsg = _v3.b;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
 							{sharedState: newSharedState}),
 						$elm$core$Platform$Cmd$none);
 				default:
-					break _v0$3;
+					break _v0$6;
 			}
 		}
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -5669,8 +6527,6 @@ var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$core$Set$Set_elm_builtin = function (a) {
 	return {$: 'Set_elm_builtin', a: a};
 };
-var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
-var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
 var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
 var $mdgriffith$elm_ui$Internal$Model$lengthClassName = function (x) {
 	switch (x.$) {
@@ -5830,151 +6686,11 @@ var $mdgriffith$elm_ui$Internal$Model$getStyleName = function (style) {
 				$mdgriffith$elm_ui$Internal$Model$transformClass(x));
 	}
 };
-var $elm$core$Dict$Black = {$: 'Black'};
-var $elm$core$Dict$RBNode_elm_builtin = F5(
-	function (a, b, c, d, e) {
-		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
-	});
-var $elm$core$Dict$Red = {$: 'Red'};
-var $elm$core$Dict$balance = F5(
-	function (color, key, value, left, right) {
-		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
-			var _v1 = right.a;
-			var rK = right.b;
-			var rV = right.c;
-			var rLeft = right.d;
-			var rRight = right.e;
-			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
-				var _v3 = left.a;
-				var lK = left.b;
-				var lV = left.c;
-				var lLeft = left.d;
-				var lRight = left.e;
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Red,
-					key,
-					value,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rLeft, rRight));
-			} else {
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					color,
-					rK,
-					rV,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, left, rLeft),
-					rRight);
-			}
-		} else {
-			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
-				var _v5 = left.a;
-				var lK = left.b;
-				var lV = left.c;
-				var _v6 = left.d;
-				var _v7 = _v6.a;
-				var llK = _v6.b;
-				var llV = _v6.c;
-				var llLeft = _v6.d;
-				var llRight = _v6.e;
-				var lRight = left.e;
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Red,
-					lK,
-					lV,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, lRight, right));
-			} else {
-				return A5($elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
-			}
-		}
-	});
-var $elm$core$Basics$compare = _Utils_compare;
-var $elm$core$Dict$insertHelp = F3(
-	function (key, value, dict) {
-		if (dict.$ === 'RBEmpty_elm_builtin') {
-			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
-		} else {
-			var nColor = dict.a;
-			var nKey = dict.b;
-			var nValue = dict.c;
-			var nLeft = dict.d;
-			var nRight = dict.e;
-			var _v1 = A2($elm$core$Basics$compare, key, nKey);
-			switch (_v1.$) {
-				case 'LT':
-					return A5(
-						$elm$core$Dict$balance,
-						nColor,
-						nKey,
-						nValue,
-						A3($elm$core$Dict$insertHelp, key, value, nLeft),
-						nRight);
-				case 'EQ':
-					return A5($elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
-				default:
-					return A5(
-						$elm$core$Dict$balance,
-						nColor,
-						nKey,
-						nValue,
-						nLeft,
-						A3($elm$core$Dict$insertHelp, key, value, nRight));
-			}
-		}
-	});
-var $elm$core$Dict$insert = F3(
-	function (key, value, dict) {
-		var _v0 = A3($elm$core$Dict$insertHelp, key, value, dict);
-		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
-			var _v1 = _v0.a;
-			var k = _v0.b;
-			var v = _v0.c;
-			var l = _v0.d;
-			var r = _v0.e;
-			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
-		} else {
-			var x = _v0;
-			return x;
-		}
-	});
 var $elm$core$Set$insert = F2(
 	function (key, _v0) {
 		var dict = _v0.a;
 		return $elm$core$Set$Set_elm_builtin(
 			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
-	});
-var $elm$core$Dict$get = F2(
-	function (targetKey, dict) {
-		get:
-		while (true) {
-			if (dict.$ === 'RBEmpty_elm_builtin') {
-				return $elm$core$Maybe$Nothing;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
-				switch (_v1.$) {
-					case 'LT':
-						var $temp$targetKey = targetKey,
-							$temp$dict = left;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-					case 'EQ':
-						return $elm$core$Maybe$Just(value);
-					default:
-						var $temp$targetKey = targetKey,
-							$temp$dict = right;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-				}
-			}
-		}
 	});
 var $elm$core$Dict$member = F2(
 	function (key, dict) {
@@ -8294,9 +9010,6 @@ var $elm$core$Basics$min = F2(
 	function (x, y) {
 		return (_Utils_cmp(x, y) < 0) ? x : y;
 	});
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var $mdgriffith$elm_ui$Internal$Model$renderProps = F3(
 	function (force, _v0, existing) {
 		var key = _v0.a;
@@ -9292,9 +10005,7 @@ var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
 	return _VirtualDom_keyedNode(
 		_VirtualDom_noScript(tag));
 };
-var $elm$core$Basics$not = _Basics_not;
 var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$core$Bitwise$and = _Bitwise_and;
 var $mdgriffith$elm_ui$Internal$Flag$present = F2(
 	function (myFlag, _v0) {
 		var fieldOne = _v0.a;
@@ -10142,7 +10853,6 @@ var $mdgriffith$elm_ui$Internal$Model$renderWidth = function (w) {
 	}
 };
 var $mdgriffith$elm_ui$Internal$Flag$borderWidth = $mdgriffith$elm_ui$Internal$Flag$flag(27);
-var $elm$core$Basics$ge = _Utils_ge;
 var $mdgriffith$elm_ui$Internal$Model$skippable = F2(
 	function (flag, style) {
 		if (_Utils_eq(flag, $mdgriffith$elm_ui$Internal$Flag$borderWidth)) {
@@ -11111,18 +11821,10 @@ var $mdgriffith$elm_ui$Element$column = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
-var $author$project$Main$ExploreMsg = function (a) {
-	return {$: 'ExploreMsg', a: a};
-};
 var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
 var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
 	return {$: 'Text', a: a};
 };
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $mdgriffith$elm_ui$Internal$Model$map = F2(
 	function (fn, el) {
@@ -11155,7 +11857,7 @@ var $mdgriffith$elm_ui$Internal$Model$map = F2(
 		}
 	});
 var $mdgriffith$elm_ui$Element$map = $mdgriffith$elm_ui$Internal$Model$map;
-var $author$project$Tabs$Explore$NoOp = {$: 'NoOp'};
+var $author$project$Tabs$Explore$Wander = {$: 'Wander'};
 var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
 	return {$: 'AlignY', a: a};
 };
@@ -11303,16 +12005,70 @@ var $mdgriffith$elm_ui$Element$Input$button = F2(
 	});
 var $mdgriffith$elm_ui$Internal$Flag$fontAlignment = $mdgriffith$elm_ui$Internal$Flag$flag(12);
 var $mdgriffith$elm_ui$Element$Font$center = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textCenter);
+var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
+var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
 var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
 	return {$: 'Fill', a: a};
 };
 var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
 var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
 var $mdgriffith$elm_ui$Element$htmlAttribute = $mdgriffith$elm_ui$Internal$Model$Attr;
+var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $mdgriffith$elm_ui$Element$image = F2(
+	function (attrs, _v0) {
+		var src = _v0.src;
+		var description = _v0.description;
+		var imageAttributes = A2(
+			$elm$core$List$filter,
+			function (a) {
+				switch (a.$) {
+					case 'Width':
+						return true;
+					case 'Height':
+						return true;
+					default:
+						return false;
+				}
+			},
+			attrs);
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.imageContainer),
+				attrs),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[
+						A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asEl,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('img'),
+						_Utils_ap(
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$src(src)),
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$alt(description))
+								]),
+							imageAttributes),
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
+					])));
+	});
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Tabs$Explore$noOutline = $mdgriffith$elm_ui$Element$htmlAttribute(
 	A2($elm$html$Html$Attributes$style, 'box-shadow', 'none'));
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $author$project$Tabs$Explore$padding = {bottom: 2, left: 2, right: 2, top: 2};
 var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
 	function (a, b, c, d, e) {
@@ -11483,7 +12239,7 @@ var $author$project$Tabs$Explore$view = F2(
 			_List_fromArray(
 				[
 					$mdgriffith$elm_ui$Element$height(
-					$mdgriffith$elm_ui$Element$px(sharedState.windowHeight - 115)),
+					$mdgriffith$elm_ui$Element$px(sharedState.windowHeight - 135)),
 					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
 				]),
 			_List_fromArray(
@@ -11568,7 +12324,7 @@ var $author$project$Tabs$Explore$view = F2(
 										]),
 									{
 										label: $mdgriffith$elm_ui$Element$text('Wander!'),
-										onPress: $elm$core$Maybe$Just($author$project$Tabs$Explore$NoOp)
+										onPress: $elm$core$Maybe$Just($author$project$Tabs$Explore$Wander)
 									})
 								])),
 							A2(
@@ -11579,7 +12335,21 @@ var $author$project$Tabs$Explore$view = F2(
 									$mdgriffith$elm_ui$Element$fillPortion(2)),
 									$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
 								]),
-							_List_Nil),
+							_List_fromArray(
+								[
+									sharedState.mapUnlocked ? A2(
+									$mdgriffith$elm_ui$Element$image,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$height(
+											$mdgriffith$elm_ui$Element$px(120)),
+											$mdgriffith$elm_ui$Element$width(
+											$mdgriffith$elm_ui$Element$px(120)),
+											$mdgriffith$elm_ui$Element$centerX,
+											$mdgriffith$elm_ui$Element$centerY
+										]),
+									{description: '', src: 'ALoneField.png'}) : $mdgriffith$elm_ui$Element$none
+								])),
 							A2(
 							$mdgriffith$elm_ui$Element$column,
 							_List_fromArray(
@@ -11599,9 +12369,130 @@ var $author$project$Tabs$Explore$view = F2(
 					_List_Nil)
 				]));
 	});
-var $author$project$Tabs$Resources$IncreaseGrain = {$: 'IncreaseGrain'};
-var $author$project$Tabs$Resources$IncreaseStone = {$: 'IncreaseStone'};
-var $author$project$Tabs$Resources$IncreaseWood = {$: 'IncreaseWood'};
+var $author$project$Tabs$Inventory$view = F2(
+	function (model, sharedState) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					$mdgriffith$elm_ui$Element$height(
+					$mdgriffith$elm_ui$Element$px(2 * (sharedState.windowHeight - 115)))
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$fillPortion(1))
+						]),
+					_List_Nil),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$fillPortion(6)),
+							$mdgriffith$elm_ui$Element$spacing(10)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width(
+									$mdgriffith$elm_ui$Element$fillPortion(1))
+								]),
+							_List_Nil),
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Border$width(1),
+									$mdgriffith$elm_ui$Element$width(
+									$mdgriffith$elm_ui$Element$fillPortion(2)),
+									$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$paragraph,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$alignTop,
+											A2($mdgriffith$elm_ui$Element$paddingXY, 0, 10),
+											$mdgriffith$elm_ui$Element$Font$center
+										]),
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$text('Inventory:')
+										])),
+									A2($mdgriffith$elm_ui$Element$row, _List_Nil, _List_Nil)
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width(
+									$mdgriffith$elm_ui$Element$fillPortion(1))
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$fillPortion(1))
+						]),
+					_List_Nil),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$fillPortion(7))
+						]),
+					_List_Nil),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$fillPortion(1))
+						]),
+					_List_Nil),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$fillPortion(6))
+						]),
+					_List_Nil),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$fillPortion(2))
+						]),
+					_List_Nil)
+				]));
+	});
+var $author$project$Tabs$Resources$IncreaseGrain = function (a) {
+	return {$: 'IncreaseGrain', a: a};
+};
+var $author$project$Tabs$Resources$IncreaseStone = function (a) {
+	return {$: 'IncreaseStone', a: a};
+};
+var $author$project$Tabs$Resources$IncreaseWood = function (a) {
+	return {$: 'IncreaseWood', a: a};
+};
 var $mdgriffith$elm_ui$Internal$Model$Left = {$: 'Left'};
 var $mdgriffith$elm_ui$Element$alignLeft = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$Left);
 var $mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
@@ -11634,7 +12525,6 @@ var $author$project$Tabs$Resources$endAppend = F2(
 	});
 var $author$project$Tabs$Resources$noOutline = $mdgriffith$elm_ui$Element$htmlAttribute(
 	A2($elm$html$Html$Attributes$style, 'box-shadow', 'none'));
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Internal$Model$Rgba = F4(
 	function (a, b, c, d) {
 		return {$: 'Rgba', a: a, b: b, c: c, d: d};
@@ -11685,7 +12575,8 @@ var $author$project$Tabs$Resources$view = F2(
 								]),
 							{
 								label: $mdgriffith$elm_ui$Element$text('Grain'),
-								onPress: $elm$core$Maybe$Just($author$project$Tabs$Resources$IncreaseGrain)
+								onPress: $elm$core$Maybe$Just(
+									$author$project$Tabs$Resources$IncreaseGrain(sharedState.resourcesData.grainGetAmount))
 							}),
 							sharedState.canWood ? A2(
 							$mdgriffith$elm_ui$Element$Input$button,
@@ -11701,7 +12592,8 @@ var $author$project$Tabs$Resources$view = F2(
 								]),
 							{
 								label: $mdgriffith$elm_ui$Element$text('Wood'),
-								onPress: $elm$core$Maybe$Just($author$project$Tabs$Resources$IncreaseWood)
+								onPress: $elm$core$Maybe$Just(
+									$author$project$Tabs$Resources$IncreaseWood(sharedState.resourcesData.woodGetAmount))
 							}) : $mdgriffith$elm_ui$Element$none,
 							sharedState.canStone ? A2(
 							$mdgriffith$elm_ui$Element$Input$button,
@@ -11717,7 +12609,8 @@ var $author$project$Tabs$Resources$view = F2(
 								]),
 							{
 								label: $mdgriffith$elm_ui$Element$text('Stone'),
-								onPress: $elm$core$Maybe$Just($author$project$Tabs$Resources$IncreaseStone)
+								onPress: $elm$core$Maybe$Just(
+									$author$project$Tabs$Resources$IncreaseStone(sharedState.resourcesData.stoneGetAmount))
 							}) : $mdgriffith$elm_ui$Element$none
 						])),
 					(sharedState.grainAmount > 0) ? A2(
@@ -11781,18 +12674,25 @@ var $author$project$Tabs$Resources$view = F2(
 	});
 var $author$project$Main$content = function (model) {
 	var _v0 = model.currentTab;
-	if (_v0.$ === 'Resources') {
-		var resourcesModel = _v0.a;
-		return A2(
-			$mdgriffith$elm_ui$Element$map,
-			$author$project$Main$ResourcesMsg,
-			A2($author$project$Tabs$Resources$view, resourcesModel, model.sharedState));
-	} else {
-		var exploreModel = _v0.a;
-		return A2(
-			$mdgriffith$elm_ui$Element$map,
-			$author$project$Main$ExploreMsg,
-			A2($author$project$Tabs$Explore$view, exploreModel, model.sharedState));
+	switch (_v0.$) {
+		case 'Resources':
+			var resourcesModel = _v0.a;
+			return A2(
+				$mdgriffith$elm_ui$Element$map,
+				$author$project$Main$ResourcesMsg,
+				A2($author$project$Tabs$Resources$view, resourcesModel, model.sharedState));
+		case 'Explore':
+			var exploreModel = _v0.a;
+			return A2(
+				$mdgriffith$elm_ui$Element$map,
+				$author$project$Main$ExploreMsg,
+				A2($author$project$Tabs$Explore$view, exploreModel, model.sharedState));
+		default:
+			var inventoryModel = _v0.a;
+			return A2(
+				$mdgriffith$elm_ui$Element$map,
+				$author$project$Main$InventoryMsg,
+				A2($author$project$Tabs$Inventory$view, inventoryModel, model.sharedState));
 	}
 };
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
@@ -12057,13 +12957,11 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 	});
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
-var $author$project$Main$Explore = function (a) {
-	return {$: 'Explore', a: a};
-};
 var $author$project$Main$ToTab = function (a) {
 	return {$: 'ToTab', a: a};
 };
 var $author$project$Tabs$Explore$init = {};
+var $author$project$Tabs$Inventory$init = {};
 var $mdgriffith$elm_ui$Internal$Model$Hover = {$: 'Hover'};
 var $mdgriffith$elm_ui$Internal$Model$PseudoSelector = F2(
 	function (a, b) {
@@ -12182,7 +13080,7 @@ var $author$project$Main$navbar = function (model) {
 			]),
 		_List_fromArray(
 			[
-				A2(
+				model.sharedState.resourcesTabUnlocked ? A2(
 				$mdgriffith$elm_ui$Element$Input$button,
 				_List_fromArray(
 					[
@@ -12202,7 +13100,7 @@ var $author$project$Main$navbar = function (model) {
 					onPress: $elm$core$Maybe$Just(
 						$author$project$Main$ToTab(
 							$author$project$Main$Resources($author$project$Tabs$Resources$init)))
-				}),
+				}) : $mdgriffith$elm_ui$Element$none,
 				model.sharedState.exploreTabUnlocked ? A2(
 				$mdgriffith$elm_ui$Element$Input$button,
 				_List_fromArray(
@@ -12223,46 +13121,158 @@ var $author$project$Main$navbar = function (model) {
 					onPress: $elm$core$Maybe$Just(
 						$author$project$Main$ToTab(
 							$author$project$Main$Explore($author$project$Tabs$Explore$init)))
+				}) : $mdgriffith$elm_ui$Element$none,
+				model.sharedState.inventoryTabUnlocked ? A2(
+				$mdgriffith$elm_ui$Element$Input$button,
+				_List_fromArray(
+					[
+						$author$project$Main$noOutline,
+						A2($mdgriffith$elm_ui$Element$paddingXY, 20, 5),
+						$mdgriffith$elm_ui$Element$mouseOver(
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$Background$color(
+								A3($mdgriffith$elm_ui$Element$rgb255, 221, 221, 221))
+							])),
+						$mdgriffith$elm_ui$Element$htmlAttribute(
+						A2($elm$html$Html$Attributes$style, 'transition', '0.3s'))
+					]),
+				{
+					label: $mdgriffith$elm_ui$Element$text('Inventory'),
+					onPress: $elm$core$Maybe$Just(
+						$author$project$Main$ToTab(
+							$author$project$Main$Inventory($author$project$Tabs$Inventory$init)))
 				}) : $mdgriffith$elm_ui$Element$none
+			]));
+};
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$header = _VirtualDom_node('header');
+var $elm$html$Html$hr = _VirtualDom_node('hr');
+var $elm$html$Html$section = _VirtualDom_node('section');
+var $author$project$Main$popup = function (model) {
+	var _v0 = _Utils_eq(model.sharedState.popupSize, $author$project$SharedState$Small) ? _Utils_Tuple2('40%', '30%') : (_Utils_eq(model.sharedState.popupSize, $author$project$SharedState$Medium) ? _Utils_Tuple2('50%', '25%') : _Utils_Tuple2('60%', '20%'));
+	var widthPercent = _v0.a;
+	var centeredPercent = _v0.b;
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
+				A2($elm$html$Html$Attributes$style, 'margin', 'auto'),
+				A2($elm$html$Html$Attributes$style, 'border', '2px solid black'),
+				A2($elm$html$Html$Attributes$style, 'background-color', 'white'),
+				A2($elm$html$Html$Attributes$style, 'width', widthPercent),
+				A2($elm$html$Html$Attributes$style, 'height', widthPercent),
+				A2($elm$html$Html$Attributes$style, 'top', centeredPercent),
+				A2($elm$html$Html$Attributes$style, 'left', centeredPercent)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$header,
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'width', '100%')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$SharedStateUpdate($author$project$SharedState$TogglePopup)),
+								A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
+								A2($elm$html$Html$Attributes$style, 'right', '0'),
+								A2($elm$html$Html$Attributes$style, 'margin', '5px'),
+								A2($elm$html$Html$Attributes$style, 'margin-top', '0px'),
+								A2($elm$html$Html$Attributes$style, 'border', 'none'),
+								A2($elm$html$Html$Attributes$style, 'outline', 'none')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('x')
+							])),
+						A2(
+						$elm$html$Html$section,
+						_List_fromArray(
+							[
+								A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
+								A2($elm$html$Html$Attributes$style, 'top', '50%'),
+								A2($elm$html$Html$Attributes$style, 'left', '50%'),
+								A2($elm$html$Html$Attributes$style, 'transform', 'translate(-50%, -50%)')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(model.sharedState.popupMessage),
+								A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+								$elm$html$Html$text('You Got:')
+							]))
+					]))
 			]));
 };
 var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
 var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
 var $author$project$Main$view = function (model) {
 	return A2(
-		$mdgriffith$elm_ui$Element$layout,
+		$elm$html$Html$div,
 		_List_Nil,
-		A2(
-			$mdgriffith$elm_ui$Element$column,
-			_List_fromArray(
-				[
-					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$mdgriffith$elm_ui$Element$paragraph,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$centerX,
-							A2($mdgriffith$elm_ui$Element$paddingXY, 0, 30),
-							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-							$mdgriffith$elm_ui$Element$Font$family(
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$layout,
+						_List_Nil,
+						A2(
+							$mdgriffith$elm_ui$Element$column,
 							_List_fromArray(
 								[
-									$mdgriffith$elm_ui$Element$Font$typeface('Verdana'),
-									$mdgriffith$elm_ui$Element$Font$sansSerif
-								])),
-							$mdgriffith$elm_ui$Element$Font$size(32),
-							$mdgriffith$elm_ui$Element$Font$bold
-						]),
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$text(model.sharedState.farmName)
-						])),
-					$author$project$Main$navbar(model),
-					$author$project$Main$content(model)
-				])));
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$paragraph,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$centerX,
+											A2($mdgriffith$elm_ui$Element$paddingXY, 0, 30),
+											$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+											$mdgriffith$elm_ui$Element$Font$family(
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$Font$typeface('Verdana'),
+													$mdgriffith$elm_ui$Element$Font$sansSerif
+												])),
+											$mdgriffith$elm_ui$Element$Font$size(32),
+											$mdgriffith$elm_ui$Element$Font$bold
+										]),
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$text(model.sharedState.farmName)
+										])),
+									$author$project$Main$navbar(model),
+									$author$project$Main$content(model)
+								]))),
+						model.sharedState.isPopupActive ? $author$project$Main$popup(model) : A2($elm$html$Html$div, _List_Nil, _List_Nil)
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'position', 'fixed'),
+						A2($elm$html$Html$Attributes$style, 'bottom', '0'),
+						A2($elm$html$Html$Attributes$style, 'left', '2px')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('version : 0.0.3')
+					]))
+			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});

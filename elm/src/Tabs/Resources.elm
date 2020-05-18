@@ -13,6 +13,7 @@ import Html.Events exposing (onClick)
 import Process
 import SharedState exposing (SharedState, SharedStateUpdate(..))
 import Task
+import Time
 
 
 
@@ -66,7 +67,7 @@ view model sharedState =
                     Element.rgb255 169 169 169
                         |> Background.color
                 ]
-                { onPress = Just IncreaseGrain
+                { onPress = Just (IncreaseGrain sharedState.resourcesData.grainGetAmount)
                 , label = text "Grain"
                 }
             , if sharedState.canWood then
@@ -83,7 +84,7 @@ view model sharedState =
                         Element.rgb255 169 169 169
                             |> Background.color
                     ]
-                    { onPress = Just IncreaseWood
+                    { onPress = Just (IncreaseWood sharedState.resourcesData.woodGetAmount)
                     , label = text "Wood"
                     }
 
@@ -103,7 +104,7 @@ view model sharedState =
                         Element.rgb255 169 169 169
                             |> Background.color
                     ]
-                    { onPress = Just IncreaseStone
+                    { onPress = Just (IncreaseStone sharedState.resourcesData.stoneGetAmount)
                     , label = text "Stone"
                     }
 
@@ -161,66 +162,44 @@ view model sharedState =
 
 
 type Msg
-    = IncreaseGrain
-    | IncreaseWood
-    | IncreaseStone
-    | ResetGrain
-    | ResetWood
-    | ResetStone
+    = IncreaseGrain Int
+    | IncreaseWood Int
+    | IncreaseStone Int
     | NoOp
 
 
 update : SharedState -> Msg -> Model -> ( Model, Cmd Msg, SharedStateUpdate )
 update sharedState msg model =
     case msg of
-        IncreaseGrain ->
+        IncreaseGrain amount ->
             ( model
             , Cmd.none
             , if sharedState.resourcesData.canClickGrain then
-                UpdateGrain sharedState.resourcesData.grainGetAmount
+                UpdateClickGrain amount
 
               else
                 NoUpdate
             )
 
-        IncreaseWood ->
+        IncreaseWood amount ->
             ( model
+            , Cmd.none
             , if sharedState.resourcesData.canClickWood then
-                Process.sleep sharedState.resourcesData.woodDelay
-                    |> Task.perform (\() -> ResetWood)
-
-              else
-                Cmd.none
-            , if sharedState.resourcesData.canClickWood then
-                UpdateWood sharedState.resourcesData.woodGetAmount
+                UpdateWood amount
 
               else
                 NoUpdate
             )
 
-        IncreaseStone ->
+        IncreaseStone amount ->
             ( model
+            , Cmd.none
             , if sharedState.resourcesData.canClickStone then
-                Process.sleep sharedState.resourcesData.stoneDelay
-                    |> Task.perform (\() -> ResetStone)
-
-              else
-                Cmd.none
-            , if sharedState.resourcesData.canClickStone then
-                UpdateStone sharedState.resourcesData.stoneGetAmount
+                UpdateStone amount
 
               else
                 NoUpdate
             )
-
-        ResetGrain ->
-            ( model, Cmd.none, UpdateResources <| Data.Resources.UpdateCanClick "grain" True )
-
-        ResetWood ->
-            ( model, Cmd.none, UpdateResources <| Data.Resources.UpdateCanClick "wood" True )
-
-        ResetStone ->
-            ( model, Cmd.none, UpdateResources <| Data.Resources.UpdateCanClick "stone" True )
 
         NoOp ->
             ( model, Cmd.none, NoUpdate )
@@ -230,6 +209,6 @@ update sharedState msg model =
 -- SUBSCRIPTIONS
 
 
-subscriptions : Model -> Sub Msg
-subscriptions _ =
+subscriptions : SharedState -> Sub Msg
+subscriptions sharedState =
     Sub.none

@@ -71,9 +71,27 @@ h1 {
   font-family: cursive;
   text-decoration: none;
   color: black;
+}
+
+#animalFarm{
   position: fixed;
   bottom: 20px;
   left: 15px;
+}
+
+#bananaDiv{
+  height: 15vw;
+  width: 150px;
+  text-align: center;
+  margin: auto;
+}
+
+#banana{
+  top: 10%;
+}
+
+#bananaPic{
+  height: 60px;
 }
 
 
