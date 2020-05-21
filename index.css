@@ -55,7 +55,6 @@ h1 {
 .page{
   margin: 0 auto;
   width:95vw;
-  height:80vw;
 }
 
 
@@ -80,7 +79,7 @@ h1 {
 }
 
 #bananaDiv{
-  height: 15vw;
+  height: 15vh;
   width: 150px;
   text-align: center;
   margin: auto;
@@ -97,4 +96,24 @@ h1 {
 
 
 
+#secret{
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: white;
+  width: 3px;
+  height: 3px;
+}
 
+#wrasseDiv{
+  height : 15vh;
+  width: 150px;
+  text-align: center;
+  margin: auto;
+  top: 10%;
+}
+#fishPic {
+  top: 10%;
+  height: 60px;
+  margin: auto;
+}
