@@ -1,5 +1,6 @@
 var gameWindow = document.getElementById('gameWindow')
 var gameOverWindow = document.getElementById('gameOverWindow')
+var menuScreen = document.getElementById('menuScreen')
 var body = document.getElementsByTagName('body')[0]
 
 var banana = document.getElementById('bananapng');
@@ -80,6 +81,7 @@ function start() {
     }
     function firstClickFun() {
         var Interval = window.setInterval(startWatch, 100);
+        menuScreen.style.display = 'none'
     }
 
 

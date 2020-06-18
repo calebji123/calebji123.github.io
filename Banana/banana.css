@@ -96,4 +96,15 @@ body{
     top: 30vh;
 }
 
+#menuScreen {
+    text-align: center;
+    width: 100vh;
+    height: 10px;
+    position: absolute;
+    top: 46vh;
+}
 
+#startText{
+    position: absolute;
+    margin: auto;
+}
