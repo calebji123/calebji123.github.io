@@ -12,6 +12,7 @@ class Platform {
   
   //display
   void display () {
+    noStroke();
     fill(255, 0, 0);
     rect(x,y,w,h);
   }

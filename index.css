@@ -1,4 +1,222 @@
-#window{
+body {
+  background-color:#32cd32 ;
+}
+
+#window {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: white;
+}
+
+#heading{
+  width: 100vw;
+  background-color: #32cd32;
+}
+
+/* about box */
+#aboutBox {
+  width: 80vw;
+  height: auto;
+  text-align: center;
+  padding-top: 50px;
+}
+
+#aboutBoxLeft {
+  padding-left: 30px;
+  padding-right: 30px;
+  flex-grow: 2;
+  flex-basis: 30%;
+}
+
+#aboutBoxRight {
+  width: 100px;
+  padding-left: 30px;
+  padding-right: 30px;
+  flex-grow: 3;
+}
+
+#title {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: 80px;
+  color: white;
+  margin: 0px;
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+
+#titlePic {
+  width: 100px;
+}
+
+#aboutHeader {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: 50px;
+  color: white;
+}
+
+.aboutContent {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: 20px;
+  color: white;
+}
+
+/* menu bar */
+#menuBar {
+  position: sticky;
+  top: -1px;
+  width: 100vw;
+  height: 90px;
+  background-color: #32cd32;
+  padding: 0;
+}
+
+.flexBoxBoth {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexBoxHoriz {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.flexBoxCol {
+  display: flex;
+  flex-direction: column;
+}
+
+#sideTitleBox {
+  position: absolute;
+  left: 20px;
+  text-align: center;
+  height: 100%;
+}
+
+#sideTitle {
+  display: inline-block;
+  margin: 0px;
+  font-size: 60px;
+  font-family: "Snell Roundhand", cursive;
+  color: white;
+  opacity: 0;
+}
+
+#navBar {
+  position: relative;
+  top: 30px;
+}
+
+.buttonDiv {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#border {
+  height:35px;
+  border-left: 3px solid white;
+}
+
+.navTabs {
+  border-style: none;
+  outline: none;
+  background-color: #32cd32;
+  color:white;
+  font-size: 25px;
+}
+
+.navTabs:hover {
+  color: #dff5df;
+}
+
+/* content */
+
+#contentDiv {
+  height: 1500px;
+}
+
+#projectsPage {
+  width: 100%;
+  text-align: center;
+}
+
+#projectsTitle {
+  padding-top: 30px;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: 50px;
+  color: black;
+  text-decoration: underline;
+  text-decoration-color: #32cd32;
+}
+
+#projectsBoxDiv{
+  flex-wrap: wrap;
+  width: 900px;
+  margin: auto;
+}
+
+.projectsBox {
+  width: 400px;
+  height: 200px;
+  border: #32cd32 dotted 3px;
+  margin: 20px;
+  text-align: center;
+}
+
+#resumePage {
+  display: none;
+  width: 100%;
+  text-align: center;
+}
+
+#otherPage {
+  display: none;
+  width: 100%;
+  text-align: center;
+}
+
+/* bottom bar */
+
+#bottomBar {
+  height: 200px;
+  background-color: #F0F0F0;
+  border-top: #32cd32 solid 7px;
+}
+
+#bottomBar p{
+  padding: 8px;
+  margin: 0px;
+
+}
+
+#contactMeDiv{
+  height: 100%;
+  flex-grow: 1;
+  text-align: center;
+}
+
+#namingDiv{
+  height: 100%;
+  flex-grow: 1;
+}
+
+#shoutoutDiv {
+  height: 100%;
+  flex-grow: 1;
+  text-align: center;
+}
+
+#nameP {
+  position: absolute;
+  bottom:0;
+  font-size: 10px;
+}
+
+
+/* #window{
   height: 96vh;
   border-style: solid;
 }
@@ -116,4 +334,4 @@ h1 {
   top: 10%;
   height: 60px;
   margin: auto;
-}
+} */

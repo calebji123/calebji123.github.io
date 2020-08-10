@@ -69,6 +69,7 @@ class Car {
   }
   //display
   void display() {
+    noStroke();
     //if (colour != "blue") {
       if (colour == "blue") {
         fill(0, 0, 255);

@@ -3,7 +3,8 @@ class Frog {
   //variables to determine position & speed variables
   float w, h, x, y, vx, vy, accelarationX, accelarationY, speedLimit, friction, gravity, logSpeed;
   //for movement and state booleans
-  Boolean left, right, jump, crouch, onGround, onPlatform, hitCar, onLog, facingRight, haveJumped, haveCrouched;
+  Boolean left, right, jump, crouch, onGround, onPlatform, hitCar, onLog, facingRight, haveJumped, haveCrouched, largeJump;
+  float crouchBegin;
   //for platforms and logs
   String collisionSide;
   //other variables that contain info about the stage it is in
@@ -28,10 +29,10 @@ class Frog {
 
     accelarationX = 0;
     accelarationY = 0;
-    speedLimit = 5;
+    speedLimit = 4;
     //speedLimit = 6;
     friction = 1;
-    gravity = 1;
+    gravity = 0.75;
     logSpeed = 0;
 
     left = false;
@@ -45,6 +46,8 @@ class Frog {
     facingRight = false;
     haveJumped = false;
     haveCrouched = false;
+    largeJump = false;
+    crouchBegin = 0;
 
     collisionSide = "";
 
@@ -73,14 +76,14 @@ class Frog {
   void update () {
     //movement, adds to accelaration, which adds to speed
     if (left) {
-      accelarationX = -0.2;
+      accelarationX = -0.15;
       if (crouch) {
         accelarationX = -0.11;
       }
       friction = 1; // no friction when moving
     } 
     if (right) {
-      accelarationX = 0.2;
+      accelarationX = 0.15;
       if (crouch) {
         accelarationX = 0.11;
       }
@@ -88,30 +91,39 @@ class Frog {
     }
     if (left && right) { //not move if both are pressed
       accelarationX = 0;
-      friction = 0.80;
+      friction = 0.75;
       if (onLog || crouch) {
-        friction = 0.70;
+        friction = 0.65;
       }
     }
     if (!left && !right) {
       accelarationX = 0;
-      friction = 0.80;
+      friction = 0.75;
       if (onLog || crouch) {
-        friction = 0.70;
+        friction = 0.65;
       }
     }
     //jump
+    //crouch large jump
+    if (crouch && !deathAnimation) {
+      if (millis() - crouchBegin >= 1500) {
+        largeJump = true;
+      }
+    }
     if (jump && (onGround)) {
-      if (!crouch) {
-        vy += -13;
+      if (largeJump) {
+        vy += -14;
       } else {
-        vy += -10;
+        vy += -12;
       }
       onGround = false;
       jump = false;
+      largeJump = false;
       friction = 1;
+      crouch = false;
+      unCrouch();
       if (!gameOver) {
-        score += 2;//score for jumping
+        score += 1;//score for jumping
       }
     }
 
@@ -132,7 +144,7 @@ class Frog {
     } else {
       speedLimit = 5;
     }
-    
+
     //correct speed if over top speed
     if (vx > speedLimit) {
       vx = speedLimit;
@@ -190,9 +202,13 @@ class Frog {
   }
 
   void display() {
+    noStroke();
     fill(0, 255, 0);
     if (deathAnimation) {
       fill(255, 0, 0);
+    }
+    if ((int(millis()/100))%2 == 0 && largeJump) {
+      fill(0, 0, 255);
     }
     rect(x, y, w, h);
   }
@@ -251,15 +267,18 @@ class Frog {
 
   //set varibales to make crouch
   void initiateCrouch() {
-    if (!gameOver && !deathAnimation) {
+    if (!gameOver && !deathAnimation && !levelSetup.paused) {
       y += 10;
       h = 20;
+      crouchBegin = millis();
     }
   }
   void unCrouch() {
-    if (!gameOver && !deathAnimation) {
+    if (!gameOver && !deathAnimation && !levelSetup.paused) {
       y -= 10;
       h = 30;
+      largeJump = false;
+      
     }
   }
 
@@ -267,10 +286,10 @@ class Frog {
     showTime = true;
     timeToShow = round((timeStart - timeLeft) / 100) / 10.0;
     showTimeBegan = millis();
-    score += 500; // 500 for completing a place
-    score += (timeStart/ 1000 - timeToShow);//add for time completed
+    score += 250; // 500 for completing a place
+    score += int(1000/timeToShow);//add for time completed
     filled[place] = true;
-     // to see if all gaols are filled
+    // to see if all gaols are filled
     Boolean good = true;
     for (int i = 0; i < 5; i ++) {
       if (filled[i] == false) {
@@ -296,15 +315,30 @@ class Frog {
     }
     if (lives <= 0) {
       gameOver = true;
-     if(level == 1){
-      if (score > levelOneNormalHighScore) {
-        levelOneNormalHighScore = score;
+      switch(level) {
+      case 1:
+        if (score > levelOneNormalHighScore) {
+          levelOneNormalHighScore = score;
+        }
+        break;
+      case 2:
+        if (score > levelTwoNormalHighScore) {
+          levelTwoNormalHighScore = score;
+        }
+        break;
+      case 3:
+        if (score > levelThreeNormalHighScore) {
+          levelThreeNormalHighScore = score;
+        }
+        break;
+      case 4:
+        if (score > levelFourNormalHighScore) {
+          levelFourNormalHighScore = score;
+        }
+        break;
+      default:
+        break;
       }
-     } else if (level == 2){
-       if (score > levelTwoNormalHighScore) {
-        levelTwoNormalHighScore = score;
-      }
-     }
     }
   }
   //reset, usually for dying after scoring 
@@ -319,12 +353,13 @@ class Frog {
     accelarationY = 0;
 
     friction = 1;
-    gravity = 1;
+    gravity = 0.75;
     logSpeed = 0;
 
     left = false;
     right = false;
     jump = false;
+    crouch = false;
     onGround = true;
     onPlatform = false;
     hitCar = false;

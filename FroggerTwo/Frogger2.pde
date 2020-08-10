@@ -1,14 +1,16 @@
-LevelOne levelOne;
-LevelTwo levelTwo;
-LevelThree levelThree;
+LevelSetup levelSetup;
 Frog frog;
 
 //graphics
 PImage settingsIcon;
 PImage levelSelectIcon;
 PImage mainScreenIcon;
+PImage pauseButton;
 PImage blueCar; // not used right now -- for future
 PImage blueCarLeft;
+
+//fonts
+PFont font;
 
 
 //page information
@@ -24,47 +26,52 @@ int level = 0;
 int levelSelectTextSize = 30;
 int helpTextSize = 30;
 int creditsTextSize = 30;
+int exitTextSize = 15;
 Boolean overLevelSelect = false;
 Boolean overHelp = false;
 Boolean overCredits = false;
+Boolean overExit = false;
 
 //highScores
 int levelOneNormalHighScore = 0;
 int levelTwoNormalHighScore = 0;
 int levelThreeNormalHighScore = 0;
+int levelFourNormalHighScore = 0;
 
 //controls
 String up = "up";
 String crouch = "down";
 String left = "left";
 String right = "right";
+Strin pause = "p";
 
 Boolean selectUp = false;
 Boolean selectCrouch = false;
 Boolean selectLeft = false;
 Boolean selectRight = false;
+Boolean selectPause = false;
 
 //tips
-String[] tips = {"You can change your controls in the settings menu", "Use momentum to carry you forward and make further jumps", "Crouching reduces jump height and movement speed", "You must jump close to the goal in order to score", "Extra points are awarded when completing a set"} ;
+String[] tips = {"You can change your controls in the settings menu", "Use momentum to carry you forward and make further jumps", "You must jump close to the goal in order to score", "Extra points are awarded when completing a set", "The faster you score, the more points you get", "Controls can only be changed to a certain number of options"} ;
 
 
 void setup() {
   size(600, 800);
   background(255);
   //load classes & images
-  levelOne = new LevelOne();
-  levelTwo = new LevelTwo();
-  levelThree = new LevelThree();
+  levelSetup = new LevelSetup();
   frog = new Frog();
   settingsIcon = loadImage("SettingsIcon.png");
   levelSelectIcon = loadImage("LevelSelectIcon.png");
   mainScreenIcon = loadImage("MainScreenIcon.png");
+  pauseButton = loadImage("pauseButton.png")
   blueCar = loadImage("BlueCar.png");
   blueCarLeft = loadImage("BlueCarLeft.png");
-  
+  //font = loadFont("Chalkboard.vlw"); //font doesn't work!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 void draw() {
+  //textFont(font);
   background(255);
   fill(255);
   if (onMainScreen || partialMainScreen) {
@@ -81,8 +88,9 @@ void draw() {
     //text("Credits", 300, 675);
     //logo
     stroke(0);
-    fill(255);
-    ellipse(300, 250, 400, 400);
+    fill(0,255,0);
+    // ellipse(300, 250, 400, 400);
+    rect()
 
     //settings icon
     image(settingsIcon, 555, 15);
@@ -91,7 +99,7 @@ void draw() {
     //high score icon
     fill(255);
     ellipse(570, 70, 30, 30);
-    
+
     //version
     fill(0);
     textSize(10);
@@ -113,13 +121,6 @@ void draw() {
       overHelp = false;
       helpTextSize = 30;
     }
-    //if (mouseX >= 250 && mouseX <= 350 && mouseY >= 650 && mouseY <= 675) {
-    //  overCredits = true;
-    //  creditsTextSize = 35;
-    //} else {
-    //  overCredits = false;
-    //  creditsTextSize = 30;
-    //}
   }
   //level Select
   if (onLevelSelect) {
@@ -140,7 +141,7 @@ void draw() {
     //exit
     //rect(472.5, 115, 35, 15);
     fill(255, 50, 0);
-    textSize(15);
+    textSize(exitTextSize);
     text("EXIT", 490, 120);
     //gamemode selector - might not do
     stroke(0);
@@ -157,7 +158,7 @@ void draw() {
     fill(0);
     textSize(10);
     text("Level 1:", 170, 310);
-    text("First Steps", 170, 325);
+    text("Tutorial", 170, 325);
     text("HiScore: " + str(levelOneNormalHighScore), 170, 340);
     //2
     fill(255);
@@ -165,7 +166,7 @@ void draw() {
     fill(0);
     textSize(10);
     text("Level 2:", 300, 310);
-    text("A Ramp in Difficulty", 300, 325);
+    text("First Steps", 300, 325);
     text("HiScore: " + str(levelTwoNormalHighScore), 300, 340);
     //3
     fill(255);
@@ -173,8 +174,16 @@ void draw() {
     fill(0);
     textSize(10);
     text("Level 3:", 430, 310);
-    text("Meteor Shower", 430, 325);
+    text("A Ramp in Difficulty", 430, 325);
     text("HiScore: " + str(levelThreeNormalHighScore), 430, 340);
+    //4
+    fill(255);
+    rect(120, 360, 100, 100, 15);
+    fill(0);
+    textSize(10);
+    text("Level 4:", 170, 470);
+    text("Meteor Shower", 170, 485);
+    text("HiScore: " + str(levelThreeNormalHighScore), 170, 500);
   }
   //on how to play screen
   if (onHelp) {
@@ -195,18 +204,20 @@ void draw() {
     //exit
     //rect(472.5, 115, 35, 15);
     fill(255, 50, 0);
-    textSize(15);
+    textSize(exitTextSize);
     text("EXIT", 490, 120);
     //contents
     fill(0);
+    textSize(15);
     text("Press '" + left + "' and '" + right + "' to move left and right", 300, 200);
     text("Press '" + up + "' to jump", 300, 220);
     text("Press '" + crouch + "' to crouch", 300, 240);
-    text("Get to the end of the level", 300, 280);
-    text("And put your guy in the slot", 300, 300);
-    text("Be careful of obstacles, running out of lives", 300, 320);
-    text("And running out of time", 300, 340);
-    text("Try to survive as long as possible", 300, 360);
+    text("Make your way up the level by jumping", 300, 280);
+    text("on red platforms and brown logs", 300, 300);
+    text("The goal is to get the frog to one of the five slots", 300, 320);
+    text("Be careful of moving cars and running out of lives", 300, 340);
+    text("Time is also an element too!", 300, 360);
+    text("Try to survive as long as possible, and gain the most points", 300, 380);
   }
   //on credits
   if (onCredits) {
@@ -227,7 +238,7 @@ void draw() {
     //exit
     //rect(472.5, 115, 35, 15);
     fill(255, 50, 0);
-    textSize(15);
+    textSize(exitTextSize);
     text("EXIT", 490, 120);
     //content
     fill(0);
@@ -251,7 +262,7 @@ void draw() {
     text("Settings", 300, 125);
     //exit button
     fill(255, 50, 0);
-    textSize(15);
+    textSize(exitTextSize);
     text("EXIT", 490, 120);
     //contents
     //controls
@@ -264,6 +275,7 @@ void draw() {
     text("Move Right:", 150, 275);
     text("Jump:", 150, 300);
     text("Crouch:", 150, 325);
+    text("Pause:", 150, 350);
     //buttons to the side to change controls
     fill(255);
     stroke(0);
@@ -271,12 +283,14 @@ void draw() {
     rect(375, 265, 75, 20, 20);
     rect(375, 290, 75, 20, 20);
     rect(375, 315, 75, 20, 20);
+    rect(375, 340, 75, 20, 20);
     textAlign(CENTER, CENTER);
     fill(0);
-    text(left, 412, 248);
-    text(right, 412, 273);
-    text(up, 412, 298);
-    text(crouch, 412, 323);
+    text(left, 412.5, 250);
+    text(right, 412.5, 275);
+    text(up, 412.5, 300);
+    text(crouch, 412.5, 325);
+    text(pause, 412.5, 350);
     //triangles that appear when selected
     if (selectLeft) {
       fill(255);
@@ -330,18 +344,34 @@ void draw() {
       vertex(440, 330);
       endShape();
     }
+    if (selectPause) {
+      fill(255);
+      beginShape();
+      vertex(385, 345);
+      vertex(390, 350);
+      vertex(385, 355);
+      endShape();
+      beginShape();
+      vertex(440, 345);
+      vertex(435, 350);
+      vertex(440, 355);
+      endShape();
+    }
   }
+  //exit button hover
+  if (mouseX >= 472.5 && mouseX <= 507.5 && mouseY >= 115 && mouseY <= 130) {
+    overExit = true;
+    exitTextSize = 17;
+  } else {
+    overExit = false;
+    exitTextSize = 15;
+  }
+
 
 
   //running levels
-  if (level == 1 && !onMainScreen ) {
-    levelOne.run();
-  }
-  if (level == 2 && !onMainScreen) {
-    levelTwo.run();
-  }
-  if (level == 3 && !onMainScreen) {
-    levelThree.run();
+  if (level >= 1 && !onMainScreen ) {
+    levelSetup.run();
   }
 }
 
@@ -381,7 +411,7 @@ void mousePressed() {
   //in level select
   if (onLevelSelect) {
     //exit button
-    if (mouseX >= 472.5 && mouseX <= 507.5 && mouseY >= 115 && mouseY <= 130) {
+    if (overExit) {
       onMainScreen = true;
       onLevelSelect = false;
       partialMainScreen = false;
@@ -391,21 +421,26 @@ void mousePressed() {
       onLevelSelect = false;
       partialMainScreen = false;
       level = 1;
-      levelOne.commence();
+      levelSetup.commence("one");
     }
     if (mouseX >= 250 && mouseX <= 350 && mouseY >= 200 && mouseY <=300) {
       onLevelSelect = false;
       partialMainScreen = false;
       level = 2;
-      levelTwo.commence();
+      levelSetup.commence("two");
     }
     if (mouseX >= 380 && mouseX <= 480 && mouseY >= 200 && mouseY <=300) {
       onLevelSelect = false;
       partialMainScreen = false;
       level = 3;
-      levelThree.commence();
+      levelSetup.commence("three");
     }
-    
+    if (mouseX >= 120 && mouseX <= 220 && mouseY >= 360 && mouseY <=460) {
+      onLevelSelect = false;
+      partialMainScreen = false;
+      level = 4;
+      levelSetup.commence("four");
+    }
   }
   //in how to play
   if (onHelp) {
@@ -436,6 +471,7 @@ void mousePressed() {
       selectRight = false;
       selectUp = false;
       selectCrouch = false;
+      selectPause = false;
     }
     //change selected button for changing controls
     if (mouseX >= 375 && mouseX <= 450 && mouseY >= 240 && mouseY <= 260) {
@@ -444,6 +480,7 @@ void mousePressed() {
         selectRight = false;
         selectUp = false;
         selectCrouch = false;
+        selectPause = false;
       } else {
         selectLeft = false;
       }
@@ -454,10 +491,10 @@ void mousePressed() {
         selectLeft = false;
         selectUp = false;
         selectCrouch = false;
+        selectPause = false;
       } else {
         selectRight = false;
       }
-      
     }
     if (mouseX >= 375 && mouseX <= 450 && mouseY >= 290 && mouseY <= 315) {
       if (!selectUp) {
@@ -465,6 +502,7 @@ void mousePressed() {
         selectRight = false;
         selectLeft = false;
         selectCrouch = false;
+        selectPause = false;
       } else {
         selectUp = false;
       }
@@ -475,44 +513,66 @@ void mousePressed() {
         selectRight = false;
         selectUp = false;
         selectLeft = false;
+        selectPause = false;
       } else {
         selectCrouch = false;
+      }
+    }
+    if (mouseX >= 375 && mouseX <= 450 && mouseY >= 340 && mouseY <= 365) {
+      if (!selectPause) {
+        selectPause = true;
+        selectRight = false;
+        selectUp = false;
+        selectLeft = false;
+        selectCrouch = false;
+      } else {
+        selectPause = false;
       }
     }
   }
 
   // in levels 
   if (level > 0) {
-    if (mouseX >= 555 && mouseX <= 595 && mouseY >= 13 && mouseY <= 28) {
-      onLevelSelect = true;
-      partialMainScreen = true;
-      level = 0;
+    //pause
+    if (dist(mouseX, mouseY, 575, 25) <= 30 && !levelSetup.beginStartDelay) {
+      if(levelSetup.paused){
+        levelSetup.paused = false;
+      } else{
+        levelSetup.paused = true;
+      }
+      
     } 
     if (level >= 1) {
       //when game over (win or lose) in the menu that pops up
       if (frog.gameOver) {
         //continue & try again buttons for all levels
-        if (levelOne.overContinue) {
+        if (levelSetup.overContinue) {
           frog.reset();
           frog.gameOver = false;
-          levelOne.winGame = false;
+          levelSetup.winGame = false;
           frog.freePlayMode = true;
-          levelOne.overContinue = false;
+          levelSetup.overContinue = false;
         } 
-        if (levelOne.overTryAgain) {
-          levelOne.commence();
-          levelOne.overTryAgain = false;
+        if (levelSetup.overTryAgain) {
+          levelSetup.commence(levelSetup.levelOn);
+          levelSetup.overTryAgain = false;
         }
-        if (levelTwo.overContinue) {
-          frog.reset();
-          frog.gameOver = false;
-          levelTwo.winGame = false;
-          frog.freePlayMode = true;
-          levelTwo.overContinue = false;
-        } 
-        if (levelTwo.overTryAgain) {
-          levelTwo.commence();
-          levelTwo.overTryAgain = false;
+
+        //menu and level select buttons, ones with icons
+        if (dist(mouseX, mouseY, 250, 550)<= 50) {
+          level = 0;
+          onLevelSelect = true;
+          partialMainScreen = true;
+        }
+        if (dist(mouseX, mouseY, 350, 550) <= 50) {
+          level = 0;
+          onMainScreen = true;
+        }
+      } else if (levelSetup.paused) {
+        //paused
+        if(levelSetup.overContinue){
+          levelSetup.paused = false;
+          levelSetup.overContinue = false;
         }
         //menu and level select buttons, ones with icons
         if (dist(mouseX, mouseY, 250, 550)<= 50) {
@@ -534,91 +594,78 @@ void keyPressed () {
   //move frog
   if (level >= 1) {
     // for different types of controls possible
-    if ((key == 'a' || key == 'A') && left == "a") { 
+    if (((key == 'a' || key == 'A') && left == "a") || (keyCode == LEFT && left == "left") || ((key == 'j' || key == 'J') && left == "j")) { 
       frog.left = true;
     }
-    if (keyCode == LEFT && left == "left") {
-      frog.left = true;
-    }
-    if ((key == 'd' || key == 'D' ) && right == "d") {
+    if (((key == 'd' || key == 'D' ) && right == "d") || (keyCode == RIGHT  && right == "right") || ((key == 'l' || key == 'L') && left == "l") ) {
       frog.right = true;
     }
-    if (keyCode == RIGHT  && right == "right") {
-      frog.right = true;
-    }
-    if (key == ' ' && up == "space") {
+    if ((key == ' ' && up == "space") || ((key == 'w' || key == 'W') && up == "w") || (keyCode == UP && up == "up") || ((key == 'i' || key == 'I') && left == "i") ) {
       if (!frog.haveJumped) {
         frog.jump = true;
         frog.haveJumped = true;
       }
     } 
-    if ((key == 'w' || key == 'W') && up == "w") {
-      if (!frog.haveJumped) {
-        frog.jump = true;
-        frog.haveJumped = true;
-      }
-    } 
-    if (keyCode == UP && up == "up") {
-      if (!frog.haveJumped) {
-        frog.jump = true;
-        frog.haveJumped = true;
-      }
-    } 
-    if ((key == 's' || key == 'S') && crouch == "s") {
+    if (((key == 's' || key == 'S') && crouch == "s") || (keyCode == SHIFT && crouch == "shift") || (keyCode == DOWN && crouch == "down") || ((key == 'k' || key == 'K') && left == "k")) {
       if (!frog.haveCrouched) {
         frog.crouch = true;
         frog.haveCrouched = true;
         frog.initiateCrouch();
       }
     }
-    if (keyCode == SHIFT && crouch == "shift") {
-      if (!frog.haveCrouched) {
-        frog.crouch = true;
-        frog.haveCrouched = true;
-        frog.initiateCrouch();
+    if (((key == 'p' || key == 'P') && pause == "p") || (key == ' ' && pause == "space")) {
+      if(levelSetup.paused){
+        levelSetup.paused = false; 
+      } else{
+        levelSetup.paused = true;
       }
-    }
-    if (keyCode == DOWN && crouch == "down") {
-      if (!frog.haveCrouched) {
-        frog.crouch = true;
-        frog.haveCrouched = true;
-        frog.initiateCrouch();
-      }
+      
     }
   }
-  
+
   //change controls
-  if(onSettings){
-    if(selectLeft){
-      if(key == 'a'){
+  if (onSettings) {
+    if (selectLeft) {
+      if (key == 'a') {
         left = "a";
-      } else if (keyCode == LEFT){
+      } else if (keyCode == LEFT) {
         left = "left";
-      } 
-    }
-     else if(selectRight){
-      if(key == 'd'){
-        right = "d";
-      } else if (keyCode == RIGHT){
-        right = "right";
-      } 
-    }
-    else if(selectUp){
-      if(key == 'w'){
-        up = "w";
-      } else if (keyCode == UP){
-        up = "up";
-      } else if (key == ' '){
-        up = "space";
+      } else if (key == 'j') {
+        left = "j";
       }
-    }
-    else if(selectCrouch){
-      if(key == 's'){
+    } else if (selectRight) {
+      if (key == 'd') {
+        right = "d";
+      } else if (keyCode == RIGHT) {
+        right = "right";
+      } else if (key == 'l') {
+        right = "l";
+      }
+    } else if (selectUp) {
+      if (key == 'w') {
+        up = "w";
+      } else if (keyCode == UP) {
+        up = "up";
+      } else if (key == ' ') {
+        up = "space";
+      } else if (key == 'i') {
+        right = "i";
+      }
+    } else if (selectCrouch) {
+      if (key == 's') {
         crouch = "s";
-      } else if (keyCode == DOWN){
+      } else if (keyCode == DOWN) {
         crouch = "down";
-      } else if (keyCode == SHIFT){
+      } else if (keyCode == SHIFT) {
         crouch = "shift";
+      } else if (key == 'k') {
+        right = "k";
+      }
+    } else if (selectPause) {
+      if(key == 'p') {
+        pause = "p";
+      } else if (key == ' '){
+        pause = "space";
       }
     }
   }
@@ -629,44 +676,24 @@ void keyReleased() {
   if (level >= 1) {
 
     // for different types of controls possible
-    if ((key == 'a' || key == 'A') && left == "a") { 
+
+    if (((key == 'a' || key == 'A') && left == "a") || (keyCode == LEFT && left == "left") || ((key == 'j' || key == 'J') && left == "j")) { 
       frog.left = false;
     }
-    if (keyCode == LEFT && left == "left") {
-      frog.left = false;
-    }
-    if ((key == 'd' || key == 'D' ) && right == "d") {
+    if (((key == 'd' || key == 'D' ) && right == "d") || (keyCode == RIGHT  && right == "right") || ((key == 'l' || key == 'L') && left == "l") ) {
       frog.right = false;
     }
-    if (keyCode == RIGHT  && right == "right") {
-      frog.right = false;
-    }
-    if (key == ' ' && up == "space") {
-      frog.jump = false;
-      frog.haveJumped = false;
+    if ((key == ' ' && up == "space") || ((key == 'w' || key == 'W') && up == "w") || (keyCode == UP && up == "up") || ((key == 'i' || key == 'I') && left == "i") ) {
+        frog.jump = false;
+        frog.haveJumped = false;
     } 
-    if ((key == 'w' || key == 'W') && up == "w") {
-      frog.jump = false;
-      frog.haveJumped = false;
-    } 
-    if (keyCode == UP && up == "up") {
-      frog.jump = false;
-      frog.haveJumped = false;
-    } 
-    if ((key == 's' || key == 'S') && crouch == "s") {
-      frog.crouch = false;
-      frog.haveCrouched = false;
-      frog.unCrouch();
-    }
-    if (keyCode == SHIFT && crouch == "shift") {
-      frog.crouch = false;
-      frog.haveCrouched = false;
-      frog.unCrouch();
-    }
-    if (keyCode == DOWN && crouch == "down") {
-      frog.crouch = false;
-      frog.haveCrouched = false;
-      frog.unCrouch();
+    if (((key == 's' || key == 'S') && crouch == "s") || (keyCode == SHIFT && crouch == "shift") || (keyCode == DOWN && crouch == "down") || ((key == 'k' || key == 'K') && left == "k")) {
+      if (frog.crouch) {
+        frog.unCrouch();
+        frog.crouch = false;
+        frog.haveCrouched = false;
+      }
+        
     }
   }
 }

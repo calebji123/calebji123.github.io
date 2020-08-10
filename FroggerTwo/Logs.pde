@@ -10,13 +10,13 @@ class Log {
     type = typeVar;
     //different types
     if (type == "short") {
-      speed = 2.3;
+      speed = 2;
       w = 75;
     } else if (type == "long") {
-      speed = 4.5;
+      speed = 3;
       w = 175;
     } else if (type == "medium") {
-      speed = 3.3;
+      speed = 2.8;
       w = 125;
     } else if (type == "turtle") {
       speed = 4;
@@ -58,6 +58,7 @@ class Log {
   }
   //display
   void display(){
+    noStroke();
     fill(210,180,140);
     rect(x, y, w, h);
   }
