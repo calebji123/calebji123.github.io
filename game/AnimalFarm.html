@@ -4,7 +4,7 @@
 <head>
   <link rel="stylesheet" href="Main.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>This could be a cool thing</title>
+  <title>AnimalFarm Game</title>
 </head>
 
 <body>
@@ -52,8 +52,24 @@
         </div>
         <div class="rw1clm4 gridTile"></div>
         <div class="rw1clm5 gridTile"></div>
-        <div class="rw2clm1 gridTile"></div>
-        <div class="rw2clm2 gridTile"></div>
+        <div class="rw2clm1 gridTile">
+          <div class="toolTip">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm1">
+            <span class="toolTiptext" id="textTooltip6">150 grain</span>
+          </div>
+          <div class="exploreBox" id="dealer">
+            <p class="exploreText">Shady Dealer</p>
+          </div>
+        </div>
+        <div class="rw2clm2 gridTile">
+          <div class="toolTip">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm2">
+            <span class="toolTiptext" id="textTooltip7">100 grain</span>
+          </div>
+          <div class="exploreBox" id="animals">
+            <p class="exploreText">Animal Field</p>
+          </div>
+        </div>
         <div class="rw2clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm3">
@@ -96,28 +112,28 @@
           </div>
         </div>
         <div class="rw3clm5 gridTile"></div>
-        <div class="rw4clm2 gridTile">
+        <div class="rw4clm1 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm1">
-            <span class="toolTiptext" id="textTooltip16">60 grain</span>
+            <span class="toolTiptext" id="textTooltip16">80 grain</span>
           </div>
-          <div class="exploreBox" id="market">
-            <p class="exploreText">Market</p>
+          <div class="exploreBox" id="builder">
+            <p class="exploreText">Builder Shop</p>
           </div>
         </div>
         <div class="rw4clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm2">
-            <span class="toolTiptext" id="textTooltip17">40 grain</span>
+            <span class="toolTiptext" id="textTooltip17">50 grain</span>
           </div>
-          <div class="exploreBox" id="roadToTown">
-            <p class="exploreText">Road</p>
+          <div class="exploreBox" id="market">
+            <p class="exploreText">Market</p>
           </div>
         </div>
         <div class="rw4clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm3">
-            <span class="toolTiptext" id="textTooltip18">50 grain</span>
+            <span class="toolTiptext" id="textTooltip18">40 grain</span>
           </div>
           <div class="exploreBox" id="pastureRoad">
             <p class="exploreText">Pasture / road</p>
@@ -128,7 +144,7 @@
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm4">
             <span class="toolTiptext" id="textTooltip18">70 grain</span>
           </div>
-          <div class="exploreBox" id="furtherRoad">
+          <div class="exploreBox" id="roadNothing">
             <p class="exploreText">Pasture / road</p>
           </div>
         </div>
@@ -137,8 +153,8 @@
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm5">
             <span class="toolTiptext" id="textTooltip4">100 grain</span>
           </div>
-          <div class=" exploreBox" id="roadNothing">
-            <p class="exploreText">Road</p>
+          <div class=" exploreBox" id="machine">
+            <p class="exploreText">Machine</p>
           </div>
         </div>
         <div class="rw5clm1 gridTile"></div>
@@ -228,6 +244,8 @@
   <div class="tabContent" id="marketPage">
     <div class="marketTitle">
       <p>Today's Offers</p>
+      <p style="font-size: small;">Refreshes every 6 mins</p>
+      <p style="font-size: small; margin-bottom: 30px;" id="interactionsLeft">Can buy/sell 6 more times</p>
     </div>
     <div class="marketOffers">
       <div class="marketBuy">
@@ -283,7 +301,7 @@
 
   <!-- Version -->
   <div id="version">
-    <p class="version">version: 0.3.0</p>
+    <p class="version">version: 0.3.2</p>
   </div>
 
   <script type="text/javascript" src="Main.js"></script>
