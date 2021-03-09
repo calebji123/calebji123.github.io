@@ -190,7 +190,6 @@ function check(buttonClass) {
       }
     }
   }
-
 }
 
 function createTimeout(buttonClass) {
