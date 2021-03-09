@@ -8,7 +8,7 @@ var alertCloseButton = document.getElementById("alertCloseButton");
 
 //main vars
 var money = 0;
-var isAdmin = true;
+var isAdmin = false;
 
 //progress tracking vars
 var firstClick = true;
