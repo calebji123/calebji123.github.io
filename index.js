@@ -1,11 +1,12 @@
 
 var stickyActivated = false;
-
+var menuBarUnder = document.getElementById("menuBarUnder")
 //run the thing first
 var scrollTop = $(window).scrollTop(),
   elementOffset = $('#menuBar').offset().top,
   distance = (elementOffset - scrollTop);
 sideTitle.style.opacity = (50 - distance) / 51;
+menuBarUnder.style.width = ((50 - distance) / 51).toString() + "%";
 if (distance <= 0) {
   stickyActivated = true;
 } else {
@@ -31,12 +32,20 @@ $(window).on('scroll', function () {
     elementOffset = $('#menuBar').offset().top,
     distance = (elementOffset - scrollTop);
   sideTitle.style.opacity = (50 - distance) / 51;
+  if (distance >= 492) {
+    menuBarUnder.style.width = "0%"
+  } else {
+    menuBarUnder.style.width = ((450 - distance) / 450 * 100).toString() + "%"
+  }
+
   if (distance <= 0) {
     stickyActivated = true;
   } else {
     stickyActivated = false;
   }
 });
+
+
 
 //tabs
 var projectsButton = document.getElementById("projectsButton");
@@ -71,7 +80,7 @@ otherButton.onclick = function () {
   changeTab('otherPage')
 }
 
-
+//change tabs
 function changeTab(tabName) {
   var tabs = document.getElementsByClassName("page");
 
@@ -83,44 +92,47 @@ function changeTab(tabName) {
   document.getElementById("contentDiv").style.height = "1000px";
   if (tabName == "projectsPage") {
     document.getElementById("contentDiv").style.height = "1500px";
-    console.log("yes")
   }
 
 }
 
 
 
-// var homeButton = document.getElementById("homeButton");
-// var gameButton = document.getElementById("gameButton");
-// var gamePage = document.getElementById("gamePage");
-// var secretPage = document.getElementById("secretPage");
-// var secretButton = document.getElementById("secret");
-// gamePage.style.display = "none";
-// secretPage.style.display = "none"
+//other functions
+
+function rabbitActivate() {
+
+}
+
+var colorCycle = 0
+
+function colorChange() {
+
+  if (colorCycle == 0) {
+    doTheColorThing("#a044cf")
+    colorCycle = 1;
+  } else if (colorCycle == 1) {
+    doTheColorThing("#3f78f2")
+    colorCycle = 2;
+  } else if (colorCycle == 2) {
+    doTheColorThing("#41d941")
+    colorCycle = 0;
+  }
+}
 
 
-// homeButton.onclick = function () {
-//   openTab(event, 'homePage')
-// }
+function doTheColorThing(color) {
+  var backChangers = document.getElementsByClassName("backColored")
+  var projectBoxes = document.getElementsByClassName("projectsBox")
+  var projectsTitle = document.getElementById("projectsTitle")
+  var bottomBarBorder = document.getElementById("bottomBar")
 
-// gameButton.onclick = function () {
-//   openTab(event, 'gamePage')
-// }
-
-// secretButton.onclick = function () {
-//   openTab(event, 'secretPage')
-// }
-
-// function openTab(evt, tabName) {
-//   var i, tabContent, tabs;
-//   tabContent = document.getElementsByClassName("page");
-//   for (i = 0; i < tabContent.length; i++) {
-//     tabContent[i].style.display = "none";
-//   }
-//   tabs = document.getElementsByClassName("tabs");
-//   for (i = 0; i < tabs.length; i++) {
-//     tabs[i].className = tabs[i].className.replace(" active", "");
-//   }
-//   document.getElementById(tabName).style.display = "block";
-//   evt.currentTarget.tabName += " active";
-// }
+  for (i = 0; i < backChangers.length; i++) {
+    backChangers[i].style.backgroundColor = color;
+  }
+  for (i = 0; i < projectBoxes.length; i++) {
+    projectBoxes[i].style.border = color + " dotted 3px";
+  }
+  projectsTitle.style.textDecoration = color + " underline";
+  bottomBarBorder.style.borderTop = color + " solid 7px"
+}

@@ -4,6 +4,64 @@ h1 {
   margin-bottom: 3px;
 }
 
+/*alert box */
+#alertMain {
+  display: none;
+  position:absolute;
+  margin: auto;
+}
+
+.small {
+  width: 30%;
+  height: 25%;
+  left: 35%;
+  top: 32.5%;
+}
+
+.medium {
+  width: 40%;
+  height: 30%;
+  left: 30%;
+  top: 30%;
+}
+
+.large {
+  width: 40%;
+  height: 40%;
+  left: 30%;
+  top: 25%;
+}
+
+#alertBox {
+  width: 100%;
+  height: 100%;
+  border: black 2px solid;
+  border-radius: 5px;
+  background-color: white;
+}
+
+#alertMessage {
+  width: 80%;
+  height: 70%;
+  text-align: center;
+  margin: auto;
+  position:relative;
+  top: 20px;
+}
+
+
+#closeButton {
+  width: 90px;
+  margin: auto;
+  position: relative;
+  bottom: 10px;
+}
+
+#alertCloseButton {
+  outline: none;
+  border: 1px solid black;
+}
+
 /* buttons */
 .buttons {
   padding-left: 220px;
@@ -18,13 +76,30 @@ h1 {
   text-decoration: none;
   border: none;
   border-radius: 2px;
-  margin-top: 10px;
-  margin-right: 5px;
+  background-color: #e7e7e7;
 }
 
 .button1 {
+  margin-top: 10px;
+  margin-right: 5px;
   border: 1px solid black;
   outline: none;
+}
+
+#grain {
+  display: inline-block;
+}
+
+#wood {
+  display: none;
+}
+
+#stone {
+  display: none;
+}
+
+#corn {
+  display: none;
 }
 
 .timeout {
@@ -45,6 +120,7 @@ p.p2 {
 }
 
 .info {
+  display: none;
   padding-right: 20px;
   padding-left: 20px;
   border-width: thin;
@@ -91,23 +167,20 @@ p.p2 {
 }
 
 /* map*/
-.row {
-  width: 437.33px;
-  height: 78px;
-  margin-left: 0px;
+
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 85px 85px 85px 85px 85px;
+  grid-gap: 10px;
+  padding: 10px;
+  width: 450px;
+  margin: auto;
 }
 
-.column {
-  height: 100%;
-  width: 18%;
-  float: left;
+.gridTile {
   border: 1px solid black;
-  margin: 1px;
-}
-
-.grid {
-  height: 50%;
-  display: inline-block;
+  height: 85px;
 }
 
 .controller {
@@ -232,6 +305,31 @@ p.p3 {
   font-size: 10px;
 }
 
+.breed {
+  position: relative;
+  margin: auto;
+}
+
+.breedInfo {
+  visibility: hidden;
+  width: 70px;
+  background-color: #c0c0c0;
+  text-align: center;
+  border: none;
+  border-radius: 2px;
+  padding: 3px 0;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -35px;
+  font-size: 56%
+}
+
+.breed:hover .breedInfo {
+  visibility: visible;
+}
+
 /*Maket stalls*/
 .marketTitle p {
   text-align: center;
@@ -293,4 +391,12 @@ p.p3 {
   position: absolute;
   bottom: 0px;
   float: right;
+}
+
+.marketGreen {
+  background-color: green;
+}
+
+.marketRed {
+  background-color: red;
 }

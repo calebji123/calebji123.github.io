@@ -6,7 +6,7 @@
   <title>Caleb's website</title>
 </head>
 
-<body>
+<body class="">
   <!--REDESIGN!!-->
   <div id="window">
     <div id="heading" class="flexBoxBoth">
@@ -26,22 +26,28 @@
       </div>
     </div>
 
-    <div id="menuBar">
+    <div id="menuBar" class="">
       <div id="sideTitleBox" class="flexBoxBoth">
         <p id="sideTitle">Caleb Ji</p>
       </div>
+
       <div id="navBar" class="flexBoxBoth">
         <div class="buttonDiv">
-          <input type="button" class="navTabs" value="Projects" id="projectsButton">
+          <input type="button" class="navTabs hoverMouse" value="Projects" id="projectsButton">
+        </div>
+        <!-- <div id="border"></div>
+        <div class="buttonDiv">
+          <input type="button" class="navTabs hoverMouse backColored" value="PlaceHolder" id="resumeButton">
         </div>
         <div id="border"></div>
         <div class="buttonDiv">
-          <input type="button" class="navTabs" value="PlaceHolder" id="resumeButton">
-        </div>
-        <div id="border"></div>
-        <div class="buttonDiv">
-          <input type="button" class="navTabs" value="PlaceHolder" id="otherButton">
-        </div>
+          <input type="button" class="navTabs hoverMouse backColored" value="PlaceHolder" id="otherButton">
+        </div> -->
+      </div>
+      <div id="colorChanger" class="flexBoxBoth">
+        <span id="circle" class="hoverMouse" onclick="colorChange()"></span>
+      </div>
+      <div id="menuBarUnder">
       </div>
     </div>
 
@@ -60,14 +66,14 @@
           <div class="projectsBox">
             <p>Who knows</p>
           </div>
-          <div class="projectsBox">
+          <div class="projectsBox ">
             <p>Weren't you supposed to know?</p>
           </div>
           <div class="projectsBox">
             <p>Definitely not. This is why no projects don't get made</p>
           </div>
           <div class="projectsBox">
-            <p>No u. Rabbits</p>
+            <p>No u. <span onclick="rabbitActivate()" class="hoverMouse" style="color:red;">Rabbits</span></p>
           </div>
           <div class="projectsBox">
             <p>Well darn</p>
@@ -83,9 +89,16 @@
       <div id="otherPage" class="page">
         <p>Am I really gonna have this much content?</p>
       </div>
+
+      <div id="rabbitHolePAges" class="page">
+
+      </div>
+
+
+
     </div>
 
-    <div id="bottomBar" class="flexBoxHoriz">
+    <div id="bottomBar" class="flexBoxHoriz borderColored">
       <div id="contactMeDiv">
         <p>Contact Me:</p>
         <p>Phone: 780-473-7373</p>
@@ -105,45 +118,6 @@
     </div>
 
   </div>
-
-
-
-
-  <!-- <div id='window'>
-    <h1>WOW This website has a name</h1>
-    <div id="nav">
-      <div id="home" class='navButton'>
-        <input type="button" class="button tabs" value="HOME" id="homeButton">
-      </div>
-      <div id="games" class="navButton">
-        <input type="button" class="button tabs" value="GAMEEEZ" id="gameButton">
-      </div>
-    </div>
-    <div id='homePage' class="page">
-      <p class='pageTitle'>When you whack together a website on HTML:</p>
-      <img src="https://i.kym-cdn.com/entries/icons/original/000/032/379/Screen_Shot_2020-01-09_at_2.22.56_PM.png"
-        alt="yeet" id="meme">
-    </div>
-    <div id="gamePage" class="page">
-      <a href="/game/bleet.html" class="linksboi" id="animalFarm">Unfinished Animal Farm Game</a>
-      <div id="bananaDiv">
-        <a href="/Banana/banana.html" class="linksboi" id="banana"> BANANANA!!!!</a>
-        <img src="https://webstockreview.net/images/banana-clipart-transparent-background.png" alt="banana"
-          id="bananaPic">
-      </div>
-    </div>
-    <div id="secret">
-    </div>
-    <div id="secretPage" class="page">
-      <div id="wrasseDiv">
-        <a href="/scienceproject/index.html" class="linksboi" id="scienceProject">
-          <img src="http://nationalzoo.com.au/wp-content/uploads/2018/02/wrasse-featured-image-web.png" alt="Fish Boi"
-            id="fishPic">
-        </a>
-      </div>
-
-    </div>
-  </div> -->
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="index.js"></script>
 </body>

@@ -8,10 +8,6 @@
 
 <body>
     <style>
-        html {
-            /* zoom: 85%; */
-        }
-
         body {
             background-color: gray;
         }
@@ -21,14 +17,35 @@
             outline: 0px;
         }
 
-        #content {
+        #infos {
             margin: auto;
             width: 600px;
         }
+
+        #note {
+            text-align: center;
+        }
+
+        #content {
+            margin: auto;
+            width: 600px;
+            height: 800px;
+            border: solid white 2px;
+            background-color: white;
+        }
     </style>
-    <script>
-        alert("For best viewing experience, zoom out")
-    </script>
+    <div id="infos">
+        <div id="title">
+            <h1>Frogger 2</h1>
+        </div>
+        <div id="note">
+            <p>*Note* Due to unforseen processing complications, the game may be too <br> big to fit on the screen. It
+                is
+                advised
+                that you zoom out</p>
+        </div>
+    </div>
+
     <div id="content">
         <canvas
             data-processing-sources="Frogger2.pde Cars.pde Collision_Tracking.pde FirstSteps.pde MeteorShower.pde ARampInDifficulty.pde TutorialLevel.pde Logs.pde Platform.pde Sprite.pde LevelSetup.pde">

@@ -1,6 +1,6 @@
-body {
-  background-color:#32cd32 ;
-}
+/* Green: #41d941 Purple: #a044cf Blue: #499bd6*/
+
+
 
 #window {
   position: absolute;
@@ -11,8 +11,38 @@ body {
 
 #heading{
   width: 100vw;
-  background-color: #32cd32;
+  height: 70vh;
+  background-colour: white;
 }
+
+/* General classes */
+
+.flexBoxBoth {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexBoxHoriz {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.flexBoxCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.hoverMouse:hover {
+  cursor: pointer;
+}
+
+.backColored {
+  background-color: #41d941; 
+}
+
 
 /* about box */
 #aboutBox {
@@ -39,7 +69,7 @@ body {
 #title {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   font-size: 80px;
-  color: white;
+  color: black;
   margin: 0px;
   padding-top: 100px;
   padding-bottom: 50px;
@@ -52,13 +82,13 @@ body {
 #aboutHeader {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   font-size: 50px;
-  color: white;
+  color: black;
 }
 
 .aboutContent {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   font-size: 20px;
-  color: white;
+  color: black;
 }
 
 /* menu bar */
@@ -67,26 +97,17 @@ body {
   top: -1px;
   width: 100vw;
   height: 90px;
-  background-color: #32cd32;
   padding: 0;
+  background-color: white;
 }
 
-.flexBoxBoth {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.flexBoxHoriz {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.flexBoxCol {
-  display: flex;
-  flex-direction: column;
+#menuBarUnder {
+  position: relative;
+  top: 55px;
+  width: 0%;
+  margin: auto;
+  background-color: white;
+  border-bottom:#41d941 5px solid;
 }
 
 #sideTitleBox {
@@ -101,13 +122,15 @@ body {
   margin: 0px;
   font-size: 60px;
   font-family: "Snell Roundhand", cursive;
-  color: white;
+  color: black;
   opacity: 0;
 }
 
 #navBar {
   position: relative;
-  top: 30px;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .buttonDiv {
@@ -123,13 +146,31 @@ body {
 .navTabs {
   border-style: none;
   outline: none;
-  background-color: #32cd32;
-  color:white;
+  color:black;
   font-size: 25px;
+  background-color: white;
 }
 
 .navTabs:hover {
-  color: #dff5df;
+  color: #f5f5f5;
+}
+
+
+#colorChanger {
+  height: 80px;
+  width: 150px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  text-align: center;
+}
+
+#circle {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 2px white solid;
+  display: inline-block;
 }
 
 /* content */
@@ -148,8 +189,7 @@ body {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   font-size: 50px;
   color: black;
-  text-decoration: underline;
-  text-decoration-color: #32cd32;
+  text-decoration: #41d941 underline;
 }
 
 #projectsBoxDiv{
@@ -161,7 +201,7 @@ body {
 .projectsBox {
   width: 400px;
   height: 200px;
-  border: #32cd32 dotted 3px;
+  border: #41d941 dotted 3px;
   margin: 20px;
   text-align: center;
 }
@@ -182,8 +222,8 @@ body {
 
 #bottomBar {
   height: 200px;
-  background-color: #F0F0F0;
-  border-top: #32cd32 solid 7px;
+  background-color: #dedede;
+  border-top: #41d941 solid 7px;
 }
 
 #bottomBar p{
@@ -214,124 +254,3 @@ body {
   bottom:0;
   font-size: 10px;
 }
-
-
-/* #window{
-  height: 96vh;
-  border-style: solid;
-}
-
-
-h1 {
-  text-align: center;
-  font-family: cursive;
-  padding-top: 20px;
-  margin: 20px;
-}
-
-#nav{
-  margin: 0 auto;
-  height: 50px;
-  width: 95vw;
-  text-align: center;
-}
-
-.navButton{
-  height: 50px;
-  width: 100px;
-  display: inline-block;
-}
-
-.button{
-  height: 100%;
-  width: 100%;
-  border-style: none;
-  background-color: white;
-  border-radius: 5px;
-  font-family: serif;
-  font-size: 15px;
-  outline: none;
-}
-
-.button:hover{
-  background-color: #e7e7e7;
-  cursor: pointer;
-}
-
-#home{
-  vertical-align: top;
-}
-
-#games{
-  vertical-align: top;
-}
-
-.pageTitle{
-  text-align: center;
-}
-
-.page{
-  margin: 0 auto;
-  width:95vw;
-}
-
-
-#meme{
-  height: 200px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-
-.linksboi{
-  font-family: cursive;
-  text-decoration: none;
-  color: black;
-}
-
-#animalFarm{
-  position: fixed;
-  bottom: 20px;
-  left: 15px;
-}
-
-#bananaDiv{
-  height: 15vh;
-  width: 150px;
-  text-align: center;
-  margin: auto;
-}
-
-#banana{
-  top: 10%;
-}
-
-#bananaPic{
-  height: 60px;
-}
-
-
-
-
-#secret{
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: white;
-  width: 3px;
-  height: 3px;
-}
-
-#wrasseDiv{
-  height : 15vh;
-  width: 150px;
-  text-align: center;
-  margin: auto;
-  top: 10%;
-}
-#fishPic {
-  top: 10%;
-  height: 60px;
-  margin: auto;
-} */
