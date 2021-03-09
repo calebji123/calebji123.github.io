@@ -460,9 +460,11 @@ function barnUnlock() {
 var barnFixed = false;
 document.getElementById("fixBarn").onclick = function () {
   if (Wood.amt >= 25 && Stone.amt >= 15) {
+    barnFixed = true;
     document.getElementsByClassName("sheds")[0].style.display = "inline-block"
     document.getElementsByClassName("brokenBarn")[0].style.display = "none"
     animalIntervals()
+    checkAnimals();
   }
 }
 
