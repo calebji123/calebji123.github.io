@@ -13,22 +13,11 @@ var isAdmin = false;
 //progress tracking vars
 var firstClick = true;
 var eventOn = 0;
+var sndBarn = false;
+var sndBarnBacklog = []
+var mansionBuilt = false;
+var manifesto = false;
 
-
-
-function landUnlock() {
-  if (landUnlockRoad == 1) {
-    buttonrw4clm2.style.display = "inline-block"
-    buttonrw4clm4.style.display = "inline-block"
-  }
-  if (landUnlockRoad == 2) {
-    buttonrw4clm1.style.display = "inline-block"
-  }
-  if (landUnlockTop == 1) {
-    buttonrw1clm3.style.display = "inline-block"
-    buttonrw2clm4.style.display = "inline-block"
-  }
-}
 
 
 
@@ -150,10 +139,10 @@ class MaterialButton {
 }
 
 //the four button classes
-let Grain = new MaterialButton("grain", 2500, "Harvest the wheat. Increase the production.", "grains");
-let Wood = new MaterialButton("wood", 8000, "The tree goes oof. Wait you did this without a tool? wowza", "woods");
-let Stone = new MaterialButton("stone", 10000, "Mine the stone! You will work harder!", "stones");
-let Corn = new MaterialButton("corn", 5000, "What ripe juicy corn", "corns");
+let Grain = new MaterialButton("grain", 5000, "Harvest the wheat. Increase the production.", "grains");
+let Wood = new MaterialButton("wood", 12000, "The tree goes oof. Wait you did this without a tool? wowza", "woods");
+let Stone = new MaterialButton("stone", 20000, "Mine the stone! You will work harder!", "stones");
+let Corn = new MaterialButton("corn", 8000, "What ripe juicy corn", "corns");
 
 Grain.htmlElem.onclick = function () { Grain.whenClicked() };
 Grain.htmlElem.onmouseover = function () { Grain.hover(true) };
@@ -183,7 +172,7 @@ function check(buttonClass) {
 
   if (buttonClass == Grain) {
     if (eventOn == 0) {
-      if (buttonClass.amt >= 10) {
+      if (buttonClass.amt >= 5) {
         eventOn = 1;
         newAlert("s", "While threshing the floor, you find a old piece of paper on the floor. It is a map.");
         exploreButton.style.display = "inline-block"
@@ -194,6 +183,13 @@ function check(buttonClass) {
 
 function createTimeout(buttonClass) {
   setTimeout(function () { buttonClass.reenable() }, buttonClass.timeoutTime);
+}
+
+function changeClickAmt(amt) {
+  Grain.clickAmt = Grain.clickAmt + amt
+  Wood.clickAmt = Wood.clickAmt + amt
+  Stone.clickAmt = Stone.clickAmt + amt
+  Corn.clickAmt = Corn.clickAmt + amt
 }
 
 
@@ -251,23 +247,25 @@ class MapTile {
 
 //declaring
 let rw1clm3 = new MapTile(80, "rw1clm3", "stable", "A stable is seen in the distance. Around it, a number of animals mill, barely surviving in the field and stable. More comrades join your society. <br>+1 horse <br>+1 cow <br>+1 dog", "m");
-let rw2clm1 = new MapTile(150, "rw2clm1", "dealer", "A shady dealer tells you to meet him in the market if you want to grow strong", "s");
+let rw2clm1 = new MapTile(150, "rw2clm1", "newBarn", "Another barn appears, ideas of expansion fill your head. You're skills won't be enough to repair this", "s");
 let rw2clm2 = new MapTile(100, "rw2clm2", "animals", "You see a party of animals hanging out, you convince them to join your farm<br>+1 horse<br>+1 poultry<br>+1 cow", "m");
-let rw2clm3 = new MapTile(35, "rw2clm3", "barn", "An old rickety worn down barn stands in a clearing. You see some animals roaming, and an idea pops into your head. You grab a chicken and a sheep.", "m");
-let rw2clm4 = new MapTile(70, "rw2clm4", "anotherField1", "A field is seen spanning an acre. already planted and overripe are corn. You learn about this valuable food source. The sheep agree to help you out.<br>+1 sheep", "m");
-let rw3clm2 = new MapTile(15, "rw3clm2", "birchForest", "You found a Birch Forest! You learned how to gather wood!", "s");
-let rw3clm4 = new MapTile(20, "rw3clm4", "quarry", "You found a quarry! You learned how to gather stone!", "s");
-let rw4clm1 = new MapTile(80, "rw4clm1", "builder", "A quaint shop is along the side of the road. In it a skilled builder tells you to make any request you want, at a price.", "m");
+let rw2clm3 = new MapTile(15, "rw2clm3", "barn", "An old rickety worn down barn stands in a clearing. You see some animals roaming, and an idea pops into your head. You grab a chicken and a sheep.", "m");
+let rw2clm4 = new MapTile(60, "rw2clm4", "anotherField1", "A field is seen spanning an acre. already planted and overripe are corn. You learn about this valuable food source. The sheep agree to help you out.<br>+1 sheep", "m");
+let rw2clm5 = new MapTile(90, "rw2clm5", "dealer", "A shady dealer tells you to meet him in the market if you want to grow strong", "s");
+let rw3clm2 = new MapTile(7, "rw3clm2", "birchForest", "You found a Birch Forest! You learned how to gather wood!", "s");
+let rw3clm4 = new MapTile(10, "rw3clm4", "quarry", "You found a quarry! You learned how to gather stone!", "s");
+let rw4clm1 = new MapTile(150, "rw4clm1", "builder", "A quaint shop is along the side of the road. In it a skilled builder tells you to make any request you want, at a price.", "m");
 let rw4clm2 = new MapTile(50, "rw4clm2", "market", "You reach a town, it's bustling market road entices you. The sheer amount of resources make your senses tingle", "m");
 let rw4clm3 = new MapTile(40, "rw4clm3", "pastureRoad", "There is an expanse of green meadows. You find some old grain on the floor. Off in the distance is a road. It seems to go somewhere. You find 10 pounds off the side of the road<br>+10 pounds", "m");
 let rw4clm4 = new MapTile(70, "rw4clm4", "roadNothing", "The road continues on for miles. Nothing happens and nothing is happening, is there nothing here?", "s");
-let rw4clm5 = new MapTile(100, "rw4clm5", "machine", "The road did lead somewhere, a worn down machine. You're skills won't be enough to repair this", "s");
+let rw4clm5 = new MapTile(200, "rw4clm5", "machine", "The road did lead somewhere, a worn down machine. You're skills won't be enough to repair this", "s");
 
 rw1clm3.run()
 rw2clm1.run()
 rw2clm2.run()
 rw2clm3.run()
 rw2clm4.run()
+rw2clm5.run()
 rw3clm2.run()
 rw3clm4.run()
 rw4clm1.run()
@@ -299,7 +297,10 @@ rw1clm3.buttonHtmlElem.onclick = function () {
 rw2clm1.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw2clm1.cost) {
     buyTile(rw2clm1);
-    //unlock shady dealer
+    sndBarn = true;
+    for (let i = 0; i < sndBarnBacklog.length; i++) {
+      BuilderStall.add(sndBarnBacklog[i]);
+    }
   }
 }
 rw2clm2.buttonHtmlElem.onclick = function () {
@@ -308,6 +309,7 @@ rw2clm2.buttonHtmlElem.onclick = function () {
     Horse.increment(1);
     Cow.increment(1);
     Poultry.increment(1);
+    rw2clm1.unlock();
   }
 }
 rw2clm3.buttonHtmlElem.onclick = function () {
@@ -325,6 +327,16 @@ rw2clm4.buttonHtmlElem.onclick = function () {
     buyTile(rw2clm4);
     Sheep.increment(1);
     Corn.htmlElem.style.display = "inline-block";
+    rw2clm5.unlock()
+  }
+}
+rw2clm5.buttonHtmlElem.onclick = function () {
+  if (Grain.amt >= rw2clm5.cost) {
+    buyTile(rw2clm5);
+    document.getElementById("switchButton").style.display = "inline-block";
+    document.getElementById("dealerStall").style.display = "inline-block";
+    ShadyStall.unlocked = true;
+    ShadyStall.new();
   }
 }
 rw3clm2.buttonHtmlElem.onclick = function () {
@@ -343,7 +355,10 @@ rw3clm4.buttonHtmlElem.onclick = function () {
 rw4clm1.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw4clm1.cost) {
     buyTile(rw4clm1);
-    //builder unlock
+    document.getElementById("switchButton").style.display = "inline-block";
+    document.getElementById("builderStall").style.display = "inline-block";
+    BuilderStall.unlocked = true;
+    BuilderStall.new();
   }
 }
 rw4clm2.buttonHtmlElem.onclick = function () {
@@ -372,6 +387,7 @@ rw4clm4.buttonHtmlElem.onclick = function () {
 rw4clm5.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw4clm5.cost) {
     buyTile(rw4clm5);
+    BuilderStall.add(10);
   }
 }
 
@@ -435,14 +451,19 @@ class Animal {
       product.increment(this.amt);
     }
   }
+
+  changeMax(inc) {
+    this.max = this.max + inc;
+    this.check();
+  }
 }
 
 //animals
-Poultry = new Animal("poultry", "poultryShed", "breedPoultry", 60000, 30, [[Grain, 6000, "grain", "poultryProduction"]], "poultryNumber");
-Sheep = new Animal("sheep", "sheepShed", "breedSheep", 90000, 40, [[Grain, 8000, "grain", "sheepProduction1"], [Wood, 20000, "wood", "sheepProduction2"]], "sheepNumber");
-Horse = new Animal("horse", "horseShed", "breedHorses", 120000, 50, [[Stone, 10000, "stone", "horseProduction"]], "horseNumber");
-Cow = new Animal("cow", "cowShed", "breedCows", 105000, 60, [[Wood, 6000, "wood", "cowProduction"]], "cowNumber");
-Dog = new Animal("dog", "dogShed", "breedDogs", 180000, 80, [[Grain, 20000, "grain", "dogProduction1"], [Wood, 40000, "wood", "dogProduction2"], [Stone, 60000, "stone", "dogProduction3"]], "dogNumber");
+Poultry = new Animal("poultry", "poultryShed", "breedPoultry", 15000, 10, [[Grain, 12000, "grain", "poultryProduction"]], "poultryNumber");
+Sheep = new Animal("sheep", "sheepShed", "breedSheep", 30000, 15, [[Corn, 20000, "corn", "sheepProduction1"]], "sheepNumber");
+Horse = new Animal("horse", "horseShed", "breedHorses", 30000, 10, [[Stone, 30000, "stone", "horseProduction"]], "horseNumber");
+Cow = new Animal("cow", "cowShed", "breedCows", 30000, 20, [[Wood, 20000, "wood", "cowProduction"]], "cowNumber");
+Dog = new Animal("dog", "dogShed", "breedDogs", 60000, 40, [[Money, 30000, "pounds", "dogProduction1"]], "dogNumber");
 
 Poultry.run()
 Sheep.run()
@@ -460,6 +481,8 @@ function barnUnlock() {
 var barnFixed = false;
 document.getElementById("fixBarn").onclick = function () {
   if (Wood.amt >= 25 && Stone.amt >= 15) {
+    Wood.increment(-25);
+    Stone.increment(-15);
     barnFixed = true;
     document.getElementsByClassName("sheds")[0].style.display = "inline-block"
     document.getElementsByClassName("brokenBarn")[0].style.display = "none"
@@ -547,7 +570,7 @@ class Stall {
     this.divId = divId;
     this.buttonId = buttonId;
 
-    this.ranges = [[3, 24, 8, 21, 5, 48, 14, 43, 10, 95, 25, 87], [3, 24, 10, 20, 5, 48, 20, 40, 10, 95, 30, 85], [3, 24, 8, 71, 5, 48, 14, 148, 10, 95, 25, 287], [3, 24, 8, 56, 5, 48, 14, 105, 10, 95, 25, 204], [10, 45], [10, 90], [10, 105], [10, 80], [20, 300]];
+    this.ranges = [[10, 20, 5, 1, 15, 43, 10, 1, 25, 75, 15, 1], [10, 20, 5, 1.5, 15, 43, 10, 1.5, 25, 75, 15, 1.5], [10, 20, 5, 2, 15, 43, 10, 2, 25, 75, 15, 2], [10, 20, 5, 1.7, 15, 43, 10, 1.7, 25, 87, 15, 1.7], [10, 45], [10, 90], [10, 105], [10, 80], [20, 120]];
     this.type;
     this.price;
     this.amount;
@@ -581,21 +604,33 @@ class Stall {
       rand = Math.floor(Math.random() * 3);
       if (rand == 0) {
         this.amount = Math.floor(Math.random() * this.ranges[listIndex][0] + this.ranges[listIndex][1])
-        this.price = Math.floor(Math.random() * this.ranges[listIndex][2] + this.ranges[listIndex][3])
+        this.price = Math.floor(Math.random() * this.ranges[listIndex][2] + this.amount * this.ranges[listIndex][3])
+        //reduce sell price
+        if (!this.buy) {
+          this.price = this.price - 5;
+        }
       } else if (rand == 1) {
         this.amount = Math.floor(Math.random() * this.ranges[listIndex][4] + this.ranges[listIndex][5])
-        this.price = Math.floor(Math.random() * this.ranges[listIndex][6] + this.ranges[listIndex][7])
+        this.price = Math.floor(Math.random() * this.ranges[listIndex][6] + this.amount * this.ranges[listIndex][7])
+        //reduce sell price
+        if (!this.buy) {
+          this.price = this.price - 10;
+        }
       } else {
         this.amount = Math.floor(Math.random() * this.ranges[listIndex][8] + this.ranges[listIndex][9])
-        this.price = Math.floor(Math.random() * this.ranges[listIndex][10] + this.ranges[listIndex][11])
+        this.price = Math.floor(Math.random() * this.ranges[listIndex][10] + this.amount * this.ranges[listIndex][11])
+        //reduce sell price
+        if (!this.buy) {
+          this.price = this.price - 15;
+        }
       }
     } else {
       //animals
       rand = Math.floor(Math.random() * 5)
       if (rand == 0) {
-        this.type = Poultry;
+        this.type = Dog;
         this.amount = 1
-        listIndex = 4
+        listIndex = 8
       } else if (rand == 1) {
         this.type = Sheep;
         this.amount = 1
@@ -609,9 +644,9 @@ class Stall {
         this.amount = 1
         listIndex = 7
       } else {
-        this.type = Dog;
+        this.type = Poultry;
         this.amount = 1
-        listIndex = 8
+        listIndex = 4
       }
       this.price = Math.floor(Math.random() * this.ranges[listIndex][0] + this.ranges[listIndex][1])
     }
@@ -667,19 +702,15 @@ var currentMarketInteraction = 0
 //functions
 function green(stall) {
   stall.divElem.classList.add("marketGreen");
-  stall.buttonElem.classList.add("marketGreen");
   setTimeout(function () {
     stall.divElem.classList.remove("marketGreen");
-    stall.buttonElem.classList.remove("marketGreen");
   }, 500)
 }
 
 function red(stall) {
   stall.divElem.classList.add("marketRed");
-  stall.buttonElem.classList.add("marketRed");
   setTimeout(function () {
     stall.divElem.classList.remove("marketRed");
-    stall.buttonElem.classList.remove("marketRed");
   }, 500)
 }
 
@@ -693,7 +724,7 @@ setInterval(function () {
     marketIsOpen()
     newAlert("s", "A new day brings new stock to the market")
   }
-}, 360000);
+}, 180000);
 
 function marketIsOpen() {
   for (let i = 0; i < stalls.length; i++) {
@@ -701,6 +732,8 @@ function marketIsOpen() {
   }
   currentMarketInteraction = 0;
   document.getElementById("interactionsLeft").innerHTML = "Can buy/sell " + (maxMarket - currentMarketInteraction) + " more times";
+  BuilderStall.new();
+  ShadyStall.new();
 }
 
 BuyStall1.buttonElem.onclick = function () {
@@ -723,6 +756,155 @@ SellStall3.buttonElem.onclick = function () {
 }
 
 
+//other side
+class otherStall {
+  constructor(offers, titleId, descId, talkId, buyId, divId) {
+    this.offers = offers;
+    this.titleId = titleId;
+    this.descId = descId;
+    this.talkId = talkId;
+    this.buyId = buyId;
+    this.divId = divId;
+
+    this.activatedOffers = [];
+    this.offerNow;
+    this.offerIndex;
+    this.noOffer = new otherOffers("", [], "Sorry nothing more to offer you today", function () { })
+    this.unlocked = false;
+    this.titleElem = document.getElementById(titleId);
+    this.descElem = document.getElementById(descId);
+    this.talkElem = document.getElementById(talkId);
+    this.buyElem = document.getElementById(buyId);
+    this.divElem = document.getElementById(divId);
+  }
+
+  initiate(start, end) {
+    this.activatedOffers = this.offers.slice(start, end);
+  }
+
+  new() {
+    if (this.unlocked) {
+      if (this.activatedOffers.length > 0) {
+        var newIndex = Math.floor(Math.random() * this.activatedOffers.length)
+        this.offerIndex = newIndex
+        this.changeOffer(this.activatedOffers[newIndex])
+      } else {
+        this.changeOffer(this.noOffer);
+      }
+    }
+  }
+
+  changeOffer(offerClass) {
+    this.offerNow = offerClass
+    this.titleElem.innerHTML = this.offerNow.id
+    if (this.offerNow.id != "") {
+      var prices = "Cost:"
+    } else {
+      prices = ""
+    }
+    for (let i = 0; i < this.offerNow.price.length; i++) {
+      prices = prices + "<br>" + this.offerNow.price[i][1] + " " + this.offerNow.price[i][0].id;
+    }
+    this.descElem.innerHTML = prices
+  }
+
+  add(index) {
+    this.activatedOffers.push(this.offers[index]);
+  }
+
+  talk() {
+    newAlert("s", this.offerNow.message);
+  }
+
+  buy() {
+    var enough = true;
+    for (let i = 0; i < this.offerNow.price.length; i++) {
+      if (this.offerNow.price[i][0].amt < this.offerNow.price[i][1]) {
+        enough = false;
+      }
+    }
+    if (enough && !this.offerNow.bought) {
+      for (let i = 0; i < this.offerNow.price.length; i++) {
+        this.offerNow.price[i][0].increment(-1 * this.offerNow.price[i][1])
+      }
+      this.offerNow.func();
+      this.activatedOffers.splice(this.offerIndex, 1);
+      green(this);
+      this.new()
+    } else {
+      red(this);
+    }
+  }
+
+}
+
+class otherOffers {
+  constructor(id, price, message, func) {
+    this.id = id;
+    this.price = price;
+    this.message = message;
+    this.func = func
+    this.bought = false;
+  }
+}
+
+BuilderStall = new otherStall([
+  new otherOffers("Poultry Upgrade", [[Wood, 20], [Grain, 30], [Money, 5], [Stone, 10]], "Let me help you upgrade that poultry coop. It'll house 5 more.", function () { Poultry.changeMax(5); if (sndBarn) { BuilderStall.add(5); } else { sndBarnBacklog.push(5); } }),
+  new otherOffers("Sheep Upgrade", [[Wood, 40], [Grain, 40], [Money, 5], [Stone, 20]], "Let me help you upgrade that sheep house. It'll house 5 more.", function () { Sheep.changeMax(5); if (sndBarn) { BuilderStall.add(6); } else { sndBarnBacklog.push(6); } }),
+  new otherOffers("Horse Upgrade", [[Wood, 10], [Grain, 40], [Money, 5], [Stone, 30]], "Let me help you upgrade that horse Stable. It'll house 5 more.", function () { Horse.changeMax(5); if (sndBarn) { BuilderStall.add(7); } else { sndBarnBacklog.push(7); } }),
+  new otherOffers("Cow Upgrade", [[Wood, 60], [Grain, 25], [Money, 5], [Stone, 5]], "Let me help you upgrade that cow barn. It'll house 5 more.", function () { Cow.changeMax(5); if (sndBarn) { BuilderStall.add(8); } else { sndBarnBacklog.push(8); } }),
+  new otherOffers("Dog Upgrade", [[Wood, 50], [Grain, 40], [Money, 5], [Stone, 30]], "Let me help you upgrade that dog pennel. It'll house 5 more.", function () { Dog.changeMax(5); if (sndBarn) { BuilderStall.add(9); } else { sndBarnBacklog.push(9); } }),
+  new otherOffers("Poultry Upgrade II", [[Wood, 50], [Grain, 60], [Money, 30], [Stone, 30]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more poultry.", function () { Poultry.changeMax(10) }),
+  new otherOffers("Sheep Upgrade II", [[Wood, 60], [Grain, 70], [Money, 30], [Stone, 50]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more sheep.", function () { Sheep.changeMax(10) }),
+  new otherOffers("Horse Upgrade II", [[Wood, 30], [Grain, 70], [Money, 30], [Stone, 70]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more horses.", function () { Horse.changeMax(10) }),
+  new otherOffers("Cow Upgrade II", [[Wood, 100], [Grain, 60], [Money, 30], [Stone, 20]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more cows.", function () { Cow.changeMax(10) }),
+  new otherOffers("Dog Upgrade II", [[Wood, 90], [Grain, 100], [Money, 30], [Stone, 80]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more dogs.", function () { Dog.changeMax(10) }),
+  new otherOffers("Machine Fix", [[Wood, 20], [Grain, 30], [Money, 40], [Stone, 50]], "That's a fancy machine, something to do with making glue. I think I could fix that.", function () { Poultry.changeMax(5) }),
+  new otherOffers("Mansion build", [[Wood, 20], [Grain, 30], [Money, 40], [Stone, 50]], "You know what, you've been a loyal customer. I'll help you fix up that shabby house.", function () { mansionBuilt = true; document.getElementById("yourFields"); }),
+], "builderOfferTitle", "builderOfferDesc", "builderTalkButton", "builderBuyButton", "builderStall")
+
+ShadyStall = new otherStall([
+  new otherOffers("Upgrade", [[Money, 125]], "Take this pill. You'll grow strong, harvest 1 more resource per click", function () { changeClickAmt(1); ShadyStall.add(1); }),
+  new otherOffers("Upgrade II", [[Money, 200]], "Drink this up. You'll grow strong, harvest 2 more resources per click", function () { changeClickAmt(2); ShadyStall.add(2); }),
+  new otherOffers("Upgrade III", [[Money, 400]], "Say this incantation. You'll grow strong, harvest 3 more resources per click", function () { changeClickAmt(3); ShadyStall.add(3); }),
+  new otherOffers("Upgrade IV", [[Money, 1000]], "Inject this serum. You'll grow stronger, harvest 4 more resources per click", function () { changeClickAmt(4); ShadyStall.add(4); }),
+  new otherOffers("Manifesto", [[Money, 3000]], "You've upgraded well. One last thing to give, it'll change you're life but it requires a lot. You'll also need a better house than that shabby little field", function () { manifesto = true; }),
+], "shadyOfferTitle", "shadyOfferDesc", "shadyTalkButton", "shadyBuyButton", "dealerStall")
+
+BuilderStall.initiate(0, 5);
+ShadyStall.initiate(0, 1);
+
+BuilderStall.buyElem.onclick = function () {
+  BuilderStall.buy()
+}
+BuilderStall.talkElem.onclick = function () {
+  BuilderStall.talk()
+}
+ShadyStall.buyElem.onclick = function () {
+  ShadyStall.buy()
+}
+ShadyStall.talkElem.onclick = function () {
+  ShadyStall.talk()
+}
+
+
+var onBright = true;
+function switchMarket() {
+  if (onBright) {
+    document.getElementsByClassName("marketOffers")[0].style.display = "none";
+    document.getElementById("interactionsLeft").style.display = "none";
+    document.getElementsByClassName("extraMarket")[0].style.display = "block";
+    document.getElementById("marketSide").innerHTML = "The Other Side<button id=\"switchButton\"onclick=\"switchMarket()\"><i class=\"fas fa-sync-alt\"></i></button>";
+    onBright = false;
+  } else {
+    document.getElementsByClassName("marketOffers")[0].style.display = "block";
+    document.getElementById("interactionsLeft").style.display = "block";
+    document.getElementsByClassName("extraMarket")[0].style.display = "none";
+    document.getElementById("marketSide").innerHTML = "Today's Offers<button id=\"switchButton\"onclick=\"switchMarket()\"><i class=\"fas fa-sync-alt\"></i></button>";
+    onBright = true;
+  }
+}
+
 
 
 
@@ -739,6 +921,7 @@ if (isAdmin) {
   rw2clm1.buttonHtmlElem.style.display = "inline-block"
   rw2clm2.buttonHtmlElem.style.display = "inline-block"
   rw2clm4.buttonHtmlElem.style.display = "inline-block"
+  rw2clm5.buttonHtmlElem.style.display = "inline-block"
   rw4clm1.buttonHtmlElem.style.display = "inline-block"
   rw4clm2.buttonHtmlElem.style.display = "inline-block"
   rw4clm4.buttonHtmlElem.style.display = "inline-block"
@@ -746,4 +929,6 @@ if (isAdmin) {
   exploreButton.style.display = "inline-block"
   barnButton.style.display = "inline-block";
   marketButton.style.display = "inline-block";
+  BuilderStall.unlocked = true;
+  ShadyStall.unlocked = true;
 }

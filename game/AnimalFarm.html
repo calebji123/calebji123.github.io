@@ -4,6 +4,7 @@
 <head>
   <link rel="stylesheet" href="Main.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://kit.fontawesome.com/fcaaf8d443.js" crossorigin="anonymous"></script>
   <title>AnimalFarm Game</title>
 </head>
 
@@ -57,8 +58,8 @@
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm1">
             <span class="toolTiptext" id="textTooltip6">150 grain</span>
           </div>
-          <div class="exploreBox" id="dealer">
-            <p class="exploreText">Shady Dealer</p>
+          <div class="exploreBox" id="newBarn">
+            <p class="exploreText">Another Barn</p>
           </div>
         </div>
         <div class="rw2clm2 gridTile">
@@ -73,7 +74,7 @@
         <div class="rw2clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm3">
-            <span class="toolTiptext" id="textTooltip8">35 grain</span>
+            <span class="toolTiptext" id="textTooltip8">15 grain</span>
           </div>
           <div class="exploreBox" id="barn">
             <p class="exploreText">The Barn</p>
@@ -82,30 +83,38 @@
         <div class="rw2clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm4">
-            <span class="toolTiptext" id="textTooltip9">70 grain</span>
+            <span class="toolTiptext" id="textTooltip9">60 grain</span>
           </div>
           <div class="exploreBox" id="anotherField1">
             <p class="exploreText">Another Field</p>
           </div>
         </div>
-        <div class="rw2clm5 gridTile"></div>
+        <div class="rw2clm5 gridTile">
+          <div class="toolTip">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm5">
+            <span class="toolTiptext" id="textTooltip6">90 grain</span>
+          </div>
+          <div class="exploreBox" id="dealer">
+            <p class="exploreText">Shady Dealer</p>
+          </div>
+        </div>
         <div class="rw3clm1 gridTile"></div>
         <div class="rw3clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw3clm2">
-            <span class="toolTiptext" id="textTooltip12">15 grain</span>
+            <span class="toolTiptext" id="textTooltip12">7 grain</span>
           </div>
           <div class="exploreBox" id="birchForest">
             <p class="exploreText">Birch Forest</p>
           </div>
         </div>
         <div class="rw3clm3 gridTile">
-          <p class="p3">Your Fields</p>
+          <p class="p3" id="yourFields">Your Fields</p>
         </div>
         <div class="rw3clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw3clm4">
-            <span class="toolTiptext" id="textTooltip13">20 grain</span>
+            <span class="toolTiptext" id="textTooltip13">10 grain</span>
           </div>
           <div class="exploreBox" id="quarry">
             <p class="exploreText">Quarry</p>
@@ -115,7 +124,7 @@
         <div class="rw4clm1 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm1">
-            <span class="toolTiptext" id="textTooltip16">80 grain</span>
+            <span class="toolTiptext" id="textTooltip16">150 grain</span>
           </div>
           <div class="exploreBox" id="builder">
             <p class="exploreText">Builder Shop</p>
@@ -151,10 +160,10 @@
         <div class="rw4clm5 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm5">
-            <span class="toolTiptext" id="textTooltip4">100 grain</span>
+            <span class="toolTiptext" id="textTooltip4">200 grain</span>
           </div>
           <div class=" exploreBox" id="machine">
-            <p class="exploreText">Machine</p>
+            <p class="exploreText">Mysterious<br>Machine</p>
           </div>
         </div>
         <div class="rw5clm1 gridTile"></div>
@@ -165,11 +174,11 @@
       </div>
     </div>
   </div>
-
   <!--barn Tab-->
   <div class="tabContent" id="barnPage">
     <div class="brokenBarn">
-      <p class="brokenBarntext">The barn is broken, and inhabitable. The animals you collected aren't able to like in an
+      <p class="brokenBarntext">The barn is broken, and inhabitable. The animals you collected aren't able to like in
+        an
         organized way like you promised. This will cost 25 wood and 15 stone</p>
       <input type="button" class="button button1" value="Fix Barn" id="fixBarn">
     </div>
@@ -193,7 +202,6 @@
         </span>
         <p class="animals" id="sheepNumber"></p>
         <p class="animals" id="sheepProduction1"></p>
-        <p class="animals" id="sheepProduction2"></p>
         <div class="breed">
           <input type="button" class="button buttonBarn" value="Breed Animal" id="breedSheep">
           <span class="breedInfo">40 corn<br>90 seconds</span>
@@ -243,8 +251,9 @@
   <!-- market tab -->
   <div class="tabContent" id="marketPage">
     <div class="marketTitle">
-      <p>Today's Offers</p>
-      <p style="font-size: small;">Refreshes every 6 mins</p>
+      <p id="marketSide">Today's Offers<button id="switchButton" onclick="switchMarket()" style="display: none;"><i
+            class="fas fa-sync-alt"></i></button></p>
+      <p style="font-size: small;">Refreshes every 3 mins</p>
       <p style="font-size: small; margin-bottom: 30px;" id="interactionsLeft">Can buy/sell 6 more times</p>
     </div>
     <div class="marketOffers">
@@ -284,6 +293,28 @@
       </div>
       <p id="stuffs"></p>
     </div>
+    <div class="extraMarket">
+      <div class="marketSideline">
+        <div class="extraStall" id="builderStall" style="display: none;">
+          <p class="extraMarketName">Builder</p>
+          <div class="extraStallInfo">
+            <input type="button" class="button button2" value="Talk" id="builderTalkButton">
+            <p class="offerTitle" id="builderOfferTitle"></p>
+            <p class="offerDesc" id="builderOfferDesc"></p>
+            <input type="button" class="button button2" value="Buy" id="builderBuyButton">
+          </div>
+        </div>
+        <div class="extraStall" id="dealerStall" style="display: none;">
+          <p class="extraMarketName">Shady Dealer</p>
+          <div class="extraStallInfo">
+            <input type="button" class="button button2" value="Talk" id="shadyTalkButton">
+            <p class="offerTitle" id="shadyOfferTitle"></p>
+            <p class="offerDesc" id="shadyOfferDesc"></p>
+            <input type="button" class="button button2" value="Buy" id="shadyBuyButton">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- alert message-->
@@ -301,7 +332,7 @@
 
   <!-- Version -->
   <div id="version">
-    <p class="version">version: 0.3.3</p>
+    <p class="version">version: 0.4.1</p>
   </div>
 
   <script type="text/javascript" src="Main.js"></script>
