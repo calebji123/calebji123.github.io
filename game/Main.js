@@ -8,7 +8,7 @@ var alertCloseButton = document.getElementById("alertCloseButton");
 
 //main vars
 var maxMarket = 6;
-var isAdmin = false;
+var isAdmin = true;
 
 //progress tracking vars
 var firstClick = true;
@@ -109,14 +109,11 @@ class MaterialButton {
   }
 
   whenClicked() {
-    if (!this.disabled && !this.inProgress) {
+    if (!this.disabled) {
       this.increment(this.clickAmt);
       check(this);
-      this.disabled = true;
-      this.htmlElem.classList.add("timeout");
-      createTimeout(this);
       progress(this);
-      this.inProgress = true;
+      this.disabled = true;
     }
   }
 
@@ -193,23 +190,22 @@ function check(buttonClass) {
   }
 }
 
-function createTimeout(buttonClass) {
-  setTimeout(function () { buttonClass.reenable() }, buttonClass.timeoutTime);
-}
-
 function progress(buttonClass) {
-  var id = setInterval(frame, buttonClass.timeoutTime / 100);
+  buttonClass.htmlElem.classList.add("timeout");
+  // var id = setTimeout(frame, 25);
   var width = 0;
-  function frame() {
+  var id = setInterval(function frame() {
+    // id = setTimeout(frame, 25);
     if (width >= 100) {
       clearInterval(id);
       buttonClass.barElem.style.width = "100%";
       buttonClass.inProgress = false;
+      buttonClass.reenable();
     } else {
-      width++;
+      width = width + (2500 / buttonClass.timeoutTime);
       buttonClass.barElem.style.width = (100 - width) + "%";
     }
-  }
+  }, 25);
 }
 
 function changeClickAmt(amt) {

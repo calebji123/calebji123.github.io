@@ -333,6 +333,8 @@ p.p3 {
 
 .brokenBarn {
   text-align: center;
+  width: 60%;
+  margin: auto;
 }
 
 .brokenBarn .button {
