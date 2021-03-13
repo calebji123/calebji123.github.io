@@ -14,9 +14,9 @@
     <h1 id="title"></h1>
     <div class="tabsdiv">
       <input type="button" class="tabs tabs1" value="Resources" id="resourcesTab">
-      <input type="button" class="tabs tabs1" value="Explore" id="exploreTab">
-      <input type="button" class="tabs tabs1" value="The Barn" id="barnTab">
-      <input type="button" class="tabs tabs1" value="The Market" id="marketTab">
+      <input type="button" class="tabs tabs1" value="Explore" id="exploreTab" style="display: none;">
+      <input type="button" class="tabs tabs1" value="The Barn" id="barnTab" style="display: none;">
+      <input type="button" class="tabs tabs1" value="The Market" id="marketTab" style="display: none;">
     </div>
   </div>
   <!-- resource tab -->
@@ -61,7 +61,7 @@
     <p id="desc" class="p1"></p>
   </div>
   <!-- explore tab-->
-  <div class="tabContent" id="explorePage">
+  <div class="tabContent" id="explorePage" style="display: none;">
     <div class="controller">
       <div class="gridContainer">
         <div class="rw1clm1 gridTile"></div>
@@ -199,7 +199,7 @@
     </div>
   </div>
   <!--barn Tab-->
-  <div class="tabContent" id="barnPage">
+  <div class="tabContent" id="barnPage" style="display:none;">
     <div class="brokenBarn">
       <p class="brokenBarntext">The barn turned out to be worse than you imagined. The animals won't work for your cause
         if they don't have aywhere to sleep. This will cost 12 wood and 5 stone to fix</p>
@@ -290,7 +290,7 @@
     </div>
   </div>
   <!-- market tab -->
-  <div class="tabContent" id="marketPage">
+  <div class="tabContent" id="marketPage" style="display:none;">
     <div class="marketTitle">
       <p id="marketSide">Today's Offers<button id="switchButton" onclick="switchMarket()" style="display: none;"><i
             class="fas fa-sync-alt"></i></button></p>
@@ -373,7 +373,7 @@
 
   <!-- Version -->
   <div id="version">
-    <p class="version">version: 0.5.1</p>
+    <p class="version">version: 0.5.2</p>
   </div>
 
   <script type="text/javascript" src="Main.js"></script>
