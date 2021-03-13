@@ -8,7 +8,7 @@ var alertCloseButton = document.getElementById("alertCloseButton");
 
 //main vars
 var maxMarket = 6;
-var isAdmin = true;
+var isAdmin = false;
 
 //progress tracking vars
 var firstClick = true;
@@ -31,9 +31,6 @@ var exploreButton = document.getElementById("exploreTab");
 var barnButton = document.getElementById("barnTab");
 var marketButton = document.getElementById("marketTab");
 resourceButton.style.display = "inline-block";
-exploreButton.style.display = "none";
-barnButton.style.display = "none";
-marketButton.style.display = "none";
 //tabs code
 document.getElementById("resourcesTab").onclick = function () {
   openTab("resourcesPage");
@@ -189,14 +186,11 @@ function check(buttonClass) {
 
 function progress(buttonClass) {
   buttonClass.htmlElem.classList.add("timeout");
-  // var id = setTimeout(frame, 25);
   var width = 0;
   var id = setInterval(function frame() {
-    // id = setTimeout(frame, 25);
     if (width >= 100) {
       clearInterval(id);
       buttonClass.barElem.style.width = "100%";
-      buttonClass.inProgress = false;
       buttonClass.reenable();
     } else {
       width = width + (2500 / buttonClass.timeoutTime);
