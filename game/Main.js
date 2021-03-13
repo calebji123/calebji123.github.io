@@ -5,6 +5,7 @@ document.getElementById("title").innerHTML = ("A Lone Field");
 var infor = document.getElementById("info");
 var alertBox = document.getElementById("alertMain");
 var alertCloseButton = document.getElementById("alertCloseButton");
+document.getElementsByClassName("version")[0].innerHTML = "version 5.3.2"
 
 //main vars
 var maxMarket = 6;
