@@ -22,10 +22,34 @@
   <!-- resource tab -->
   <div class="tabContent" id="resourcesPage">
     <div class="buttons">
-      <input type="button" class="button button1" value="Grain" id="grain">
-      <input type="button" class="button button1" value="Corn" id="corn">
-      <input type="button" class="button button1" value="Wood" id="wood">
-      <input type="button" class="button button1" value="Stone" id="stone">
+      <div class="buttonDiv" id="grainButtonDiv">
+        <div class="barBack"></div>
+        <div class="bar" id="grainBar"></div>
+        <div class="directButtonDiv">
+          <button class="button button1" id="grain">Grain</button>
+        </div>
+      </div>
+      <div class="buttonDiv" id="woodButtonDiv">
+        <div class="barBack"></div>
+        <div class="bar" id="woodBar"></div>
+        <div class="directButtonDiv">
+          <button class="button button1" id="wood">Wood</button>
+        </div>
+      </div>
+      <div class="buttonDiv" id="stoneButtonDiv">
+        <div class="barBack"></div>
+        <div class="bar" id="stoneBar"></div>
+        <div class="directButtonDiv">
+          <button class="button button1" id="stone">Stone</button>
+        </div>
+      </div>
+      <div class="buttonDiv" id="cornButtonDiv">
+        <div class="barBack"></div>
+        <div class="bar" id="cornBar"></div>
+        <div class="directButtonDiv">
+          <button class="button button1" id="corn">Corn</button>
+        </div>
+      </div>
       <div class="info" id="info">
         <p class="p2" id="money"></p>
         <p class="p2" id="grains"></p>
@@ -45,7 +69,7 @@
         <div class="rw1clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw1clm3">
-            <span class="toolTiptext" id="textTooltip3">80 grain</span>
+            <span class="toolTiptext" id="textTooltip3">60 grain</span>
           </div>
           <div class="exploreBox" id="stable">
             <p class="exploreText">The Stable</p>
@@ -56,7 +80,7 @@
         <div class="rw2clm1 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm1">
-            <span class="toolTiptext" id="textTooltip6">150 grain</span>
+            <span class="toolTiptext" id="textTooltip6">75 grain</span>
           </div>
           <div class="exploreBox" id="newBarn">
             <p class="exploreText">Another Barn</p>
@@ -65,7 +89,7 @@
         <div class="rw2clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm2">
-            <span class="toolTiptext" id="textTooltip7">100 grain</span>
+            <span class="toolTiptext" id="textTooltip7">50 grain</span>
           </div>
           <div class="exploreBox" id="animals">
             <p class="exploreText">Animal Field</p>
@@ -74,7 +98,7 @@
         <div class="rw2clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm3">
-            <span class="toolTiptext" id="textTooltip8">15 grain</span>
+            <span class="toolTiptext" id="textTooltip8">16 grain</span>
           </div>
           <div class="exploreBox" id="barn">
             <p class="exploreText">The Barn</p>
@@ -83,16 +107,16 @@
         <div class="rw2clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm4">
-            <span class="toolTiptext" id="textTooltip9">60 grain</span>
+            <span class="toolTiptext" id="textTooltip9">20 grain</span>
           </div>
-          <div class="exploreBox" id="anotherField1">
-            <p class="exploreText">Another Field</p>
+          <div class="exploreBox" id="cornField">
+            <p class="exploreText">Corn Field</p>
           </div>
         </div>
         <div class="rw2clm5 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm5">
-            <span class="toolTiptext" id="textTooltip6">90 grain</span>
+            <span class="toolTiptext" id="textTooltip6">40 grain</span>
           </div>
           <div class="exploreBox" id="dealer">
             <p class="exploreText">Shady Dealer</p>
@@ -102,7 +126,7 @@
         <div class="rw3clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw3clm2">
-            <span class="toolTiptext" id="textTooltip12">7 grain</span>
+            <span class="toolTiptext" id="textTooltip12">10 grain</span>
           </div>
           <div class="exploreBox" id="birchForest">
             <p class="exploreText">Birch Forest</p>
@@ -114,7 +138,7 @@
         <div class="rw3clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw3clm4">
-            <span class="toolTiptext" id="textTooltip13">10 grain</span>
+            <span class="toolTiptext" id="textTooltip13">12 grain</span>
           </div>
           <div class="exploreBox" id="quarry">
             <p class="exploreText">Quarry</p>
@@ -124,7 +148,7 @@
         <div class="rw4clm1 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm1">
-            <span class="toolTiptext" id="textTooltip16">150 grain</span>
+            <span class="toolTiptext" id="textTooltip16">80 grain</span>
           </div>
           <div class="exploreBox" id="builder">
             <p class="exploreText">Builder Shop</p>
@@ -133,7 +157,7 @@
         <div class="rw4clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm2">
-            <span class="toolTiptext" id="textTooltip17">50 grain</span>
+            <span class="toolTiptext" id="textTooltip17">23 grain</span>
           </div>
           <div class="exploreBox" id="market">
             <p class="exploreText">Market</p>
@@ -142,25 +166,25 @@
         <div class="rw4clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm3">
-            <span class="toolTiptext" id="textTooltip18">40 grain</span>
+            <span class="toolTiptext" id="textTooltip18">20 grain</span>
           </div>
-          <div class="exploreBox" id="pastureRoad">
-            <p class="exploreText">Pasture / road</p>
+          <div class="exploreBox" id="road">
+            <p class="exploreText">Road</p>
           </div>
         </div>
         <div class="rw4clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm4">
-            <span class="toolTiptext" id="textTooltip18">70 grain</span>
+            <span class="toolTiptext" id="textTooltip18">40 grain</span>
           </div>
           <div class="exploreBox" id="roadNothing">
-            <p class="exploreText">Pasture / road</p>
+            <p class="exploreText">Road</p>
           </div>
         </div>
         <div class="rw4clm5 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm5">
-            <span class="toolTiptext" id="textTooltip4">200 grain</span>
+            <span class="toolTiptext" id="textTooltip4">150 grain</span>
           </div>
           <div class=" exploreBox" id="machine">
             <p class="exploreText">Mysterious<br>Machine</p>
@@ -177,10 +201,9 @@
   <!--barn Tab-->
   <div class="tabContent" id="barnPage">
     <div class="brokenBarn">
-      <p class="brokenBarntext">The barn is broken, and inhabitable. The animals you collected aren't able to like in
-        an
-        organized way like you promised. This will cost 25 wood and 15 stone</p>
-      <input type="button" class="button button1" value="Fix Barn" id="fixBarn">
+      <p class="brokenBarntext">The barn turned out worse than you imagined. The animals won't work for your cause if
+        they don't have aywhere to sleep. This will cost 12 wood and 5 stone to fix</p>
+      <input type="button" class="button" value="Fix Barn" id="fixBarn">
     </div>
     <div class="sheds">
       <div class="animalShed" id="poultryShed">
@@ -190,9 +213,13 @@
         </span>
         <p class="animals" id="poultryNumber"></p>
         <p class="animals" id="poultryProduction"></p>
-        <div class="breed">
-          <input type="button" class="button buttonBarn" value="Breed Animal" id="breedPoultry">
-          <span class="breedInfo">30 corn<br>60 seconds</span>
+        <div class="breed" id="poultryBreedDiv">
+          <div class="breedButtonDiv">
+            <input type="button" class="button buttonBarn" value="Breed Animal" id="poultryBreed">
+          </div>
+          <div class="bar" id="poultryBar"></div>
+          <div class="barBack"></div>
+          <span class="breedInfo">15 corn<br>60 seconds</span>
         </div>
       </div>
       <div class="animalShed" id="sheepShed">
@@ -201,10 +228,14 @@
           <p class="shedTitle">Sheep</p>
         </span>
         <p class="animals" id="sheepNumber"></p>
-        <p class="animals" id="sheepProduction1"></p>
-        <div class="breed">
-          <input type="button" class="button buttonBarn" value="Breed Animal" id="breedSheep">
-          <span class="breedInfo">40 corn<br>90 seconds</span>
+        <p class="animals" id="sheepProduction"></p>
+        <div class="breed" id="sheepBreedDiv">
+          <div class="breedButtonDiv">
+            <input type="button" class="button buttonBarn" value="Breed Animal" id="sheepBreed">
+          </div>
+          <div class="bar" id="sheepBar"></div>
+          <div class="barBack"></div>
+          <span class="breedInfo">20 corn<br>90 seconds</span>
         </div>
       </div>
       <div class="animalShed" id="cowShed">
@@ -214,9 +245,13 @@
         </span>
         <p class="animals" id="cowNumber"></p>
         <p class="animals" id="cowProduction"></p>
-        <div class="breed">
-          <input type="button" class="button buttonBarn" value="Breed Animal" id="breedCows">
-          <span class="breedInfo">50 corn<br>120 seconds</span>
+        <div class="breed" id="cowBreedDiv">
+          <div class="breedButtonDiv">
+            <input type="button" class="button buttonBarn" value="Breed Animal" id="cowBreed">
+          </div>
+          <div class="bar" id="cowBar"></div>
+          <div class="barBack"></div>
+          <span class="breedInfo">25 corn<br>90 seconds</span>
         </div>
       </div>
       <div class="animalShed" id="horseShed">
@@ -226,9 +261,13 @@
         </span>
         <p class="animals" id="horseNumber"></p>
         <p class="animals" id="horseProduction"></p>
-        <div class="breed">
-          <input type="button" class="button buttonBarn" value="Breed Animal" id="breedHorses">
-          <span class="breedInfo">60 corn<br>105 seconds</span>
+        <div class="breed" id="horseBreedDiv">
+          <div class="breedButtonDiv">
+            <input type="button" class="button buttonBarn" value="Breed Animal" id="horseBreed">
+          </div>
+          <div class="bar" id="horseBar"></div>
+          <div class="barBack"></div>
+          <span class="breedInfo">17 corn<br>75 seconds</span>
         </div>
       </div>
       <div class="animalShed" id="dogShed">
@@ -238,12 +277,14 @@
         </span>
         <p></p>
         <p class="animals" id="dogNumber"></p>
-        <p class="animals" id="dogProduction1"></p>
-        <p class="animals" id="dogProduction2"></p>
-        <p class="animals" id="dogProduction3"></p>
-        <div class="breed">
-          <input type="button" class="button buttonBarn" value="Breed Animal" id="breedDogs">
-          <span class="breedInfo">80 corn<br>180 seconds</span>
+        <p class="animals" id="dogProduction"></p>
+        <div class="breed" id="dogBreedDiv">
+          <div class="breedButtonDiv">
+            <input type="button" class="button buttonBarn" value="Breed Animal" id="dogBreed">
+          </div>
+          <div class="bar" id="dogBar"></div>
+          <div class="barBack"></div>
+          <span class="breedInfo">20 corn<br>105 seconds</span>
         </div>
       </div>
     </div>
@@ -332,7 +373,7 @@
 
   <!-- Version -->
   <div id="version">
-    <p class="version">version: 0.4.1</p>
+    <p class="version">version: 0.5.0</p>
   </div>
 
   <script type="text/javascript" src="Main.js"></script>

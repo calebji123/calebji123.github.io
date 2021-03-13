@@ -13,6 +13,7 @@ var isAdmin = false;
 //progress tracking vars
 var firstClick = true;
 var eventOn = 0;
+var barnFixed = false;
 var sndBarn = false;
 var sndBarnBacklog = []
 var mansionBuilt = false;
@@ -85,30 +86,37 @@ let Money = new Item("pounds", "money")
 
 //material buttons
 class MaterialButton {
-  constructor(id, timeout, message, amtId) {
+  constructor(id, timeout, message) {
     //input
     this.id = id;
     this.timeoutTime = timeout;
     this.hoverMsg = message;
-    this.destId = amtId;
+    //ids
+    this.destId = this.id + "s";
+    this.barId = this.id + "Bar";
+    this.divId = this.id + "ButtonDiv";
     //elements to keep track of
     this.clickAmt = 1;
     this.amt = 0;
     this.disabled = false;
+    this.inProgress = false;
 
     //html ekements
     this.htmlElem = document.getElementById(this.id);
+    this.divElem = document.getElementById(this.divId);
     this.amtDisplayElem = document.getElementById(this.destId);
-
+    this.barElem = document.getElementById(this.barId);
   }
 
   whenClicked() {
-    if (!this.disabled) {
+    if (!this.disabled && !this.inProgress) {
       this.increment(this.clickAmt);
       check(this);
       this.disabled = true;
       this.htmlElem.classList.add("timeout");
-      createTimeout(this)
+      createTimeout(this);
+      progress(this);
+      this.inProgress = true;
     }
   }
 
@@ -139,10 +147,10 @@ class MaterialButton {
 }
 
 //the four button classes
-let Grain = new MaterialButton("grain", 5000, "Harvest the wheat. Increase the production.", "grains");
-let Wood = new MaterialButton("wood", 12000, "The tree goes oof. Wait you did this without a tool? wowza", "woods");
-let Stone = new MaterialButton("stone", 20000, "Mine the stone! You will work harder!", "stones");
-let Corn = new MaterialButton("corn", 8000, "What ripe juicy corn", "corns");
+let Grain = new MaterialButton("grain", 5000, "Harvest the wheat. Increase the production.");
+let Wood = new MaterialButton("wood", 12000, "The tree goes oof. Wait you did this without a tool? wowza");
+let Stone = new MaterialButton("stone", 20000, "Mine the stone! You will work harder!");
+let Corn = new MaterialButton("corn", 8000, "What ripe juicy corn");
 
 Grain.htmlElem.onclick = function () { Grain.whenClicked() };
 Grain.htmlElem.onmouseover = function () { Grain.hover(true) };
@@ -160,6 +168,10 @@ Corn.htmlElem.onclick = function () { Corn.whenClicked() };
 Corn.htmlElem.onmouseover = function () { Corn.hover(true) };
 Corn.htmlElem.onmouseout = function () { Corn.hover(false) };
 
+// Grain.amt = 40;
+// Stone.amt = 7;
+// Wood.amt = 16;
+
 //buttons functions
 
 
@@ -172,7 +184,7 @@ function check(buttonClass) {
 
   if (buttonClass == Grain) {
     if (eventOn == 0) {
-      if (buttonClass.amt >= 5) {
+      if (buttonClass.amt >= 7) {
         eventOn = 1;
         newAlert("s", "While threshing the floor, you find a old piece of paper on the floor. It is a map.");
         exploreButton.style.display = "inline-block"
@@ -185,6 +197,21 @@ function createTimeout(buttonClass) {
   setTimeout(function () { buttonClass.reenable() }, buttonClass.timeoutTime);
 }
 
+function progress(buttonClass) {
+  var id = setInterval(frame, buttonClass.timeoutTime / 100);
+  var width = 0;
+  function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+      buttonClass.barElem.style.width = "100%";
+      buttonClass.inProgress = false;
+    } else {
+      width++;
+      buttonClass.barElem.style.width = (100 - width) + "%";
+    }
+  }
+}
+
 function changeClickAmt(amt) {
   Grain.clickAmt = Grain.clickAmt + amt
   Wood.clickAmt = Wood.clickAmt + amt
@@ -194,29 +221,42 @@ function changeClickAmt(amt) {
 
 
 //alert function
+var onAlert = false;
+var queue = []
 function newAlert(size, message) {
-  var alertMain = document.getElementById("alertMain");
-  //change sizes
-  if (size == "s") {
-    alertMain.classList = "";
-    alertMain.classList.add("small");
-  } else if (size == "m") {
-    alertMain.classList = "";
-    alertMain.classList.add("medium");
-  } else if (size == "l") {
-    alertMain.classList = ""
-    alertMain.classList.add("large")
+  if (!onAlert) {
+    var alertMain = document.getElementById("alertMain");
+    //change sizes
+    if (size == "s") {
+      alertMain.classList = "";
+      alertMain.classList.add("small");
+    } else if (size == "m") {
+      alertMain.classList = "";
+      alertMain.classList.add("medium");
+    } else if (size == "l") {
+      alertMain.classList = ""
+      alertMain.classList.add("large")
+    }
+
+    //change text
+    var mess = document.getElementById("alertText");
+    mess.innerHTML = message;
+
+    alertBox.style.display = "block";
+    onAlert = true;
+  } else {
+    queue.push([size, message])
   }
 
-  //change text
-  var mess = document.getElementById("alertText");
-  mess.innerHTML = message;
-
-  alertBox.style.display = "block";
 }
 
 alertCloseButton.onclick = function () {
   alertBox.style.display = "none";
+  onAlert = false;
+  if (queue.length > 0) {
+    newAlert(queue[0][0], queue[0][1]);
+    queue.shift();
+  }
 }
 
 
@@ -246,19 +286,19 @@ class MapTile {
 }
 
 //declaring
-let rw1clm3 = new MapTile(80, "rw1clm3", "stable", "A stable is seen in the distance. Around it, a number of animals mill, barely surviving in the field and stable. More comrades join your society. <br>+1 horse <br>+1 cow <br>+1 dog", "m");
-let rw2clm1 = new MapTile(150, "rw2clm1", "newBarn", "Another barn appears, ideas of expansion fill your head. You're skills won't be enough to repair this", "s");
-let rw2clm2 = new MapTile(100, "rw2clm2", "animals", "You see a party of animals hanging out, you convince them to join your farm<br>+1 horse<br>+1 poultry<br>+1 cow", "m");
-let rw2clm3 = new MapTile(15, "rw2clm3", "barn", "An old rickety worn down barn stands in a clearing. You see some animals roaming, and an idea pops into your head. You grab a chicken and a sheep.", "m");
-let rw2clm4 = new MapTile(60, "rw2clm4", "anotherField1", "A field is seen spanning an acre. already planted and overripe are corn. You learn about this valuable food source. The sheep agree to help you out.<br>+1 sheep", "m");
-let rw2clm5 = new MapTile(90, "rw2clm5", "dealer", "A shady dealer tells you to meet him in the market if you want to grow strong", "s");
-let rw3clm2 = new MapTile(7, "rw3clm2", "birchForest", "You found a Birch Forest! You learned how to gather wood!", "s");
-let rw3clm4 = new MapTile(10, "rw3clm4", "quarry", "You found a quarry! You learned how to gather stone!", "s");
-let rw4clm1 = new MapTile(150, "rw4clm1", "builder", "A quaint shop is along the side of the road. In it a skilled builder tells you to make any request you want, at a price.", "m");
-let rw4clm2 = new MapTile(50, "rw4clm2", "market", "You reach a town, it's bustling market road entices you. The sheer amount of resources make your senses tingle", "m");
-let rw4clm3 = new MapTile(40, "rw4clm3", "pastureRoad", "There is an expanse of green meadows. You find some old grain on the floor. Off in the distance is a road. It seems to go somewhere. You find 10 pounds off the side of the road<br>+10 pounds", "m");
-let rw4clm4 = new MapTile(70, "rw4clm4", "roadNothing", "The road continues on for miles. Nothing happens and nothing is happening, is there nothing here?", "s");
-let rw4clm5 = new MapTile(200, "rw4clm5", "machine", "The road did lead somewhere, a worn down machine. You're skills won't be enough to repair this", "s");
+let rw1clm3 = new MapTile(60, "rw1clm3", "stable", "A stable is seen in the distance. Around it, a number of animals mill, barely surviving in the field and stable. More comrades join your society. <br>+1 horse <br>+1 cow", "m");
+let rw2clm1 = new MapTile(75, "rw2clm1", "newBarn", "Another barn appears, ideas of expansion fill your head. You're skills won't be enough to repair this", "s");
+let rw2clm2 = new MapTile(50, "rw2clm2", "animals", "You see a party of animals hanging out, you convince them to join your farm<br>+1 horse<br>+1 poultry", "m");
+let rw2clm3 = new MapTile(16, "rw2clm3", "barn", "An old rickety worn down barn stands in a clearing. You see some animals roaming, and an idea pops into your head. You promise the nearest poultry to you equality and freedom<br>+1 poultry", "m");
+let rw2clm4 = new MapTile(20, "rw2clm4", "cornField", "A field is seen spanning an acre. It's already planted and overripe are corn. Animals seem to love this food in many ways. A sheep and a chicken join your cause<br>+1 sheep<br>+1 poultry", "m");
+let rw2clm5 = new MapTile(40, "rw2clm5", "dealer", "A shady dealer tells you to meet him in the market if you want to grow strong", "s");
+let rw3clm2 = new MapTile(10, "rw3clm2", "birchForest", "You found a Birch Forest! You learned how to gather wood!", "s");
+let rw3clm4 = new MapTile(12, "rw3clm4", "quarry", "You found a quarry! You learned how to gather stone!", "s");
+let rw4clm1 = new MapTile(80, "rw4clm1", "builder", "A quaint shop is along the side of the road. In it a skilled builder tells you to make any request you want, at a price.", "m");
+let rw4clm2 = new MapTile(23, "rw4clm2", "market", "You reach a town, it's bustling market road entices you. The sheer amount of resources make your senses tingle", "m");
+let rw4clm3 = new MapTile(20, "rw4clm3", "road", "This seems like a main road. On the side is a dog, looking cute. He agrees to join your society, giving you his busking earnings.<br>+10 pounds<br>+1 dog", "m");
+let rw4clm4 = new MapTile(40, "rw4clm4", "roadNothing", "The road continues on for miles. Nothing happens and nothing is happening, is there nothing here?", "s");
+let rw4clm5 = new MapTile(150, "rw4clm5", "machine", "The road did lead somewhere, a worn down machine. You're skills won't be enough to repair this. You convince the guard dog to help you out<br>+1 dog", "s");
 
 rw1clm3.run()
 rw2clm1.run()
@@ -291,7 +331,6 @@ rw1clm3.buttonHtmlElem.onclick = function () {
     buyTile(rw1clm3);
     Horse.increment(1);
     Cow.increment(1);
-    Dog.increment(1);
   }
 }
 rw2clm1.buttonHtmlElem.onclick = function () {
@@ -307,7 +346,6 @@ rw2clm2.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw2clm2.cost) {
     buyTile(rw2clm2);
     Horse.increment(1);
-    Cow.increment(1);
     Poultry.increment(1);
     rw2clm1.unlock();
   }
@@ -326,7 +364,7 @@ rw2clm4.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw2clm4.cost) {
     buyTile(rw2clm4);
     Sheep.increment(1);
-    Corn.htmlElem.style.display = "inline-block";
+    Corn.divElem.style.display = "inline-block";
     rw2clm5.unlock()
   }
 }
@@ -342,14 +380,14 @@ rw2clm5.buttonHtmlElem.onclick = function () {
 rw3clm2.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw3clm2.cost) {
     buyTile(rw3clm2);
-    Wood.htmlElem.style.display = "inline-block";
+    Wood.divElem.style.display = "inline-block";
     document.getElementById("title").innerHTML = ("A few plots");
   }
 }
 rw3clm4.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw3clm4.cost) {
     buyTile(rw3clm4);
-    Stone.htmlElem.style.display = "inline-block";
+    Stone.divElem.style.display = "inline-block";
   }
 }
 rw4clm1.buttonHtmlElem.onclick = function () {
@@ -374,6 +412,7 @@ rw4clm3.buttonHtmlElem.onclick = function () {
     buyTile(rw4clm3);
     Money.increment(10);
     Grain.increment(10);
+    Dog.increment(1);
     rw4clm2.unlock();
     rw4clm4.unlock();
   }
@@ -387,6 +426,7 @@ rw4clm4.buttonHtmlElem.onclick = function () {
 rw4clm5.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw4clm5.cost) {
     buyTile(rw4clm5);
+    Dog.increment(1);
     BuilderStall.add(10);
   }
 }
@@ -400,27 +440,33 @@ rw4clm5.buttonHtmlElem.onclick = function () {
 //barn
 //animal classes
 class Animal {
-  constructor(id, shedId, breedId, breedTimeout, breedCost, produces, numberId) {
+  constructor(id, breedTimeout, breedCost, produces) {
     this.id = id
-    this.shedId = shedId;
-    this.breedId = breedId;
-    this.breedTimeout = breedTimeout;
+    this.timeoutTime = breedTimeout;
     this.breedCost = breedCost;
     this.produces = produces;
-    this.numberId = numberId;
-
+    //ids
+    this.shedId = this.id + "Shed";
+    this.breedId = this.id + "Breed";
+    this.numberId = this.id + "Number";
+    this.barId = this.id + "Bar";
+    this.productionId = this.id + "Production";
+    this.breedDivId = this.id + "BreedDiv";
     //keep track
     this.amt = 0;
     this.max = 5;
 
     //htmlElems
-    this.breedElem = document.getElementById(breedId);
-    this.shedElem = document.getElementById(shedId);
-    this.numberElem = document.getElementById(numberId);
+    this.breedElem = document.getElementById(this.breedId);
+    this.shedElem = document.getElementById(this.shedId);
+    this.numberElem = document.getElementById(this.numberId);
+    this.barElem = document.getElementById(this.barId);
+    this.productionElem = document.getElementById(this.productionId);
+    this.breedDivElem = document.getElementById(this.breedDivId);
   }
 
   run() {
-    this.breedElem.style.display = "none";
+    this.breedDivElem.style.display = "none";
     this.shedElem.style.display = "none";
   }
 
@@ -432,9 +478,11 @@ class Animal {
       this.breedElem.style.display = "inline-block";
     }
     this.numberElem.innerHTML = this.amt + " / " + this.max + " " + this.id
+    var producesString = ""
     for (let i = 0; i < this.produces.length; i++) {
-      document.getElementById(this.produces[i][3]).innerHTML = this.amt + " " + this.produces[i][2] + " / " + (this.produces[i][1] / 1000) + " sec"
+      producesString = producesString + "<br>" + this.amt + " " + this.produces[i][0].id + " / " + (this.produces[i][1] / 1000) + " sec"
     }
+    this.productionElem.innerHTML = producesString
   }
 
   increment(addAmt) {
@@ -447,9 +495,7 @@ class Animal {
   }
 
   produce(product) {
-    if (barnFixed) {
-      product.increment(this.amt);
-    }
+    product.increment(this.amt);
   }
 
   changeMax(inc) {
@@ -459,11 +505,11 @@ class Animal {
 }
 
 //animals
-Poultry = new Animal("poultry", "poultryShed", "breedPoultry", 15000, 10, [[Grain, 12000, "grain", "poultryProduction"]], "poultryNumber");
-Sheep = new Animal("sheep", "sheepShed", "breedSheep", 30000, 15, [[Corn, 20000, "corn", "sheepProduction1"]], "sheepNumber");
-Horse = new Animal("horse", "horseShed", "breedHorses", 30000, 10, [[Stone, 30000, "stone", "horseProduction"]], "horseNumber");
-Cow = new Animal("cow", "cowShed", "breedCows", 30000, 20, [[Wood, 20000, "wood", "cowProduction"]], "cowNumber");
-Dog = new Animal("dog", "dogShed", "breedDogs", 60000, 40, [[Money, 30000, "pounds", "dogProduction1"]], "dogNumber");
+Poultry = new Animal("poultry", 60000, 15, [[Grain, 12000, "grain"]]);
+Sheep = new Animal("sheep", 90000, 20, [[Corn, 20000, "corn"], [Grain, 120000, "grain"]]);
+Horse = new Animal("horse", 75000, 17, [[Stone, 30000, "stone"], [Wood, 90000, "wood"]]);
+Cow = new Animal("cow", 90000, 25, [[Wood, 20000, "wood"], [Grain, 80000, "grain"]]);
+Dog = new Animal("dog", 105000, 20, [[Money, 15000, "pounds"]]);
 
 Poultry.run()
 Sheep.run()
@@ -475,14 +521,12 @@ Dog.run()
 function barnUnlock() {
   barnButton.style.display = "inline-block";
   Poultry.increment(1);
-  Sheep.increment(1);
 }
 
-var barnFixed = false;
 document.getElementById("fixBarn").onclick = function () {
-  if (Wood.amt >= 25 && Stone.amt >= 15) {
-    Wood.increment(-25);
-    Stone.increment(-15);
+  if (Wood.amt >= 12 && Stone.amt >= 5) {
+    Wood.increment(-12);
+    Stone.increment(-5);
     barnFixed = true;
     document.getElementsByClassName("sheds")[0].style.display = "inline-block"
     document.getElementsByClassName("brokenBarn")[0].style.display = "none"
@@ -505,11 +549,12 @@ function breed(animalClass) {
     animalClass.increment(-2);
     animalClass.breedElem.disable = "true";
     animalClass.breedElem.classList.add("timeout")
+    progress(animalClass);
     setTimeout(function () {
       animalClass.breedElem.disable = "false";
       animalClass.breedElem.classList.remove("timeout")
       animalClass.increment(3)
-    }, animalClass.breedTimeout)
+    }, animalClass.timeoutTime)
   }
 }
 
@@ -527,7 +572,9 @@ function once(fn, context) {
 function produceInterval(animalClass) {
   for (let i = 0; i < animalClass.produces.length; i++) {
     window.setInterval(function () {
-      animalClass.produce(animalClass.produces[i][0])
+      if (animalClass.amt > 0 && barnFixed) {
+        animalClass.produce(animalClass.produces[i][0])
+      }
     }, animalClass.produces[i][1])
   }
 }
@@ -570,7 +617,7 @@ class Stall {
     this.divId = divId;
     this.buttonId = buttonId;
 
-    this.ranges = [[10, 20, 5, 1, 15, 43, 10, 1, 25, 75, 15, 1], [10, 20, 5, 1.5, 15, 43, 10, 1.5, 25, 75, 15, 1.5], [10, 20, 5, 2, 15, 43, 10, 2, 25, 75, 15, 2], [10, 20, 5, 1.7, 15, 43, 10, 1.7, 25, 87, 15, 1.7], [10, 45], [10, 90], [10, 105], [10, 80], [20, 120]];
+    this.ranges = [1, 1.3, 1.8, 1.5, [10, 45], [10, 90], [10, 105], [10, 80], [20, 120]];
     this.type;
     this.price;
     this.amount;
@@ -603,22 +650,22 @@ class Stall {
       //thresholds
       rand = Math.floor(Math.random() * 3);
       if (rand == 0) {
-        this.amount = Math.floor(Math.random() * this.ranges[listIndex][0] + this.ranges[listIndex][1])
-        this.price = Math.floor(Math.random() * this.ranges[listIndex][2] + this.amount * this.ranges[listIndex][3])
+        this.amount = Math.floor(Math.random() * 10 + 40)
+        this.price = Math.floor(Math.random() * 5 + this.amount * this.ranges[listIndex])
         //reduce sell price
         if (!this.buy) {
           this.price = this.price - 5;
         }
       } else if (rand == 1) {
-        this.amount = Math.floor(Math.random() * this.ranges[listIndex][4] + this.ranges[listIndex][5])
-        this.price = Math.floor(Math.random() * this.ranges[listIndex][6] + this.amount * this.ranges[listIndex][7])
+        this.amount = Math.floor(Math.random() * 15 + 50)
+        this.price = Math.floor(Math.random() * 10 + this.amount * this.ranges[listIndex])
         //reduce sell price
         if (!this.buy) {
           this.price = this.price - 10;
         }
       } else {
-        this.amount = Math.floor(Math.random() * this.ranges[listIndex][8] + this.ranges[listIndex][9])
-        this.price = Math.floor(Math.random() * this.ranges[listIndex][10] + this.amount * this.ranges[listIndex][11])
+        this.amount = Math.floor(Math.random() * 20 + 60)
+        this.price = Math.floor(Math.random() * 15 + this.amount * this.ranges[listIndex])
         //reduce sell price
         if (!this.buy) {
           this.price = this.price - 15;
@@ -867,8 +914,8 @@ ShadyStall = new otherStall([
   new otherOffers("Upgrade", [[Money, 125]], "Take this pill. You'll grow strong, harvest 1 more resource per click", function () { changeClickAmt(1); ShadyStall.add(1); }),
   new otherOffers("Upgrade II", [[Money, 200]], "Drink this up. You'll grow strong, harvest 2 more resources per click", function () { changeClickAmt(2); ShadyStall.add(2); }),
   new otherOffers("Upgrade III", [[Money, 400]], "Say this incantation. You'll grow strong, harvest 3 more resources per click", function () { changeClickAmt(3); ShadyStall.add(3); }),
-  new otherOffers("Upgrade IV", [[Money, 1000]], "Inject this serum. You'll grow stronger, harvest 4 more resources per click", function () { changeClickAmt(4); ShadyStall.add(4); }),
-  new otherOffers("Manifesto", [[Money, 3000]], "You've upgraded well. One last thing to give, it'll change you're life but it requires a lot. You'll also need a better house than that shabby little field", function () { manifesto = true; }),
+  new otherOffers("Upgrade IV", [[Money, 600]], "Inject this serum. You'll grow stronger, harvest 4 more resources per click", function () { changeClickAmt(4); ShadyStall.add(4); }),
+  new otherOffers("Manifesto", [[Money, 1000]], "You've upgraded well. One last thing to give, it'll change you're life but it requires a lot. You'll also need a better house than that shabby little field", function () { manifesto = true; }),
 ], "shadyOfferTitle", "shadyOfferDesc", "shadyTalkButton", "shadyBuyButton", "dealerStall")
 
 BuilderStall.initiate(0, 5);
