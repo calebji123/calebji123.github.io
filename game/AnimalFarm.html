@@ -56,6 +56,7 @@
         <p class="p2" id="corns"></p>
         <p class="p2" id="woods"></p>
         <p class="p2" id="stones"></p>
+        <p class="p2" id="glue"></p>
       </div>
     </div>
     <p id="desc" class="p1"></p>
@@ -65,22 +66,38 @@
     <div class="controller">
       <div class="gridContainer">
         <div class="rw1clm1 gridTile"></div>
-        <div class="rw1clm2 gridTile"></div>
+        <div class="rw1clm2 gridTile">
+          <div class="toolTip">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm2">
+            <span class="toolTiptext" id="textTooltiprw1clm2"></span>
+          </div>
+          <div class="exploreBox" id="cowField">
+            <p class="exploreText">Field</p>
+          </div>
+        </div>
         <div class="rw1clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw1clm3">
-            <span class="toolTiptext" id="textTooltip3">40 grain</span>
+            <span class="toolTiptext" id="textTooltiprw1clm3"></span>
           </div>
           <div class="exploreBox" id="stable">
             <p class="exploreText">The Stable</p>
           </div>
         </div>
-        <div class="rw1clm4 gridTile"></div>
+        <div class="rw1clm4 gridTile">
+          <div class="toolTip">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm4">
+            <span class="toolTiptext" id="textTooltiprw1clm4"></span>
+          </div>
+          <div class="exploreBox" id="sheepField">
+            <p class="exploreText">Field</p>
+          </div>
+        </div>
         <div class="rw1clm5 gridTile"></div>
         <div class="rw2clm1 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm1">
-            <span class="toolTiptext" id="textTooltip6">75 grain</span>
+            <span class="toolTiptext" id="textTooltiprw2clm1"></span>
           </div>
           <div class="exploreBox" id="newBarn">
             <p class="exploreText">Another Barn</p>
@@ -89,7 +106,7 @@
         <div class="rw2clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm2">
-            <span class="toolTiptext" id="textTooltip7">30 grain</span>
+            <span class="toolTiptext" id="textTooltiprw2clm2"></span>
           </div>
           <div class="exploreBox" id="animals">
             <p class="exploreText">Animal Field</p>
@@ -98,7 +115,7 @@
         <div class="rw2clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm3">
-            <span class="toolTiptext" id="textTooltip8">16 grain</span>
+            <span class="toolTiptext" id="textTooltiprw2clm3"></span>
           </div>
           <div class="exploreBox" id="barn">
             <p class="exploreText">The Barn</p>
@@ -107,7 +124,7 @@
         <div class="rw2clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm4">
-            <span class="toolTiptext" id="textTooltip9">20 grain</span>
+            <span class="toolTiptext" id="textTooltiprw2clm4"></span>
           </div>
           <div class="exploreBox" id="cornField">
             <p class="exploreText">Corn Field</p>
@@ -116,7 +133,7 @@
         <div class="rw2clm5 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw2clm5">
-            <span class="toolTiptext" id="textTooltip6">40 grain</span>
+            <span class="toolTiptext" id="textTooltiprw2clm5"></span>
           </div>
           <div class="exploreBox" id="dealer">
             <p class="exploreText">Shady Dealer</p>
@@ -126,7 +143,7 @@
         <div class="rw3clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw3clm2">
-            <span class="toolTiptext" id="textTooltip12">10 grain</span>
+            <span class="toolTiptext" id="textTooltiprw3clm2"></span>
           </div>
           <div class="exploreBox" id="birchForest">
             <p class="exploreText">Birch Forest</p>
@@ -138,7 +155,7 @@
         <div class="rw3clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw3clm4">
-            <span class="toolTiptext" id="textTooltip13">12 grain</span>
+            <span class="toolTiptext" id="textTooltiprw3clm4"></span>
           </div>
           <div class="exploreBox" id="quarry">
             <p class="exploreText">Quarry</p>
@@ -148,7 +165,7 @@
         <div class="rw4clm1 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm1">
-            <span class="toolTiptext" id="textTooltip16">50 grain</span>
+            <span class="toolTiptext" id="textTooltiprw4clm1"></span>
           </div>
           <div class="exploreBox" id="builder">
             <p class="exploreText">Builder Shop</p>
@@ -157,7 +174,7 @@
         <div class="rw4clm2 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm2">
-            <span class="toolTiptext" id="textTooltip17">25 grain</span>
+            <span class="toolTiptext" id="textTooltiprw4clm2"></span>
           </div>
           <div class="exploreBox" id="market">
             <p class="exploreText">Market</p>
@@ -166,7 +183,7 @@
         <div class="rw4clm3 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm3">
-            <span class="toolTiptext" id="textTooltip18">20 grain</span>
+            <span class="toolTiptext" id="textTooltiprw4clm3"></span>
           </div>
           <div class="exploreBox" id="road">
             <p class="exploreText">Road</p>
@@ -175,7 +192,7 @@
         <div class="rw4clm4 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm4">
-            <span class="toolTiptext" id="textTooltip18">40 grain</span>
+            <span class="toolTiptext" id="textTooltiprw4clm4"></span>
           </div>
           <div class="exploreBox" id="roadNothing">
             <p class="exploreText">Road</p>
@@ -184,7 +201,7 @@
         <div class="rw4clm5 gridTile">
           <div class="toolTip">
             <input type="button" class="exploreButton" value="Explore Land" id="rw4clm5">
-            <span class="toolTiptext" id="textTooltip4">150 grain</span>
+            <span class="toolTiptext" id="textTooltiprw4clm5"></span>
           </div>
           <div class=" exploreBox" id="machine">
             <p class="exploreText">Mysterious<br>Machine</p>
@@ -219,7 +236,7 @@
           </div>
           <div class="bar" id="poultryBar"></div>
           <div class="barBack"></div>
-          <span class="breedInfo">15 corn<br>60 seconds</span>
+          <span class="breedInfo" id="poultryBreedInfo"></span>
         </div>
       </div>
       <div class="animalShed" id="sheepShed">
@@ -235,7 +252,7 @@
           </div>
           <div class="bar" id="sheepBar"></div>
           <div class="barBack"></div>
-          <span class="breedInfo">20 corn<br>90 seconds</span>
+          <span class="breedInfo" id="sheepBreedInfo"></span>
         </div>
       </div>
       <div class="animalShed" id="cowShed">
@@ -251,7 +268,7 @@
           </div>
           <div class="bar" id="cowBar"></div>
           <div class="barBack"></div>
-          <span class="breedInfo">25 corn<br>90 seconds</span>
+          <span class="breedInfo" id="cowBreedInfo"></span>
         </div>
       </div>
       <div class="animalShed" id="horseShed">
@@ -267,7 +284,15 @@
           </div>
           <div class="bar" id="horseBar"></div>
           <div class="barBack"></div>
-          <span class="breedInfo">17 corn<br>75 seconds</span>
+          <span class="breedInfo" id="horseBreedInfo"></span>
+        </div>
+        <div class="breed" id="horseGlueDiv" style="display: none;">
+          <div class="breedButtonDiv">
+            <input type="button" class="button buttonBarn" value="Create Glue" id="horseGlue">
+          </div>
+          <div class="bar" id="horseGlueBar"></div>
+          <div class="barBack"></div>
+          <span class="breedInfo" id="horseGlueInfo"></span>
         </div>
       </div>
       <div class="animalShed" id="dogShed">
@@ -284,7 +309,7 @@
           </div>
           <div class="bar" id="dogBar"></div>
           <div class="barBack"></div>
-          <span class="breedInfo">20 corn<br>105 seconds</span>
+          <span class="breedInfo" id="dogBreedInfo"></span>
         </div>
       </div>
     </div>
@@ -345,7 +370,7 @@
             <input type="button" class="button button2" value="Buy" id="builderBuyButton">
           </div>
         </div>
-        <div class="extraStall" id="dealerStall" style="display: none;">
+        <div class="extraStall" id="shadyStall" style="display: none;">
           <p class="extraMarketName">Shady Dealer</p>
           <div class="extraStallInfo">
             <input type="button" class="button button2" value="Talk" id="shadyTalkButton">

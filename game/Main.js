@@ -5,7 +5,7 @@ document.getElementById("title").innerHTML = ("A Lone Field");
 var infor = document.getElementById("info");
 var alertBox = document.getElementById("alertMain");
 var alertCloseButton = document.getElementById("alertCloseButton");
-document.getElementsByClassName("version")[0].innerHTML = "version 0.5.4";
+document.getElementsByClassName("version")[0].innerHTML = "version 0.6.0";
 
 //main vars
 var maxMarket = 6;
@@ -18,7 +18,7 @@ var barnFixed = false;
 var sndBarn = false;
 var sndBarnBacklog = []
 var mansionBuilt = false;
-var manifesto = false;
+var animalMult = 1;
 
 
 
@@ -78,7 +78,8 @@ class Item {
 
 
 //items
-let Money = new Item("pounds", "money")
+let Money = new Item("pounds", "money");
+let Glue = new Item("glue", "glue");
 
 //material buttons
 class MaterialButton {
@@ -160,10 +161,6 @@ Stone.htmlElem.onmouseout = function () { Stone.hover(false) };
 Corn.htmlElem.onclick = function () { Corn.whenClicked() };
 Corn.htmlElem.onmouseover = function () { Corn.hover(true) };
 Corn.htmlElem.onmouseout = function () { Corn.hover(false) };
-
-// Grain.amt = 40;
-// Stone.amt = 7;
-// Wood.amt = 16;
 
 //buttons functions
 
@@ -261,12 +258,17 @@ class MapTile {
     this.nameId = nameId;
     this.message = message;
     this.messageSize = messageSize;
+    this.toolId = "textTooltip" + this.buttonId;
     this.buttonHtmlElem = document.getElementById(this.buttonId);
     this.nameHtmlElem = document.getElementById(this.nameId);
+    this.toolElem = document.getElementById(this.toolId);
+
+    this.nameHtmlElem.style.display = "none";
+    this.buttonHtmlElem.style.display = "none";
+    this.toolElem.innerHTML = this.cost + " grain";
   }
   run() {
-    this.nameHtmlElem.style.display = "none"
-    this.buttonHtmlElem.style.display = "none"
+
   }
 
   unlock() {
@@ -275,8 +277,10 @@ class MapTile {
 }
 
 //declaring
+let rw1clm2 = new MapTile(25, "rw1clm2", "cowField", "Another cow is seen in the distance. You call to him, he decides to work for you<br>+1 cow", "s");
 let rw1clm3 = new MapTile(40, "rw1clm3", "stable", "A stable is seen in the distance. Around it, a number of animals mill, barely surviving in the field and stable. More comrades join your society. <br>+1 horse <br>+1 cow", "m");
-let rw2clm1 = new MapTile(75, "rw2clm1", "newBarn", "Another barn appears, ideas of expansion fill your head. You're skills won't be enough to repair this", "s");
+let rw1clm4 = new MapTile(25, "rw1clm4", "sheepField", "A sheep is milling around, you tell him about your up and coming society <br>+1 sheep", "s");
+let rw2clm1 = new MapTile(75, "rw2clm1", "newBarn", "Another barn appears, ideas of expansion fill your head. You're skills won't be enough to repair this. <br>lvl 2 barn upgrades unlocked", "s");
 let rw2clm2 = new MapTile(30, "rw2clm2", "animals", "You see a party of animals hanging out, you convince them to join your farm<br>+1 horse<br>+1 poultry", "m");
 let rw2clm3 = new MapTile(16, "rw2clm3", "barn", "An old rickety worn down barn stands in a clearing. You see some animals roaming, and an idea pops into your head. You promise the nearest poultry to you equality and freedom<br>+1 poultry", "m");
 let rw2clm4 = new MapTile(20, "rw2clm4", "cornField", "A field is seen spanning an acre. It's already planted and overripe are corn. Animals seem to love this food in many ways. A sheep and a chicken join your cause<br>+1 sheep<br>+1 poultry", "m");
@@ -289,19 +293,6 @@ let rw4clm3 = new MapTile(20, "rw4clm3", "road", "This seems like a main road. O
 let rw4clm4 = new MapTile(40, "rw4clm4", "roadNothing", "The road continues on for miles. Nothing happens and nothing is happening, is there nothing here?<br>+1 dog", "s");
 let rw4clm5 = new MapTile(150, "rw4clm5", "machine", "The road did lead somewhere, a worn down machine. You're skills won't be enough to repair this. You convince the guard dog to help you out", "s");
 
-rw1clm3.run()
-rw2clm1.run()
-rw2clm2.run()
-rw2clm3.run()
-rw2clm4.run()
-rw2clm5.run()
-rw3clm2.run()
-rw3clm4.run()
-rw4clm1.run()
-rw4clm2.run()
-rw4clm3.run()
-rw4clm4.run()
-rw4clm5.run()
 rw2clm3.unlock()
 rw3clm2.unlock()
 rw3clm4.unlock()
@@ -315,11 +306,23 @@ function buyTile(tileClass) {
   newAlert(tileClass.messageSize, tileClass.message);
 }
 
+rw1clm2.buttonHtmlElem.onclick = function () {
+  if (Grain.amt >= rw1clm3.cost) {
+    buyTile(rw1clm2);
+    Cow.increment(1);
+  }
+}
 rw1clm3.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw1clm3.cost) {
     buyTile(rw1clm3);
     Horse.increment(1);
     Cow.increment(1);
+  }
+}
+rw1clm4.buttonHtmlElem.onclick = function () {
+  if (Grain.amt >= rw1clm3.cost) {
+    buyTile(rw1clm4);
+    Sheep.increment(1);
   }
 }
 rw2clm1.buttonHtmlElem.onclick = function () {
@@ -337,12 +340,13 @@ rw2clm2.buttonHtmlElem.onclick = function () {
     Horse.increment(1);
     Poultry.increment(1);
     rw2clm1.unlock();
+    rw1clm2.unlock();
   }
 }
 rw2clm3.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw2clm3.cost) {
     buyTile(rw2clm3);
-    document.getElementById("title").innerHTML = ("A small farm");
+    document.getElementById("title").innerHTML = "A small farm";
     barnUnlock();
     rw1clm3.unlock()
     rw2clm2.unlock()
@@ -355,14 +359,15 @@ rw2clm4.buttonHtmlElem.onclick = function () {
     Sheep.increment(1);
     Poultry.increment(1);
     Corn.divElem.style.display = "inline-block";
-    rw2clm5.unlock()
+    rw2clm5.unlock();
+    rw1clm4.unlock();
   }
 }
 rw2clm5.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw2clm5.cost) {
     buyTile(rw2clm5);
     document.getElementById("switchButton").style.display = "inline-block";
-    document.getElementById("dealerStall").style.display = "inline-block";
+    ShadyStall.divElem.style.display = "inline-block";
     ShadyStall.unlocked = true;
     ShadyStall.new();
   }
@@ -371,7 +376,7 @@ rw3clm2.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw3clm2.cost) {
     buyTile(rw3clm2);
     Wood.divElem.style.display = "inline-block";
-    document.getElementById("title").innerHTML = ("A few plots");
+    document.getElementById("title").innerHTML = "A few plots";
   }
 }
 rw3clm4.buttonHtmlElem.onclick = function () {
@@ -393,7 +398,7 @@ rw4clm2.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw4clm2.cost) {
     buyTile(rw4clm2);
     marketUnlock();
-    document.getElementById("title").innerHTML = ("A profitable business");
+    document.getElementById("title").innerHTML = "A profitable business";
     rw4clm1.unlock()
   }
 }
@@ -442,6 +447,7 @@ class Animal {
     this.barId = this.id + "Bar";
     this.productionId = this.id + "Production";
     this.breedDivId = this.id + "BreedDiv";
+    this.breedInfoId = this.id + "BreedInfo";
     //keep track
     this.amt = 0;
     this.max = 4;
@@ -453,6 +459,7 @@ class Animal {
     this.barElem = document.getElementById(this.barId);
     this.productionElem = document.getElementById(this.productionId);
     this.breedDivElem = document.getElementById(this.breedDivId);
+    this.breedInfoElem = document.getElementById(this.breedInfoId);
   }
 
   run() {
@@ -467,10 +474,11 @@ class Animal {
     if (this.amt >= 2 && barnFixed) {
       this.breedDivElem.style.display = "inline-block";
     }
+    this.breedInfoElem.innerHTML = this.breedCost + " corn<br>" + (this.timeoutTime / 1000) + " seconds";
     this.numberElem.innerHTML = this.amt + " / " + this.max + " " + this.id
     var producesString = ""
     for (let i = 0; i < this.produces.length; i++) {
-      producesString = producesString + "<br>" + this.amt + " " + this.produces[i][0].id + " / " + (this.produces[i][1] / 1000) + " sec"
+      producesString = producesString + "<br>" + (this.amt * animalMult) + " " + this.produces[i][0].id + " / " + (this.produces[i][1] / 1000) + " sec"
     }
     this.productionElem.innerHTML = producesString
   }
@@ -485,11 +493,16 @@ class Animal {
   }
 
   produce(product) {
-    product.increment(this.amt);
+    product.increment(this.amt * animalMult);
   }
 
   changeMax(inc) {
     this.max = this.max + inc;
+    this.check();
+  }
+
+  breedCostIncrement() {
+    this.breedCost++;
     this.check();
   }
 }
@@ -498,7 +511,7 @@ class Animal {
 Poultry = new Animal("poultry", 60000, 15, [[Grain, 12000, "grain"]]);
 Sheep = new Animal("sheep", 90000, 20, [[Corn, 20000, "corn"], [Grain, 120000, "grain"]]);
 Horse = new Animal("horse", 75000, 17, [[Stone, 30000, "stone"], [Wood, 90000, "wood"]]);
-Cow = new Animal("cow", 90000, 25, [[Wood, 20000, "wood"], [Grain, 80000, "grain"]]);
+Cow = new Animal("cow", 90000, 17, [[Wood, 20000, "wood"], [Grain, 80000, "grain"]]);
 Dog = new Animal("dog", 105000, 20, [[Money, 15000, "pounds"]]);
 
 Poultry.run()
@@ -539,6 +552,7 @@ function breed(animalClass) {
     animalClass.increment(-2);
     animalClass.breedElem.disable = "true";
     animalClass.breedElem.classList.add("timeout")
+    animalBreedCostIncrease();
     breedProgress(animalClass);
   }
 }
@@ -557,6 +571,14 @@ function breedProgress(animalClass) {
       animalClass.barElem.style.width = (100 - width) + "%";
     }
   }, 25);
+}
+
+function animalBreedCostIncrease() {
+  Poultry.breedCostIncrement();
+  Sheep.breedCostIncrement();
+  Horse.breedCostIncrement();
+  Cow.breedCostIncrement();
+  Dog.breedCostIncrement();
 }
 
 function once(fn, context) {
@@ -606,7 +628,43 @@ var animalIntervals = once(function () {
 })
 
 
+//glue
+var glueButtonDiv = document.getElementById("horseGlueDiv");
+var glueButtonElem = document.getElementById("horseGlue");
+var glueInfoElem = document.getElementById("horseGlueInfo");
+var glueBarElem = document.getElementById("horseGlueBar");
+var glueCost = 4;
+var glueTimeout = 60000;
+glueInfoElem.innerHTML = glueCost + " horses<br>" + (glueTimeout / 1000) + " seconds";
 
+function glue() {
+  if (Horse.amt >= glueCost) {
+    Horse.increment(-glueCost)
+    glueButtonElem.disable = "true";
+    glueButtonElem.classList.add("timeout")
+    glueProgress();
+  }
+}
+
+function glueProgress() {
+  var width = 0;
+  var id = setInterval(function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+      glueBarElem.style.width = "100%";
+      glueButtonElem.disable = "false";
+      glueButtonElem.classList.remove("timeout")
+      Glue.increment(1)
+    } else {
+      width = width + (2500 / glueTimeout);
+      glueBarElem.style.width = (100 - width) + "%";
+    }
+  }, 25);
+}
+
+glueButtonElem.onclick = function () {
+  glue()
+}
 
 
 //market stall class
@@ -618,7 +676,7 @@ class Stall {
     this.divId = divId;
     this.buttonId = buttonId;
 
-    this.ranges = [1, 1.3, 1.8, 1.5, [10, 45], [10, 90], [10, 105], [10, 80], [20, 120]];
+    this.ranges = [1, 1.3, 1.8, 1.5, 25, 30, 27, 28, 32];
     this.type;
     this.price;
     this.amount;
@@ -696,7 +754,7 @@ class Stall {
         this.amount = 1
         listIndex = 4
       }
-      this.price = Math.floor(Math.random() * this.ranges[listIndex][0] + this.ranges[listIndex][1])
+      this.price = Math.floor(Math.random() * 5 + this.ranges[listIndex])
     }
     this.display()
   }
@@ -806,24 +864,26 @@ SellStall3.buttonElem.onclick = function () {
 
 //other side
 class otherStall {
-  constructor(offers, titleId, descId, talkId, buyId, divId) {
+  constructor(offers, id) {
     this.offers = offers;
-    this.titleId = titleId;
-    this.descId = descId;
-    this.talkId = talkId;
-    this.buyId = buyId;
-    this.divId = divId;
+    this.id = id;
+
+    this.titleId = this.id + "OfferTitle";
+    this.descId = this.id + "OfferDesc";
+    this.talkId = this.id + "TalkButton";
+    this.buyId = this.id + "BuyButton";
+    this.divId = this.id + "Stall";
 
     this.activatedOffers = [];
     this.offerNow;
     this.offerIndex;
     this.noOffer = new otherOffers("", [], "Sorry nothing more to offer you today", function () { })
     this.unlocked = false;
-    this.titleElem = document.getElementById(titleId);
-    this.descElem = document.getElementById(descId);
-    this.talkElem = document.getElementById(talkId);
-    this.buyElem = document.getElementById(buyId);
-    this.divElem = document.getElementById(divId);
+    this.titleElem = document.getElementById(this.titleId);
+    this.descElem = document.getElementById(this.descId);
+    this.talkElem = document.getElementById(this.talkId);
+    this.buyElem = document.getElementById(this.buyId);
+    this.divElem = document.getElementById(this.divId);
   }
 
   initiate(start, end) {
@@ -872,13 +932,27 @@ class otherStall {
       }
     }
     if (enough && !this.offerNow.bought) {
-      for (let i = 0; i < this.offerNow.price.length; i++) {
-        this.offerNow.price[i][0].increment(-1 * this.offerNow.price[i][1])
+      if (this.offerNow.id != "Manifesto") {
+        for (let i = 0; i < this.offerNow.price.length; i++) {
+          this.offerNow.price[i][0].increment(-1 * this.offerNow.price[i][1])
+        }
+        this.offerNow.func();
+        this.activatedOffers.splice(this.offerIndex, 1);
+        green(this);
+        this.new()
+      } else {
+        if (mansionBuilt) {
+          for (let i = 0; i < this.offerNow.price.length; i++) {
+            this.offerNow.price[i][0].increment(-1 * this.offerNow.price[i][1])
+          }
+          this.offerNow.func();
+          this.activatedOffers.splice(this.offerIndex, 1);
+          green(this);
+          this.new()
+        } else {
+          red(this);
+        }
       }
-      this.offerNow.func();
-      this.activatedOffers.splice(this.offerIndex, 1);
-      green(this);
-      this.new()
     } else {
       red(this);
     }
@@ -897,27 +971,27 @@ class otherOffers {
 }
 
 BuilderStall = new otherStall([
-  new otherOffers("Poultry Upgrade", [[Wood, 20], [Grain, 30], [Money, 5], [Stone, 10]], "Let me help you upgrade that poultry coop. It'll house 5 more.", function () { Poultry.changeMax(2); if (sndBarn) { BuilderStall.add(5); } else { sndBarnBacklog.push(5); } }),
-  new otherOffers("Sheep Upgrade", [[Wood, 40], [Grain, 40], [Money, 5], [Stone, 20]], "Let me help you upgrade that sheep house. It'll house 5 more.", function () { Sheep.changeMax(2); if (sndBarn) { BuilderStall.add(6); } else { sndBarnBacklog.push(6); } }),
-  new otherOffers("Horse Upgrade", [[Wood, 10], [Grain, 40], [Money, 5], [Stone, 30]], "Let me help you upgrade that horse Stable. It'll house 5 more.", function () { Horse.changeMax(2); if (sndBarn) { BuilderStall.add(7); } else { sndBarnBacklog.push(7); } }),
-  new otherOffers("Cow Upgrade", [[Wood, 60], [Grain, 25], [Money, 5], [Stone, 5]], "Let me help you upgrade that cow barn. It'll house 5 more.", function () { Cow.changeMax(2); if (sndBarn) { BuilderStall.add(8); } else { sndBarnBacklog.push(8); } }),
-  new otherOffers("Dog Upgrade", [[Wood, 50], [Grain, 40], [Money, 5], [Stone, 30]], "Let me help you upgrade that dog pennel. It'll house 5 more.", function () { Dog.changeMax(2); if (sndBarn) { BuilderStall.add(9); } else { sndBarnBacklog.push(9); } }),
-  new otherOffers("Poultry Upgrade II", [[Wood, 50], [Grain, 60], [Money, 30], [Stone, 30]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more poultry.", function () { Poultry.changeMax(3) }),
-  new otherOffers("Sheep Upgrade II", [[Wood, 60], [Grain, 70], [Money, 30], [Stone, 50]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more sheep.", function () { Sheep.changeMax(3) }),
-  new otherOffers("Horse Upgrade II", [[Wood, 30], [Grain, 70], [Money, 30], [Stone, 70]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more horses.", function () { Horse.changeMax(3) }),
-  new otherOffers("Cow Upgrade II", [[Wood, 100], [Grain, 60], [Money, 30], [Stone, 20]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more cows.", function () { Cow.changeMax(3) }),
-  new otherOffers("Dog Upgrade II", [[Wood, 90], [Grain, 100], [Money, 30], [Stone, 80]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 10 more dogs.", function () { Dog.changeMax(3) }),
-  new otherOffers("Machine Fix", [[Wood, 20], [Grain, 30], [Money, 40], [Stone, 50]], "That's a fancy machine, something to do with making glue. I think I could fix that.", function () { Poultry.changeMax(5) }),
-  new otherOffers("Mansion build", [[Wood, 20], [Grain, 30], [Money, 40], [Stone, 50]], "You know what, you've been a loyal customer. I'll help you fix up that shabby house.", function () { mansionBuilt = true; document.getElementById("yourFields"); }),
-], "builderOfferTitle", "builderOfferDesc", "builderTalkButton", "builderBuyButton", "builderStall")
+  new otherOffers("Poultry Upgrade", [[Wood, 20], [Grain, 20], [Money, 10], [Stone, 10]], "Let me help you upgrade that poultry coop. It'll house 2 more.", function () { Poultry.changeMax(2); if (sndBarn) { BuilderStall.add(5); } else { sndBarnBacklog.push(5); } }),
+  new otherOffers("Sheep Upgrade", [[Wood, 35], [Grain, 40], [Money, 10], [Stone, 20]], "Let me help you upgrade that sheep house. It'll house 2 more.", function () { Sheep.changeMax(2); if (sndBarn) { BuilderStall.add(6); } else { sndBarnBacklog.push(6); } }),
+  new otherOffers("Horse Upgrade", [[Wood, 10], [Grain, 20], [Money, 10], [Stone, 30]], "Let me help you upgrade that horse Stable. It'll house 2 more.", function () { Horse.changeMax(2); if (sndBarn) { BuilderStall.add(7); } else { sndBarnBacklog.push(7); } }),
+  new otherOffers("Cow Upgrade", [[Wood, 50], [Grain, 25], [Money, 10], [Stone, 5]], "Let me help you upgrade that cow barn. It'll house 2 more.", function () { Cow.changeMax(2); if (sndBarn) { BuilderStall.add(8); } else { sndBarnBacklog.push(8); } }),
+  new otherOffers("Dog Upgrade", [[Wood, 50], [Grain, 40], [Money, 10], [Stone, 30]], "Let me help you upgrade that dog pennel. It'll house 2 more.", function () { Dog.changeMax(2); if (sndBarn) { BuilderStall.add(9); } else { sndBarnBacklog.push(9); } }),
+  new otherOffers("Poultry Upgrade II", [[Wood, 30], [Grain, 30], [Money, 30], [Stone, 15]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more poultry.", function () { Poultry.changeMax(4) }),
+  new otherOffers("Sheep Upgrade II", [[Wood, 40], [Grain, 45], [Money, 30], [Stone, 35]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more sheep.", function () { Sheep.changeMax(4) }),
+  new otherOffers("Horse Upgrade II", [[Wood, 15], [Grain, 25], [Money, 30], [Stone, 40]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more horses.", function () { Horse.changeMax(4) }),
+  new otherOffers("Cow Upgrade II", [[Wood, 60], [Grain, 60], [Money, 30], [Stone, 20]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more cows.", function () { Cow.changeMax(4) }),
+  new otherOffers("Dog Upgrade II", [[Wood, 50], [Grain, 60], [Money, 30], [Stone, 40]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more dogs.", function () { Dog.changeMax(4) }),
+  new otherOffers("Machine Fix", [[Wood, 100], [Grain, 100], [Money, 100], [Stone, 100]], "That's a fancy machine, something to do with making glue. I think I could fix that.", function () { glueButtonDiv.style.display = "inline-block"; BuilderStall.add(11) }),
+  new otherOffers("Mansion build", [[Wood, 200], [Grain, 200], [Money, 100], [Stone, 200], [Glue, 2]], "You know what, you've been a loyal customer. I'll help you fix up that shabby house.", function () { mansionBuilt = true; document.getElementById("yourFields").innerHTML = "Your Mansion"; }),
+], "builder")
 
 ShadyStall = new otherStall([
   new otherOffers("Upgrade", [[Money, 50]], "Take this pill. You'll grow strong, harvest 1 more resource per click", function () { changeClickAmt(1); ShadyStall.add(1); }),
   new otherOffers("Upgrade II", [[Money, 90]], "Drink this up. You'll grow strong, harvest 1 more resource per click", function () { changeClickAmt(1); ShadyStall.add(2); }),
-  new otherOffers("Upgrade III", [[Money, 130]], "Say this incantation. You'll grow strong, harvest 1 more resources per click", function () { changeClickAmt(1); ShadyStall.add(3); }),
-  new otherOffers("Upgrade IV", [[Money, 250]], "Inject this serum. You'll grow stronger, harvest 1 more resources per click", function () { changeClickAmt(1); ShadyStall.add(4); }),
-  new otherOffers("Manifesto", [[Money, 1000]], "You've upgraded well. One last thing to give, it'll change you're life but it requires a lot. You'll also need a better house than that shabby little field", function () { manifesto = true; }),
-], "shadyOfferTitle", "shadyOfferDesc", "shadyTalkButton", "shadyBuyButton", "dealerStall")
+  new otherOffers("Upgrade III", [[Money, 130]], "Say this incantation. You'll grow strong, harvest 1 more resources per click", function () { changeClickAmt(2); ShadyStall.add(3); }),
+  new otherOffers("Upgrade IV", [[Money, 300]], "Inject this serum. You'll grow stronger, harvest 1 more resources per click", function () { changeClickAmt(2); ShadyStall.add(4); }),
+  new otherOffers("Manifesto", [[Money, 700]], "You've upgraded well. One last thing to give, it'll change you're life but it requires a lot. You'll also need a better house than that shabby little field", function () { manifestoBought() }),
+], "shady")
 
 BuilderStall.initiate(0, 5);
 ShadyStall.initiate(0, 1);
@@ -953,8 +1027,10 @@ function switchMarket() {
   }
 }
 
-
-
+function manifestoBought() {
+  newAlert("l", "The shady dealer gives you a dusty book. You feel scammed, having paid way too much for just a book. Taking the chance, you wipe the dust. \"Communist Manifesto\" by Karl Marx. What's this and why does it give you a faint memory of times past? Reading it, your mind buzzes with ideas. This is it, this is the pinnacle. You rush back to make change! <br>THE END")
+  document.getElementById("title").innerHTML = "Animal Farm 2.0";
+}
 
 
 
@@ -964,8 +1040,10 @@ if (isAdmin) {
   Wood.amt = 1000;
   Stone.amt = 1000;
   Corn.amt = 1000;
-  Money.amt = 1000;
+  Money.amt = 2000;
+  rw1clm2.buttonHtmlElem.style.display = "inline-block"
   rw1clm3.buttonHtmlElem.style.display = "inline-block"
+  rw1clm4.buttonHtmlElem.style.display = "inline-block"
   rw2clm1.buttonHtmlElem.style.display = "inline-block"
   rw2clm2.buttonHtmlElem.style.display = "inline-block"
   rw2clm4.buttonHtmlElem.style.display = "inline-block"
@@ -979,4 +1057,5 @@ if (isAdmin) {
   marketButton.style.display = "inline-block";
   BuilderStall.unlocked = true;
   ShadyStall.unlocked = true;
+  mansionBuilt = false;
 }
