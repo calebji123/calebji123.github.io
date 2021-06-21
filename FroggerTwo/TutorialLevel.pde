@@ -55,7 +55,12 @@ class TutorialLevel {
     int bottomAmount = 0;
     for (int i = 0; i < p.length; i ++) {
       p[i].display();
-      objectCollisionsPlatform(frog, p[i]);
+      collisionResult = objectCollisionsPlatform(frog, p[i]);
+      if (collisionResult == "on") {
+        frog.frogOnPlatform();
+      } else {
+        frog.frogOffPlatform();
+      }
       if (frog.collisionSide == "bottom") {
         bottomAmount += 1;
       }
@@ -63,14 +68,14 @@ class TutorialLevel {
     if (bottomAmount > 0 ) {
       frog.collisionSide = "bottom";
     }
-    frog.collisions("platform");
+    //frog.collisions("platform");
 
-    //cars
-    //carlane 1
-    doCar(cOne, 1, 120, 250);
+    // //cars
+    // //carlane 1
+    // doCar(cOne, 1, 120, 250);
 
-    //carlane 2
-    doCar(cTwo, 2, 120, 250);
+    // //carlane 2
+    // doCar(cTwo, 2, 120, 250);
 
   }
 

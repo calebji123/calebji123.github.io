@@ -5,11 +5,11 @@ document.getElementById("title").innerHTML = ("A Lone Field");
 var infor = document.getElementById("info");
 var alertBox = document.getElementById("alertMain");
 var alertCloseButton = document.getElementById("alertCloseButton");
-document.getElementsByClassName("version")[0].innerHTML = "version 0.6.0";
+document.getElementsByClassName("version")[0].innerHTML = "version 0.6.1";
 
 //main vars
 var maxMarket = 6;
-var isAdmin = false;
+var isAdmin = true;
 
 //progress tracking vars
 var firstClick = true;
@@ -284,7 +284,7 @@ let rw2clm1 = new MapTile(75, "rw2clm1", "newBarn", "Another barn appears, ideas
 let rw2clm2 = new MapTile(30, "rw2clm2", "animals", "You see a party of animals hanging out, you convince them to join your farm<br>+1 horse<br>+1 poultry", "m");
 let rw2clm3 = new MapTile(16, "rw2clm3", "barn", "An old rickety worn down barn stands in a clearing. You see some animals roaming, and an idea pops into your head. You promise the nearest poultry to you equality and freedom<br>+1 poultry", "m");
 let rw2clm4 = new MapTile(20, "rw2clm4", "cornField", "A field is seen spanning an acre. It's already planted and overripe are corn. Animals seem to love this food in many ways. A sheep and a chicken join your cause<br>+1 sheep<br>+1 poultry", "m");
-let rw2clm5 = new MapTile(40, "rw2clm5", "dealer", "A shady dealer tells you to meet him in the market if you want to grow strong", "s");
+let rw2clm5 = new MapTile(60, "rw2clm5", "dealer", "A shady dealer tells you to meet him in the market if you want to grow strong", "s");
 let rw3clm2 = new MapTile(10, "rw3clm2", "birchForest", "You found a Birch Forest! You learned how to gather wood!", "s");
 let rw3clm4 = new MapTile(12, "rw3clm4", "quarry", "You found a quarry! You learned how to gather stone!", "s");
 let rw4clm1 = new MapTile(50, "rw4clm1", "builder", "A quaint shop is along the side of the road. In it a skilled builder tells you to make any request you want, at a price.", "m");
@@ -307,7 +307,7 @@ function buyTile(tileClass) {
 }
 
 rw1clm2.buttonHtmlElem.onclick = function () {
-  if (Grain.amt >= rw1clm3.cost) {
+  if (Grain.amt >= rw1clm2.cost) {
     buyTile(rw1clm2);
     Cow.increment(1);
   }
@@ -320,7 +320,7 @@ rw1clm3.buttonHtmlElem.onclick = function () {
   }
 }
 rw1clm4.buttonHtmlElem.onclick = function () {
-  if (Grain.amt >= rw1clm3.cost) {
+  if (Grain.amt >= rw1clm4.cost) {
     buyTile(rw1clm4);
     Sheep.increment(1);
   }
@@ -406,7 +406,6 @@ rw4clm3.buttonHtmlElem.onclick = function () {
   if (Grain.amt >= rw4clm3.cost) {
     buyTile(rw4clm3);
     Money.increment(10);
-    Grain.increment(10);
     Dog.increment(1);
     rw4clm2.unlock();
     rw4clm4.unlock();
@@ -510,8 +509,8 @@ class Animal {
 //animals
 Poultry = new Animal("poultry", 60000, 15, [[Grain, 12000, "grain"]]);
 Sheep = new Animal("sheep", 90000, 20, [[Corn, 20000, "corn"], [Grain, 120000, "grain"]]);
-Horse = new Animal("horse", 75000, 17, [[Stone, 30000, "stone"], [Wood, 90000, "wood"]]);
-Cow = new Animal("cow", 90000, 17, [[Wood, 20000, "wood"], [Grain, 80000, "grain"]]);
+Horse = new Animal("horse", 75000, 17, [[Stone, 30000, "stone"], [Wood, 200000, "wood"]]);
+Cow = new Animal("cow", 90000, 17, [[Wood, 20000, "wood"], [Stone, 200000, "stone"]]);
 Dog = new Animal("dog", 105000, 20, [[Money, 15000, "pounds"]]);
 
 Poultry.run()
@@ -918,6 +917,9 @@ class otherStall {
 
   add(index) {
     this.activatedOffers.push(this.offers[index]);
+    if (this.offerNow.id == "") {
+      this.new();
+    }
   }
 
   talk() {
@@ -931,7 +933,7 @@ class otherStall {
         enough = false;
       }
     }
-    if (enough && !this.offerNow.bought) {
+    if (enough && !this.offerNow.bought && this.offerNow.id != "") {
       if (this.offerNow.id != "Manifesto") {
         for (let i = 0; i < this.offerNow.price.length; i++) {
           this.offerNow.price[i][0].increment(-1 * this.offerNow.price[i][1])
@@ -970,26 +972,27 @@ class otherOffers {
   }
 }
 
+
 BuilderStall = new otherStall([
-  new otherOffers("Poultry Upgrade", [[Wood, 20], [Grain, 20], [Money, 10], [Stone, 10]], "Let me help you upgrade that poultry coop. It'll house 2 more.", function () { Poultry.changeMax(2); if (sndBarn) { BuilderStall.add(5); } else { sndBarnBacklog.push(5); } }),
-  new otherOffers("Sheep Upgrade", [[Wood, 35], [Grain, 40], [Money, 10], [Stone, 20]], "Let me help you upgrade that sheep house. It'll house 2 more.", function () { Sheep.changeMax(2); if (sndBarn) { BuilderStall.add(6); } else { sndBarnBacklog.push(6); } }),
-  new otherOffers("Horse Upgrade", [[Wood, 10], [Grain, 20], [Money, 10], [Stone, 30]], "Let me help you upgrade that horse Stable. It'll house 2 more.", function () { Horse.changeMax(2); if (sndBarn) { BuilderStall.add(7); } else { sndBarnBacklog.push(7); } }),
-  new otherOffers("Cow Upgrade", [[Wood, 50], [Grain, 25], [Money, 10], [Stone, 5]], "Let me help you upgrade that cow barn. It'll house 2 more.", function () { Cow.changeMax(2); if (sndBarn) { BuilderStall.add(8); } else { sndBarnBacklog.push(8); } }),
-  new otherOffers("Dog Upgrade", [[Wood, 50], [Grain, 40], [Money, 10], [Stone, 30]], "Let me help you upgrade that dog pennel. It'll house 2 more.", function () { Dog.changeMax(2); if (sndBarn) { BuilderStall.add(9); } else { sndBarnBacklog.push(9); } }),
-  new otherOffers("Poultry Upgrade II", [[Wood, 30], [Grain, 30], [Money, 30], [Stone, 15]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more poultry.", function () { Poultry.changeMax(4) }),
-  new otherOffers("Sheep Upgrade II", [[Wood, 40], [Grain, 45], [Money, 30], [Stone, 35]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more sheep.", function () { Sheep.changeMax(4) }),
-  new otherOffers("Horse Upgrade II", [[Wood, 15], [Grain, 25], [Money, 30], [Stone, 40]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more horses.", function () { Horse.changeMax(4) }),
-  new otherOffers("Cow Upgrade II", [[Wood, 60], [Grain, 60], [Money, 30], [Stone, 20]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more cows.", function () { Cow.changeMax(4) }),
-  new otherOffers("Dog Upgrade II", [[Wood, 50], [Grain, 60], [Money, 30], [Stone, 40]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more dogs.", function () { Dog.changeMax(4) }),
-  new otherOffers("Machine Fix", [[Wood, 100], [Grain, 100], [Money, 100], [Stone, 100]], "That's a fancy machine, something to do with making glue. I think I could fix that.", function () { glueButtonDiv.style.display = "inline-block"; BuilderStall.add(11) }),
-  new otherOffers("Mansion build", [[Wood, 200], [Grain, 200], [Money, 100], [Stone, 200], [Glue, 2]], "You know what, you've been a loyal customer. I'll help you fix up that shabby house.", function () { mansionBuilt = true; document.getElementById("yourFields").innerHTML = "Your Mansion"; }),
+  new otherOffers("Poultry Upgrade", [[Money, 10], [Grain, 20], [Wood, 20], [Stone, 10]], "Let me help you upgrade that poultry coop. It'll house 2 more.", function () { Poultry.changeMax(2); if (sndBarn) { BuilderStall.add(5); } else { sndBarnBacklog.push(5); } }),
+  new otherOffers("Sheep Upgrade", [[Money, 10], [Grain, 40], [Wood, 35], [Stone, 20]], "Let me help you upgrade that sheep house. It'll house 2 more.", function () { Sheep.changeMax(2); if (sndBarn) { BuilderStall.add(6); } else { sndBarnBacklog.push(6); } }),
+  new otherOffers("Horse Upgrade", [[Money, 10], [Grain, 20], [Wood, 10], [Stone, 30]], "Let me help you upgrade that horse Stable. It'll house 2 more.", function () { Horse.changeMax(2); if (sndBarn) { BuilderStall.add(7); } else { sndBarnBacklog.push(7); } }),
+  new otherOffers("Cow Upgrade", [[Money, 10], [Grain, 25], [Wood, 50], [Stone, 5]], "Let me help you upgrade that cow barn. It'll house 2 more.", function () { Cow.changeMax(2); if (sndBarn) { BuilderStall.add(8); } else { sndBarnBacklog.push(8); } }),
+  new otherOffers("Dog Upgrade", [[Money, 10], [Grain, 40], [Wood, 50], [Stone, 30]], "Let me help you upgrade that dog kennel. It'll house 2 more.", function () { Dog.changeMax(2); if (sndBarn) { BuilderStall.add(9); } else { sndBarnBacklog.push(9); } }),
+  new otherOffers("Poultry Upgrade II", [[Money, 30], [Grain, 30], [Wood, 30], [Stone, 15]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more poultry.", function () { Poultry.changeMax(4) }),
+  new otherOffers("Sheep Upgrade II", [[Money, 30], [Grain, 45], [Wood, 40], [Stone, 35]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more sheep.", function () { Sheep.changeMax(4) }),
+  new otherOffers("Horse Upgrade II", [[Money, 30], [Grain, 25], [Wood, 15], [Stone, 40]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more horses.", function () { Horse.changeMax(4) }),
+  new otherOffers("Cow Upgrade II", [[Money, 30], [Grain, 60], [Wood, 60], [Stone, 20]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more cows.", function () { Cow.changeMax(4) }),
+  new otherOffers("Dog Upgrade II", [[Money, 30], [Grain, 60], [Wood, 50], [Stone, 40]], "I see you got another wrecked barn, let me help you fix part of that. It'll house 3 more dogs.", function () { Dog.changeMax(4) }),
+  new otherOffers("Machine Fix", [[Money, 100], [Grain, 100], [Wood, 100], [Stone, 100]], "That's a fancy machine, something to do with making glue. I think I could fix that.", function () { glueButtonDiv.style.display = "inline-block"; BuilderStall.add(11) }),
+  new otherOffers("Mansion build", [[Money, 100], [Grain, 200], [Wood, 200], [Stone, 200], [Glue, 2]], "You know what, you've been a loyal customer. I'll help you fix up that shabby house.", function () { mansionBuilt = true; document.getElementById("yourFields").innerHTML = "Your Mansion"; }),
 ], "builder")
 
 ShadyStall = new otherStall([
   new otherOffers("Upgrade", [[Money, 50]], "Take this pill. You'll grow strong, harvest 1 more resource per click", function () { changeClickAmt(1); ShadyStall.add(1); }),
-  new otherOffers("Upgrade II", [[Money, 90]], "Drink this up. You'll grow strong, harvest 1 more resource per click", function () { changeClickAmt(1); ShadyStall.add(2); }),
-  new otherOffers("Upgrade III", [[Money, 130]], "Say this incantation. You'll grow strong, harvest 1 more resources per click", function () { changeClickAmt(2); ShadyStall.add(3); }),
-  new otherOffers("Upgrade IV", [[Money, 300]], "Inject this serum. You'll grow stronger, harvest 1 more resources per click", function () { changeClickAmt(2); ShadyStall.add(4); }),
+  new otherOffers("Upgrade II", [[Money, 125]], "Drink this up. You'll grow strong, harvest 1 more resource per click", function () { changeClickAmt(1); ShadyStall.add(2); }),
+  new otherOffers("Upgrade III", [[Money, 200]], "Say this incantation. You'll grow strong, harvest 1 more resources per click", function () { changeClickAmt(1); ShadyStall.add(3); }),
+  new otherOffers("Upgrade IV", [[Money, 250]], "Inject this serum. You'll grow stronger, harvest 1 more resources per click", function () { changeClickAmt(1); ShadyStall.add(4); }),
   new otherOffers("Manifesto", [[Money, 700]], "You've upgraded well. One last thing to give, it'll change you're life but it requires a lot. You'll also need a better house than that shabby little field", function () { manifestoBought() }),
 ], "shady")
 

@@ -132,11 +132,10 @@ class Frog {
     vy += accelarationY;
 
     //accounting for forces like gravity and friction
+    vy += gravity;
     if (onGround) {
       vx *= friction;
-    }
-    if (!onGround) {
-      vy += gravity;
+      vy -= gravity + accelarationY; //normal force
     }
     //reduce top speed on crouch and log
     if (onLog || crouch) {
@@ -262,6 +261,20 @@ class Frog {
         onGround = false;
         onLog = false;
       }
+    }
+  }
+
+  void frogOnPlatform() {
+    if (vy >= 0){
+      onGround = true;
+      onPlatform = true;
+    }
+  }
+
+  void frogOffPlatform() {
+    if (onPlatform) {
+      onGround = false;
+      onPlatform = false;
     }
   }
 

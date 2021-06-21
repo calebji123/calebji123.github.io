@@ -68,6 +68,10 @@ void setup() {
   blueCar = loadImage("BlueCar.png");
   blueCarLeft = loadImage("BlueCarLeft.png");
   //font = loadFont("Chalkboard.vlw"); //font doesn't work!!!!!!!!!!!!!!!!!!!!!!!!
+  //change level
+  level = 1;
+  onMainScreen = false;
+  levelSetup.commence("one");
 }
 
 void draw() {

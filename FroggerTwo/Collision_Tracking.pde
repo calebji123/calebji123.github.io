@@ -57,7 +57,7 @@ void objectCollisionsLog(Frog f, Log l) {
 
 
 //frog and platform, same as log
-void objectCollisionsPlatform(Frog f, Platform p) {
+String objectCollisionsPlatform(Frog f, Platform p) {
 
   float distx = (f.x + f.w/2) - (p.x + p.w/2);
   float disty = (f.y + f.h/2) - (p.y ); 
@@ -71,25 +71,14 @@ void objectCollisionsPlatform(Frog f, Platform p) {
       float diffy = twoHalfsy - abs(disty);
 
       if (diffx >= diffy) {
-        if (disty >= 0) {
-          f.collisionSide = "top";
-        } else {
+        if (disty < 0) {
           if (f.vy >= 0) {
             f.y -= diffy;
           }
-          f.collisionSide = "bottom";
+          return "on"
         }
-      } else {
-        if (distx < 0) {
-          f.collisionSide = "left";
-        } else {
-          f.collisionSide = "right";
-        }
-      }
-    } else {
-      f.collisionSide = "none";
+      } 
     }
-  } else {
-    f.collisionSide = "none";
   }
+  return "off"
 }
