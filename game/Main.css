@@ -4,6 +4,12 @@ h1 {
   margin-bottom: 3px;
 }
 
+#settingsDiv {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 
 /*alert box */
 #alertMain {
@@ -462,11 +468,12 @@ p.p3 {
 }
 
 .marketGreen {
-  background-color: #41d941;
+  background-color: #a9dca9;
 }
 
 .marketRed {
-  background-color: #FF4500;
+  /* background-color: #FF4500; */
+  background-color: #dca9a9;
 }
 
 .extraMarket {
@@ -505,4 +512,10 @@ p.p3 {
   position: fixed;
   bottom: 0px;
   float: right;
+}
+
+#saved {
+  position: fixed;
+  bottom: 0px;
+  right: 10px;
 }

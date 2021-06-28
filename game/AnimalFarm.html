@@ -12,6 +12,9 @@
 
   <div>
     <h1 id="title"></h1>
+    <div id="settingsDiv">
+      <input type="button" class="button" value="Settings" id="settingsButton">
+    </div>
     <div class="tabsdiv">
       <input type="button" class="tabs tabs1" value="Resources" id="resourcesTab">
       <input type="button" class="tabs tabs1" value="Explore" id="exploreTab" style="display: none;">
@@ -65,153 +68,153 @@
   <div class="tabContent" id="explorePage" style="display: none;">
     <div class="controller">
       <div class="gridContainer">
-        <div class="rw1clm1 gridTile"></div>
-        <div class="rw1clm2 gridTile">
+        <div class=" gridTile" id="rw1clm1" style="border: none;"></div>
+        <div class=" gridTile" id="rw1clm2">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm2">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm2button">
             <span class="toolTiptext" id="textTooltiprw1clm2"></span>
           </div>
           <div class="exploreBox" id="cowField">
             <p class="exploreText">Field</p>
           </div>
         </div>
-        <div class="rw1clm3 gridTile">
+        <div class=" gridTile" id="rw1clm3">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm3">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm3button">
             <span class="toolTiptext" id="textTooltiprw1clm3"></span>
           </div>
           <div class="exploreBox" id="stable">
             <p class="exploreText">The Stable</p>
           </div>
         </div>
-        <div class="rw1clm4 gridTile">
+        <div class=" gridTile" id="rw1clm4">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm4">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw1clm4button">
             <span class="toolTiptext" id="textTooltiprw1clm4"></span>
           </div>
           <div class="exploreBox" id="sheepField">
             <p class="exploreText">Field</p>
           </div>
         </div>
-        <div class="rw1clm5 gridTile"></div>
-        <div class="rw2clm1 gridTile">
+        <div class=" gridTile" id="rw1clm5" style="border: none;"></div>
+        <div class=" gridTile" id="rw2clm1">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm1">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm1button">
             <span class="toolTiptext" id="textTooltiprw2clm1"></span>
           </div>
           <div class="exploreBox" id="newBarn">
             <p class="exploreText">Another Barn</p>
           </div>
         </div>
-        <div class="rw2clm2 gridTile">
+        <div class=" gridTile" id="rw2clm2">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm2">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm2button">
             <span class="toolTiptext" id="textTooltiprw2clm2"></span>
           </div>
           <div class="exploreBox" id="animals">
             <p class="exploreText">Animal Field</p>
           </div>
         </div>
-        <div class="rw2clm3 gridTile">
+        <div class=" gridTile" id="rw2clm3">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm3">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm3button">
             <span class="toolTiptext" id="textTooltiprw2clm3"></span>
           </div>
           <div class="exploreBox" id="barn">
             <p class="exploreText">The Barn</p>
           </div>
         </div>
-        <div class="rw2clm4 gridTile">
+        <div class=" gridTile" id="rw2clm4">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm4">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm4button">
             <span class="toolTiptext" id="textTooltiprw2clm4"></span>
           </div>
           <div class="exploreBox" id="cornField">
             <p class="exploreText">Corn Field</p>
           </div>
         </div>
-        <div class="rw2clm5 gridTile">
+        <div class=" gridTile" id="rw2clm5">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm5">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw2clm5button">
             <span class="toolTiptext" id="textTooltiprw2clm5"></span>
           </div>
           <div class="exploreBox" id="dealer">
             <p class="exploreText">Shady Dealer</p>
           </div>
         </div>
-        <div class="rw3clm1 gridTile"></div>
-        <div class="rw3clm2 gridTile">
+        <div class=" gridTile" id="rw3clm1" style="border: none;"></div>
+        <div class=" gridTile" id="rw3clm2">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw3clm2">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw3clm2button">
             <span class="toolTiptext" id="textTooltiprw3clm2"></span>
           </div>
           <div class="exploreBox" id="birchForest">
             <p class="exploreText">Birch Forest</p>
           </div>
         </div>
-        <div class="rw3clm3 gridTile">
+        <div class=" gridTile" id="rw3clm3">
           <p class="p3" id="yourFields">Your Fields</p>
         </div>
-        <div class="rw3clm4 gridTile">
+        <div class=" gridTile" id="rw3clm4">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw3clm4">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw3clm4button">
             <span class="toolTiptext" id="textTooltiprw3clm4"></span>
           </div>
           <div class="exploreBox" id="quarry">
             <p class="exploreText">Quarry</p>
           </div>
         </div>
-        <div class="rw3clm5 gridTile"></div>
-        <div class="rw4clm1 gridTile">
+        <div class=" gridTile" id="rw3clm5" style="border: none;"></div>
+        <div class=" gridTile" id="rw4clm1">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm1">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm1button">
             <span class="toolTiptext" id="textTooltiprw4clm1"></span>
           </div>
           <div class="exploreBox" id="builder">
             <p class="exploreText">Builder Shop</p>
           </div>
         </div>
-        <div class="rw4clm2 gridTile">
+        <div class=" gridTile" id="rw4clm2">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm2">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm2button">
             <span class="toolTiptext" id="textTooltiprw4clm2"></span>
           </div>
           <div class="exploreBox" id="market">
             <p class="exploreText">Market</p>
           </div>
         </div>
-        <div class="rw4clm3 gridTile">
+        <div class=" gridTile" id="rw4clm3">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm3">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm3button">
             <span class="toolTiptext" id="textTooltiprw4clm3"></span>
           </div>
           <div class="exploreBox" id="road">
             <p class="exploreText">Road</p>
           </div>
         </div>
-        <div class="rw4clm4 gridTile">
+        <div class=" gridTile" id="rw4clm4">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm4">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm4button">
             <span class="toolTiptext" id="textTooltiprw4clm4"></span>
           </div>
           <div class="exploreBox" id="roadNothing">
             <p class="exploreText">Road</p>
           </div>
         </div>
-        <div class="rw4clm5 gridTile">
+        <div class=" gridTile" id="rw4clm5">
           <div class="toolTip">
-            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm5">
+            <input type="button" class="exploreButton" value="Explore Land" id="rw4clm5button">
             <span class="toolTiptext" id="textTooltiprw4clm5"></span>
           </div>
           <div class=" exploreBox" id="machine">
             <p class="exploreText">Mysterious<br>Machine</p>
           </div>
         </div>
-        <div class="rw5clm1 gridTile"></div>
-        <div class="rw5clm2 gridTile"></div>
-        <div class="rw5clm3 gridTile"></div>
-        <div class="rw5clm4 gridTile"></div>
-        <div class="rw5clm5 gridTile"></div>
+        <div class=" gridTile" id="rw5clm1" style="border: none;"></div>
+        <div class=" gridTile" id="rw5clm2" style="border: none;"></div>
+        <div class=" gridTile" id="rw5clm3" style="border: none;"></div>
+        <div class=" gridTile" id="rw5clm4" style="border: none;"></div>
+        <div class=" gridTile" id="rw5clm5" style="border: none;"></div>
       </div>
     </div>
   </div>
@@ -319,7 +322,7 @@
     <div class="marketTitle">
       <p id="marketSide">Today's Offers<button id="switchButton" onclick="switchMarket()" style="display: none;"><i
             class="fas fa-sync-alt"></i></button></p>
-      <p style="font-size: small;">Refreshes every 3 mins</p>
+      <p style="font-size: small;" id="marketTime">Refreshes in 3 mins</p>
       <p style="font-size: small; margin-bottom: 30px;" id="interactionsLeft">Can buy/sell 6 more times</p>
     </div>
     <div class="marketOffers">
@@ -388,17 +391,25 @@
     <div id="alertBox">
       <div class="mediumMess" id="alertMessage">
         <p id="alertText"></p>
+        <div id="settingsContent" style="display: none;">
+          <input type="button" class="button" value="Clear Save" id="clearSaveButton">
+          <input type="button" class="button" value="Manual Save" id="manualSaveButton">
+        </div>
       </div>
       <div id="closeButton">
         <input type="button" class="button" value="Close x" id="alertCloseButton">
       </div>
     </div>
+
   </div>
 
 
-  <!-- Version -->
+  <!-- Bottom Bar -->
   <div id="version">
     <p class="version"></p>
+  </div>
+  <div id="saved">
+    <p id="saveText" style="opacity: 0;">Saved</p>
   </div>
 
   <script type="text/javascript" src="Main.js"></script>
