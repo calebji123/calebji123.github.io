@@ -67,11 +67,7 @@ void setup() {
   pauseButton = loadImage("pauseButton.png")
   blueCar = loadImage("BlueCar.png");
   blueCarLeft = loadImage("BlueCarLeft.png");
-  //font = loadFont("Chalkboard.vlw"); //font doesn't work!!!!!!!!!!!!!!!!!!!!!!!!
-  //change level
-  level = 1;
-  onMainScreen = false;
-  levelSetup.commence("one");
+  //font = loadFont("Chalkboard.vlw"); 
 }
 
 void draw() {
@@ -92,8 +88,8 @@ void draw() {
     //text("Credits", 300, 675);
     //logo
     stroke(0);
-    fill(0,255,0);
-    // ellipse(300, 250, 400, 400);
+    fill(255);
+    ellipse(300, 250, 400, 400);
     rect()
 
     //settings icon
@@ -101,8 +97,8 @@ void draw() {
 
 
     //high score icon
-    fill(255);
-    ellipse(570, 70, 30, 30);
+    // fill(255);
+    // ellipse(570, 70, 30, 30);
 
     //version
     fill(0);
@@ -162,7 +158,7 @@ void draw() {
     fill(0);
     textSize(10);
     text("Level 1:", 170, 310);
-    text("Tutorial", 170, 325);
+    text("First Steps", 170, 325);
     text("HiScore: " + str(levelOneNormalHighScore), 170, 340);
     //2
     fill(255);
@@ -170,7 +166,7 @@ void draw() {
     fill(0);
     textSize(10);
     text("Level 2:", 300, 310);
-    text("First Steps", 300, 325);
+    text("A Ramp in Difficulty", 300, 325);
     text("HiScore: " + str(levelTwoNormalHighScore), 300, 340);
     //3
     fill(255);
@@ -178,16 +174,9 @@ void draw() {
     fill(0);
     textSize(10);
     text("Level 3:", 430, 310);
-    text("A Ramp in Difficulty", 430, 325);
+    text("Meteor Shower", 430, 325);
     text("HiScore: " + str(levelThreeNormalHighScore), 430, 340);
-    //4
-    fill(255);
-    rect(120, 360, 100, 100, 15);
-    fill(0);
-    textSize(10);
-    text("Level 4:", 170, 470);
-    text("Meteor Shower", 170, 485);
-    text("HiScore: " + str(levelThreeNormalHighScore), 170, 500);
+
   }
   //on how to play screen
   if (onHelp) {

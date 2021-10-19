@@ -132,10 +132,11 @@ class Frog {
     vy += accelarationY;
 
     //accounting for forces like gravity and friction
-    vy += gravity;
     if (onGround) {
       vx *= friction;
-      vy -= gravity + accelarationY; //normal force
+    }
+    if (!onGround) {
+      vy += gravity;
     }
     //reduce top speed on crouch and log
     if (onLog || crouch) {
@@ -264,20 +265,6 @@ class Frog {
     }
   }
 
-  void frogOnPlatform() {
-    if (vy >= 0){
-      onGround = true;
-      onPlatform = true;
-    }
-  }
-
-  void frogOffPlatform() {
-    if (onPlatform) {
-      onGround = false;
-      onPlatform = false;
-    }
-  }
-
   //set varibales to make crouch
   void initiateCrouch() {
     if (!gameOver && !deathAnimation && !levelSetup.paused) {
@@ -291,7 +278,6 @@ class Frog {
       y -= 10;
       h = 30;
       largeJump = false;
-      
     }
   }
 
@@ -342,11 +328,6 @@ class Frog {
       case 3:
         if (score > levelThreeNormalHighScore) {
           levelThreeNormalHighScore = score;
-        }
-        break;
-      case 4:
-        if (score > levelFourNormalHighScore) {
-          levelFourNormalHighScore = score;
         }
         break;
       default:

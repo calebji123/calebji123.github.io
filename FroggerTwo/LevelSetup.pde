@@ -1,10 +1,10 @@
 class LevelSetup {
 
   //levels
-  TutorialLevel levelOne;
-  FirstSteps levelTwo;
-  ARampInDifficulty levelThree;
-  MeteorShower levelFour;
+  // TutorialLevel levelOne;
+  FirstSteps levelOne;
+  ARampInDifficulty levelTwo;
+  MeteorShower levelThree;
   String levelOn;
 
   //based on level
@@ -23,10 +23,10 @@ class LevelSetup {
   int tip;
 
   LevelSetup() {
-    levelOne = new TutorialLevel();
-    levelTwo = new FirstSteps();
-    levelThree = new ARampInDifficulty();
-    levelFour = new MeteorShower();
+    // levelOne = new TutorialLevel();
+    levelOne = new FirstSteps();
+    levelTwo = new ARampInDifficulty();
+    levelThree = new MeteorShower();
 
     levelOn = "zero";
 

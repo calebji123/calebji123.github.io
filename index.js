@@ -53,32 +53,32 @@ var resumeButton = document.getElementById("resumeButton");
 var otherButton = document.getElementById("otherButton");
 
 
-projectsButton.onclick = function () {
-  window.scrollTo({
-    top: $("#heading").height(),
-    behavior: 'smooth'
-  })
+// projectsButton.onclick = function () {
+//   window.scrollTo({
+//     top: $("#heading").height(),
+//     behavior: 'smooth'
+//   })
 
-  changeTab('projectsPage')
-}
+//   changeTab('projectsPage')
+// }
 
-resumeButton.onclick = function () {
-  window.scrollTo({
-    top: $("#heading").height(),
-    behavior: 'smooth'
-  })
+// resumeButton.onclick = function () {
+//   window.scrollTo({
+//     top: $("#heading").height(),
+//     behavior: 'smooth'
+//   })
 
-  changeTab('resumePage')
-}
+//   changeTab('resumePage')
+// }
 
-otherButton.onclick = function () {
-  window.scrollTo({
-    top: $("#heading").height(),
-    behavior: 'smooth'
-  })
+// otherButton.onclick = function () {
+//   window.scrollTo({
+//     top: $("#heading").height(),
+//     behavior: 'smooth'
+//   })
 
-  changeTab('otherPage')
-}
+//   changeTab('otherPage')
+// }
 
 //change tabs
 function changeTab(tabName) {
