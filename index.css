@@ -1,6 +1,23 @@
 /* Green: #41d941 Purple: #a044cf Blue: #499bd6*/
 
 
+::-webkit-scrollbar {
+  background: transparent;  
+  width: 10px;
+} 
+
+::-webkit-scrollbar-thumb {
+  background-color: lightgrey;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #add9ad;
+}
+
+body {
+  overflow-x: hidden;
+}
 
 #window {
   position: absolute;
@@ -13,6 +30,10 @@
   width: 100vw;
   height: 70vh;
   background-colour: white;
+}
+
+p {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 /* General classes */
@@ -67,7 +88,7 @@
 }
 
 #title {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  
   font-size: 80px;
   color: black;
   margin: 0px;
@@ -80,13 +101,11 @@
 }
 
 #aboutHeader {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   font-size: 50px;
   color: black;
 }
 
 .aboutContent {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   font-size: 20px;
   color: black;
 }
@@ -103,7 +122,7 @@
 
 #menuBarUnder {
   position: relative;
-  top: 55px;
+  top: 86px;
   width: 0%;
   margin: auto;
   background-color: white;
@@ -176,7 +195,6 @@
 /* content */
 
 #contentDiv {
-  height: 1500px;
 }
 
 #projectsPage {
@@ -196,14 +214,28 @@
   flex-wrap: wrap;
   width: 900px;
   margin: auto;
+  padding-bottom: 200px;
 }
 
 .projectsBox {
-  width: 400px;
-  height: 200px;
+  width: 300px;
+  height: 400px;
   border: #41d941 dotted 3px;
   margin: 20px;
   text-align: center;
+}
+
+.descTitle {
+  font-size: 25px;
+}
+
+.descPara {
+  padding: 20px;
+  line-height: 25px;
+}
+
+.descPic {
+  height: 50px;
 }
 
 #resumePage {
