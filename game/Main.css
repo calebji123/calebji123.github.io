@@ -81,8 +81,7 @@ h1 {
   font-size: 15px;
   cursor: pointer;
   color: black;
-  text-decoration: none;
-  border: none;
+  text-decoration: none; 
   border-radius: 2px;
   background-color: #e7e7e7;
   outline: none;
@@ -403,6 +402,59 @@ p.p3 {
 #horseGlueDiv {
   top: 30px;
 }
+
+
+/* barn 2 stuff*/
+#totalProduction {
+  text-align: center;
+  margin:auto;
+}
+
+.barnGridContainer {
+  display: grid;
+  grid-template-columns: 105px 105px 105px 105px;
+  grid-gap: 10px;
+  padding: 10px;
+  width: 450px;
+  margin: auto;
+}
+
+.barnGridTile{
+  border: 1px solid black;
+  height: 105px;
+}
+
+.animalName {
+  margin-bottom: 0px;
+}
+
+.animalType {
+  font-size: 10px;
+  margin:0px;
+}
+
+.production {
+  font-size: 10px;
+}
+
+.barnAdd {
+  text-align: center;
+  outline: none;
+  position: relative;
+  top: -100px;
+  right: -50px;
+  border-radius: 20px;
+  padding: 0px 4px 0px 4px;
+  border: 1px solid black;
+  background-color: #ddd;
+}
+
+.barnAdd:hover {
+  background-color: #a9dca9;
+}
+
+
+
 
 /*Maket stalls*/
 .marketTitle p {
