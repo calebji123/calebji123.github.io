@@ -64,7 +64,6 @@ class DTile {
     }
 
     complete() {
-        this.clearFields();
         for (let i = 0; i < this.cpltList.length; i++) {
             const element = this.cpltList[i];
             switch (element[0]) {
@@ -277,7 +276,7 @@ function clearValue(id) {
 
 
 function clearModules() {
-    while (display.children.length > 2) {
+    while (display.children.length) {
         display.removeChild(display.lastChild)
     }
 }
