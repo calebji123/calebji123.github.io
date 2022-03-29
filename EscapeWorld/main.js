@@ -1,23 +1,28 @@
 // HTML elems
 var display = document.getElementById("display");
-codeNum = document.getElementById("codeNum")
-areaName = document.getElementById("areaName")
-rightArrow = document.getElementById("rightArrow")
-upArrow = document.getElementById("upArrow")
-leftArrow = document.getElementById("leftArrow")
-downArrow = document.getElementById("downArrow")
+var codeNum = document.getElementById("codeNum");
+var areaName = document.getElementById("areaName");
+var filler = document.getElementById("fillerFill");
+var rightArrow = document.getElementById("rightArrow");
+var upArrow = document.getElementById("upArrow");
+var leftArrow = document.getElementById("leftArrow");
+var downArrow = document.getElementById("downArrow");
+var body = document.getElementsByName("body");
 
 
 // vars
-var mapx = 7
-var mapy = 7
-var map = Array(mapy).fill().map(() => Array(mapx).fill(0))
+var mapx;
+var mapy;
+var map;
 // map codes: 0 -> empty, 1 -> present, 2 -> unlocked, 3 -> visited
-var infoArray = Array(7).fill().map(() => Array(7).fill(0))
-var place = [0, 3];
-var mapAreas = ["&#9968; Intro Hills &#9968;", "&#127794; Forest of Trials &#127794;", "&#9889; Thuderous Plains &#9889;", "&#9970; Hopeful Paradise &#9970;"];
-var colOptLst = ["#ff0000", "#00ff00", "#0000ff", "#8f1a9c", "#f7e707"]
+var infoArray;
+var sx;
+var sy;
+var place;
+var ma;
+var colOptLst;
 var tile;
+var admin = false;
 
 
 //displays
@@ -29,6 +34,9 @@ class DTile {
     constructor(pos, state, code, title, modList) {
         this.pos = pos;
         this.state = state;
+        if (admin) {
+            this.state = 2;
+        }
         this.code = code;
         this.title = title;
         this.modList = modList;
@@ -40,11 +48,24 @@ class DTile {
     }
 
     updateDisplay() {
+        let divider = document.createElement("div");
+        divider.classList.add("dividerDiv");
+        let img = document.createElement("img");
+        img.src = "divider.png"
+        img.classList.add("dividerImg");
+        divider.appendChild(img);
         codeNum.innerHTML = this.code;
         areaName.innerHTML = this.title;
+        filler.innerHTML = "";
+        let first = true;
         for (let i = 0; i < this.modList.length; i++) {
             const modules = this.modList[i];
-            if (!modules.state) {
+            if (modules.state == 2) {
+                if (!first) {
+                    display.appendChild(divider.cloneNode(true));
+                } else {
+                    first = false;
+                }
                 display.appendChild(modules.create());
             }
         }
@@ -59,15 +80,24 @@ class DTile {
 //modules
 //text module
 class TextMod {
-    constructor(state, id, modletLst) {
+    constructor(state, id, modletLst, loadLst = []) {
         this.name = "text";
         this.state = state;
+        if (admin) {
+            this.state = 2;
+        }
         this.id = id;
         this.modletLst = modletLst;
+        this.loadLst = loadLst;
+        this.firstLoad = true;
         this.htmlElem;
     }
 
     create() {
+        if (this.firstLoad) {
+            this.firstLoad = false;
+            addNew(this.loadLst);
+        }
         let out = document.createElement("div")
         out.classList.add("flexItem")
         out.classList.add("textModule")
@@ -81,7 +111,7 @@ class TextMod {
     }
 
     clear() {
-        if (this.state == 0 && document.getElementById(this.id)) {
+        if (this.state == 2 && document.getElementById(this.id)) {
             document.getElementById(this.id).remove();
         }
     }
@@ -92,6 +122,9 @@ class InputMod {
     constructor(state, id, modletLst, cpltList) {
         this.name = "input";
         this.state = state;
+        if (admin) {
+            this.state = 2;
+        }
         this.modletLst = modletLst;
         this.id = id;
         this.cpltList = cpltList;
@@ -123,40 +156,62 @@ class InputMod {
     }
 
     complete() {
-        for (let i = 0; i < this.cpltList.length; i++) {
-            const element = this.cpltList[i];
-            switch (element[0]) {
-                case 1:
-                    unlock(element[1][0], element[1][1]);
-                    break;
-                case 2:
-                    tile.modList[element[1]].state = 0;
-                    break;
-                default:
-                    break;
-            }
-        }
-        this.submitButton.buttonName = "submit ✓"
+        addNew(this.cpltList);
+        this.submitButton.complete = true;
         update();
+        display.scroll({ top: 150, behavior: "smooth" });
+
     }
 
     fail() {
         document.getElementById(this.id).classList.add("shaker");
+        this.submitButton.complete = false;
         let that = this;
         setTimeout(function () {
             document.getElementById(that.id).classList.remove("shaker");
         }, 500);
-        this.submitButton.buttonName = "submit"
-        document.getElementById(this.submitButton.id).value = this.submitButton.buttonName
+
     }
 
     clear() {
-        if (this.state == 0 && document.getElementById(this.id)) {
+        if (this.state == 2 && document.getElementById(this.id)) {
             document.getElementById(this.id).remove();
         }
     }
 }
 
+//image module
+class ImgMod {
+    constructor(state, id, modletLst) {
+        this.name = "img";
+        this.state = state;
+        if (admin) {
+            this.state = 2;
+        }
+        this.id = id;
+        this.modletLst = modletLst;
+        this.htmlElem;
+    }
+
+    create() {
+        let out = document.createElement("div")
+        out.classList.add("flexItem")
+        out.classList.add("imgModule")
+        out.id = this.id;
+        for (let i = 0; i < this.modletLst.length; i++) {
+            const item = this.modletLst[i];
+            let modletHtml = item.create();
+            out.appendChild(modletHtml);
+        }
+        return out;
+    }
+
+    clear() {
+        if (this.state == 2 && document.getElementById(this.id)) {
+            document.getElementById(this.id).remove();
+        }
+    }
+}
 
 //modulettes
 //title modulette
@@ -192,13 +247,57 @@ class ParaModlet {
     create() {
         let main = document.createElement("div");
         main.classList.add("modulette");
+        let arr = document.createElement("p");
+        arr.innerHTML = ">"
+        arr.classList.add("dispParaArr");
         let inDiv = document.createElement("div");
         inDiv.classList.add("dispParaDiv");
         inDiv.classList.add("flexItem");
         let inElem = document.createElement("p");
         inElem.classList.add("dispPara");
         inElem.innerHTML = this.text;
+        inDiv.appendChild(arr)
         inDiv.appendChild(inElem);
+        main.appendChild(inDiv);
+
+        return main;
+    }
+}
+
+//dialogue modulette
+class DiaModlet {
+    constructor(name, text) {
+        this.name = "dia";
+        this.name = this.hyphened(name);
+        this.text = text;
+    }
+
+    hyphened(name) {
+        let x = name;
+        if (x == "Gilmore") {
+            x = "Gil&shy;more";
+        }
+        return x;
+    }
+
+    create() {
+        let main = document.createElement("div");
+        main.classList.add("modulette");
+        let inDiv = document.createElement("div");
+        inDiv.classList.add("dispDiaDiv");
+        inDiv.classList.add("flexItem");
+        // let arr = document.createElement("p");
+        // arr.innerHTML = ">"
+        // arr.classList.add("dispParaArr");
+        let inElem1 = document.createElement("p");
+        inElem1.classList.add("dispDiaName");
+        inElem1.innerHTML = this.name + ":";
+        let inElem2 = document.createElement("p");
+        inElem2.innerHTML = "\"" + this.text + "\"";
+        inElem2.classList.add("dispDiaPara");
+        // inDiv.appendChild(arr);
+        inDiv.appendChild(inElem1);
+        inDiv.appendChild(inElem2);
         main.appendChild(inDiv);
 
         return main;
@@ -207,7 +306,7 @@ class ParaModlet {
 
 //character input modulette
 class CharModlet {
-    constructor(id, ans, val) {
+    constructor(id, ans, val = "") {
         this.name = "char";
         this.id = id;
         this.ans = ans.toUpperCase();
@@ -223,8 +322,10 @@ class CharModlet {
         let inElem = document.createElement("input");
         inElem.type = "text";
         inElem.addEventListener("input", inputChange);
+        inElem.addEventListener("keydown", checkDelete);
         inElem.classList.add("charInp");
-        inElem.maxLength = "1";
+        inElem.maxLength = "2";
+        inElem.autocomplete = "new-password";
         inElem.id = this.id;
         inElem.value = this.val;
         inDiv.appendChild(inElem);
@@ -240,11 +341,12 @@ class CharModlet {
 
 //word input modulette
 class WordModlet {
-    constructor(id, ans, val, oneWord) {
+    constructor(id, ans, plc, oneWord) {
         this.name = "word";
         this.id = id;
         this.ans = ans.toUpperCase();
-        this.val = val.toUpperCase();
+        this.plc = plc;
+        this.val = "";
         this.oneWord = oneWord;
     }
 
@@ -258,6 +360,8 @@ class WordModlet {
         inElem.type = "text";
         inElem.addEventListener("input", inputChange);
         inElem.classList.add("wordInp");
+        inElem.placeholder = this.plc;
+        inElem.autocomplete = "new-password";
         if (this.oneWord) {
             inElem.addEventListener("keypress", function () { return event.charCode != 32 });
         }
@@ -307,13 +411,18 @@ class ColModlet {
     }
 }
 
-
 //submit button modulette
 class SubmitModlet {
-    constructor(id, buttonName) {
+    constructor(id, buttonName, local) {
         this.name = "submit";
         this.id = id;
-        this.buttonName = buttonName;
+        this.buttonName = buttonName.toUpperCase();
+        this.local = local;
+        this.complete = false;
+        if (this.buttonName == "") {
+            this.buttonName = "SUBMIT";
+        }
+
     }
 
     create() {
@@ -326,7 +435,14 @@ class SubmitModlet {
         inElem.type = "button";
         inElem.classList.add("submitInp");
         inElem.addEventListener("click", submit);
-        inElem.value = this.buttonName;
+        if (this.complete) {
+            inElem.value = this.buttonName + " ✓";
+        }
+        else if (this.local) {
+            inElem.value = this.buttonName + " 🍃";
+        } else {
+            inElem.value = this.buttonName + " 🍂";
+        }
         inElem.id = this.id;
         inDiv.appendChild(inElem);
         main.appendChild(inDiv);
@@ -336,72 +452,212 @@ class SubmitModlet {
     }
 }
 
+//image modulette
+class ImgModlet {
+    constructor(url, height) {
+        this.name = "imglet";
+        this.url = url;
+        this.height = height;
+    }
+
+    create() {
+        let main = document.createElement("div");
+        main.classList.add("modulette");
+        let inDiv = document.createElement("div");
+        inDiv.classList.add("dispImgDiv");
+        inDiv.classList.add("flexItem");
+        let inElem = document.createElement("img");
+        inElem.classList.add("dispImg");
+        inElem.src = this.url;
+        inElem.style.height = this.height + "px";
+        inDiv.appendChild(inElem);
+        main.appendChild(inDiv);
+
+        return main;
+    }
+}
+
 
 //tiles
-var tiles = [
-    new DTile([0, 3], 2, "AYT0", mapAreas[0], [
-        new TextMod(0, "textMod1", [
-            new TitleModlet("Welcome to Escape World Demo"),
-            new ParaModlet("Greetings weary traveller. You must have walked far to reach lands such as these. <br> Sadly I cannot offer you a resting place, looking at how overrun my home is <br> I assure you, you only have a little travel left to go until paradise<br> Go forth, stay strong, the adventure is yours to take<br>"),
-            new TitleModlet("Press the arrow below to continue")
-        ])]
-    ),
-    new DTile([1, 3], 2, "ART1", mapAreas[0], [
-        new TextMod(0, "TextMod1", [
-            new TitleModlet("A Blinded Troll"),
-            new ParaModlet("A troll blocks your way. He demands his precious code which he can't live without. He seemed to have misplaced it, and because of the sunlight, he is too blind to see. Without his code he can't snuggle up to sleep at day<br>Help him find his code."),
-        ]),
-        new InputMod(0, "InputMod1", [
-            new CharModlet("charInp1", "A", ""),
-            new CharModlet("charInp2", "R", ""),
-            new CharModlet("charInp3", "T", ""),
-            new CharModlet("charInp4", "1", ""),
-            new SubmitModlet("submit1", "submit")
-        ], [[1, [2, 3]], [2, 2]]
+var tiles = [];
+//to make tile making simpler:
+var op = 2; //show/accessible on load
+var hid = 1; //hidden/locked on load
+function createDemoTiles() {
+    let demoTiles = [
+        new DTile([0, 3], op, "CODE", ma[0], [
+            new TextMod(op, "textMod1", [
+                new TitleModlet("Welcome to Escape World Demo"),
+                new ParaModlet("An old man is seated in a ruined town. Around, talls hills peak towards the sky."),
+                new DiaModlet("Old man", "Greetings weary traveller. It must have been a long journey to arrive at lands like these."),
+                new DiaModlet("Old man", "I assure you, there is only a little travel left to go until paradise. Go forth, stay strong. The adventure is yours to take."),
+                new ParaModlet("Newly envigored, you continue your journey. "),
+                new TitleModlet("Press the arrow below to continue")
+            ])]
         ),
-        new TextMod(1, "textMod2", [
-            new TitleModlet("The troll is satisfied. Onwards!")
-        ])]
-    ),
-    new DTile([2, 3], 1, "AGT2", mapAreas[1], [
-        new TextMod(0, "TextMod1", [
-            new TitleModlet("Tricky Trees"),
-            new ParaModlet("A Group  of trees surround you, demanding that you solve their tricky little puzzle before you can pass. They tell you to remember this monologue:"),
-            new ParaModlet("HELLO traveller. capitals are worthless aren't they? wouldn't it be nice if we could replace capitals with BLUE and YELLOW? unfortunately not so!!"),
-            new TitleModlet("Scroll down"),
-        ]),
-        new InputMod(0, "InputMod1", [
-            new WordModlet("wordInp1", "HELLO", "", true),
-            new ColModlet("colInp1", colOptLst, 2, 0),
-            new ColModlet("colInp2", colOptLst, 4, 0),
-            new SubmitModlet("submit1", "submit")
-        ], [[1, [2, 4]]]
-        )]
-    ),
-    new DTile([2, 4], 1, "GPR3", mapAreas[2], [
-        new TextMod(0, "textMod1", [
-            new TitleModlet("A Perculiar Conundrum"),
-            new ParaModlet("HEY YOU TRAVELLER! I really need help with this puzzle! My wife says that I would not get any dinner if its not finished. Like I really need it done. Like so badly that I won't let you continue until you help me."),
-            new ParaModlet("Help this man get his dinner.")
-        ]),
-        new InputMod(0, "inputMod1", [
-            new ColModlet("colInp1", colOptLst, 1, 0),
-            new ColModlet("colInp2", colOptLst, 3, 0),
-            new ColModlet("colInp3", colOptLst, 0, 0),
-            new CharModlet("charInp1", "3", ""),
-            new SubmitModlet("submit1", "submit")
-        ], [[1, [3, 4]]]
-        )]
-    ),
-    new DTile([3, 4], 1, "YAY4", mapAreas[3], [
-        new TextMod(0, "textmod1", [
-            new TitleModlet("Welcome to Paradise!"),
-            new ParaModlet("(AKA the end of the demo) <br>Contact me with ideas!")
+        new DTile([1, 3], op, "ART1", ma[0], [
+            new TextMod(op, "TextMod1", [
+                new TitleModlet("Bridge of Drowsiness"),
+                new ParaModlet("You try to cross a bridge, but a troll blocks your way. With it are two blankets and a pillow."),
+                new DiaModlet("Troll", "I need sleep! ooga booga willy wonka! Give me a tasty code for me to sleep, or else no one passes this bridge!"),
+            ]),
+            new InputMod(op, "InputMod1", [
+                new CharModlet("charInp1", "A"),
+                new CharModlet("charInp2", "R"),
+                new CharModlet("charInp3", "T"),
+                new CharModlet("charInp4", "1"),
+                new SubmitModlet("submit1", "submit", true)
+            ], [[1, [2, 3]], [2, 0, 2]]
+            ),
+            new TextMod(hid, "textMod2", [
+                new TitleModlet("The troll is satisfied. Onwards!")
+            ])]
+        ),
+        new DTile([2, 3], hid, "AGT2", ma[1], [
+            new TextMod(op, "TextMod1", [
+                new TitleModlet("Trove of Tricky Trees"),
+                new ParaModlet("A Group  of trees surround you, demanding that you solve their tricky little puzzle before you can pass. They tell you to remember this monologue:"),
+                new DiaModlet("Trees", "HELLO traveller. i hate capitals. ottawa and washington DC? wouldn't it be nice if we could replace capitals with BLUE and YELLOW? would be much more pleasing to the eye."),
+                new TitleModlet("Scroll down"),
+            ]),
+            new InputMod(op, "InputMod1", [
+                new WordModlet("wordInp1", "HELLO", "", true),
+                new ColModlet("colInp1", colOptLst, 2, 0),
+                new ColModlet("colInp2", colOptLst, 4, 0),
+                new SubmitModlet("submit1", "submit", true)
+            ], [[1, [2, 4]]]
+            )]
+        ),
+        new DTile([2, 4], hid, "GPR3", ma[2], [
+            new TextMod(op, "textMod1", [
+                new TitleModlet("A Rickety Shack"),
+                new DiaModlet("Man", "HEY YOU TRAVELLER! I really need help with this puzzle! My wife says that I would not get any dinner if its not finished. Like I really need it done. Like so badly that I won't let you continue until you help me."),
+                new ParaModlet("Help this man get his dinner.")
+            ]),
+            new InputMod(op, "inputMod1", [
+                new ColModlet("colInp1", colOptLst, 1, 0),
+                new ColModlet("colInp2", colOptLst, 3, 0),
+                new ColModlet("colInp3", colOptLst, 0, 0),
+                new CharModlet("charInp1", "3", ""),
+                new SubmitModlet("submit1", "submit", true)
+            ], [[1, [3, 4]]]
+            )]
+        ),
+        new DTile([3, 4], hid, "YAY4", ma[3], [
+            new TextMod(op, "textmod1", [
+                new TitleModlet("Welcome to Paradise!"),
+                new ParaModlet("Thank you for playing the demo! Contact me with more ideas. First story will be out soon!")
+            ])
         ])
-    ])
-]
+    ];
 
+    return demoTiles;
+}
 
+// map codes: 0 -> empty, 1 -> present, 2 -> unlocked, 3 -> visited
+
+function createStory1Tiles() {
+    let story1Tiles = [
+        new DTile([sy, sx], op, "ABC1", ma[0], [
+            new TextMod(op, "1", [
+                new TitleModlet("Before the Throne"),
+                new DiaModlet("King", "Adventurer, I have called you for a mission of utmost importance. 30 thousand gold ducets are at your disposal if you can bring to me the three crystals scattered across the outskirts of the country."),
+                new DiaModlet("Guard", "Go now, make haste. The future of this kingdom rests on your hands.")
+            ])
+        ])
+        , new DTile([sy + 1, sx], op, "ABD1", ma[1], [
+            new TextMod(op, "1", [
+                new TitleModlet("Lonely Shack")
+                , new ParaModlet("You walk up to a sole shack built by a lake. On the porch is an old grey man glaring at you.")
+                , new DiaModlet("Old Man", "Oh another adventurer from the Kingdom eh? I've seen many of you return disconcerted to know I should do a thing or two to prepare you.")
+                , new DiaModlet("Gilmore", "Call me Gilmore. If you can't answer my questions, I won't be letting you pass. Deal?<br>First question: What is the name of this area?")
+
+            ])
+            , new InputMod(op, "2", [
+                new WordModlet("a3", "PLAINS OF ACCEPTANCE", "", false)
+                , new SubmitModlet("s1", "", true)
+            ], [[1, [sy + 1, sx + 1]], [2, 0, 2]])
+            , new TextMod(hid, "3", [
+                new DiaModlet("Gilmore", "That was an easy one. Follow me.")
+            ])
+        ])
+        , new DTile([sy + 1, sx + 1], hid, "ABD2", ma[1], [
+            new TextMod(op, "1", [
+                new TitleModlet("Rocky Riverbed")
+                , new ParaModlet("You follow Gilmore along a small river. It's not deep enough to be impassable. Three weeping trees surround the area where you stop")
+                , new DiaModlet("Gilmore", "This is my favourite spot by the river. A nice place to ask you the second question: What is the name of this spot?")
+                , new DiaModlet("Gilmore", "You know what, that's too easy. Give me the code for this spot as well.")
+            ])
+            , new InputMod(op, "2", [
+                new WordModlet("a1", "rocky riverbed", "", false)
+                , new CharModlet("c1", "A")
+                , new CharModlet("c2", "B")
+                , new CharModlet("c3", "D")
+                , new CharModlet("c4", "2")
+                , new SubmitModlet("s1", "", true)
+            ], [[1, [sy + 1, sx + 2]], [2, 0, 2]])
+            , new TextMod(hid, "3", [
+                new DiaModlet("Gilmore", "Pay attention to those codes. Many who ask for a four digit answer are looking for one.")
+            ])
+            , new TextMod(hid, "4", [
+                new ParaModlet("You search around the area for a piece of paper. You find it lodged into a tree root. The first two and only two words written on it are: 'GOOD JOB'.")
+            ])
+        ])
+        , new DTile([sy + 1, sx + 2], hid, "ADD4", ma[1], [
+            new TextMod(op, "1", [
+                new TitleModlet("Rapid Rapids")
+                , new ParaModlet("The river turns into a rapid, the water flow intermittently interrupted by large rocks.")
+                , new DiaModlet("Gilmore", "I hate the rapids. Here's a riddle you may hate also: Alphabetized Antynoms Associated Aside And Away Apt Application.")
+            ])
+            , new InputMod(op, "2", [
+                new WordModlet("a1", "acid", "February", false)
+                , new WordModlet("a2", "add", "Subtract", false)
+                , new WordModlet("a3", "august", "Base", false)
+                , new SubmitModlet("s1", "", true)
+            ], [[1, [sy + 2, sx + 2]], [1, [sy + 3, sx + 2]], [2, 0, 2]])
+            , new TextMod(hid, "3", [
+                new DiaModlet("Gilmore", "Good work. You are turning out to be a promising adventurer.")
+            ])
+        ])
+        , new DTile([sy + 2, sx + 2], hid, "AGO3", ma[1], [
+            new TextMod(op, "1", [
+                new TitleModlet("River Bend")
+                , new ParaModlet("The river bends. You follow Gilbert along the bend. There's a lot of rocks along the riverbed, some glinting stones catch your eye.")
+                , new DiaModlet("Gilmore", "Sometimes there's nothing in a spot. Let us continue.")
+            ])
+        ])
+        , new DTile([sy + 3, sx + 2], hid, "AGN3", ma[1], [
+            new TextMod(op, "1", [
+                new TitleModlet("Sole Campground")
+                , new ParaModlet("You enter into a clearing devoid of trees, save one, lonely and proud, preserved in the center. On one side is the river, on the other is a sparse collection of trees. A campfire, recently used, also occupies the center of the clearing.")
+                , new DiaModlet("Gilmore", "Good work adventurer, we're almost done. However it seems I have misplaced the paper with all my advice. It must have fell out when I was sitting in the shade of the best spot by the river. Please find it and tell me the first word on it.")
+            ], [[2, [sy + 1, sx + 1], 3]])
+            , new InputMod(op, "2", [
+                new WordModlet("a1", "good", "", false)
+                , new SubmitModlet("s1", "", false)
+            ], [[1, [sy + 4, sx + 2]], [2, 0, 2]])
+            , new TextMod(hid, "3", [
+                new DiaModlet("Gilmore", "Good Job, you passed the test. Of course I remember my advices, there's no need for that paper. Follow me.")
+            ])
+        ])
+        , new DTile([sy + 4, sx + 2], hid, "ALL5", ma[1], [
+            new TextMod(op, "1", [
+                new TitleModlet("Bush")
+                , new ParaModlet("Gilmore leads you to a bush. It is nothing more than a bush.")
+                , new DiaModlet("Gilmore", "1. Always ask questions, the people of this land are full of useful information, you just need to uncover it.<br>2. Pay attention to the small details, however many details are completely useless.<br>3. Fall leaves require you to search past the confines of a singular spot.")
+                , new DiaModlet("Gilmore", "Good luck adventurer. I pray you did not do this just for the money. The king... No, you must experience it yourself. I bid thee farewell.")
+            ])
+        ])
+        , new DTile([sy + 4, sx + 1], op, "END4", ma[2], [
+            new TextMod(op, "1", [
+                new TitleModlet("END OF PART 1")
+            ])
+        ])
+
+    ]
+
+    return story1Tiles;
+}
 
 
 
@@ -416,11 +672,29 @@ function inputChange() {
             for (let j = 0; j < element.inputModlets.length; j++) {
                 const modulette = element.inputModlets[j];
                 if (modulette.id == this.id) {
+                    if (this.maxLength == 2) {
+                        if (x.length > 1) {
+                            x = x.substring(1)
+                        }
+                    }
                     modulette.val = x;
                     document.getElementById(this.id).value = x;
-                    changeFocus(this);
+                    if (this.maxLength == 2) {
+                        if (x.length > 0) {
+                            changeFocus(this, true);
+                        }
+                    }
                 }
             }
+        }
+    }
+}
+
+function checkDelete(e) {
+    let x = document.getElementById(this.id).value.toUpperCase();
+    if (x.length < 1) {
+        if (e.which == 8 || e.which == 48) {
+            changeFocus(this, false)
         }
     }
 }
@@ -437,7 +711,7 @@ function submit() {
                         good = false;
                     }
                 }
-                if (good) {
+                if (good && !element.submitButton.complete) {
                     element.complete()
                 } else {
                     element.fail()
@@ -463,25 +737,108 @@ function colChange() {
     }
 }
 
-function changeFocus(that) {
+function changeFocus(that, fwd) {
     let all = document.getElementsByClassName("charInp");
     for (let i = 0; i < all.length; i++) {
         const element = all[i];
         if (element == that) {
-            if (all[i + 1]) {
-                all[i + 1].focus()
+            if (fwd) {
+                if (all[i + 1]) {
+                    all[i + 1].focus()
+                }
+            }
+            if (!fwd) {
+                if (all[i - 1]) {
+                    all[i - 1].focus()
+                }
             }
         }
     }
 }
+
+//add modules or unlock tiles
+function addNew(lst) {
+    for (let i = 0; i < lst.length; i++) {
+        const element = lst[i];
+        switch (element[0]) {
+            case 1:
+                unlock(element[1][0], element[1][1]);
+                break;
+            case 2:
+                if (element[1] == 0) {
+                    tile.modList[element[2]].state = 2;
+                }
+                else {
+                    console.log(element[1][0], element[1][1], infoArray[element[1][0]][element[1][1]])
+                    infoArray[element[1][0]][element[1][1]].modList[element[2]].state = 2;
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
 
 function clearModules() {
     for (let i = 0; i < tile.modList.length; i++) {
         const element = tile.modList[i];
         element.clear();
     }
+    const x = document.getElementsByClassName("dividerDiv");
+    const n = x.length
+    for (let i = 0; i < n; i++) {
+        const element = x[0];
+        element.remove();
+    }
 }
 
+//arrows
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+    e = e || window.event;
+    if (e.keyCode == '38') {
+        // up arrow
+        if (!upArrow.classList.contains("disabled")) {
+            clickArrow('U')
+        }
+    }
+    else if (e.keyCode == '40') {
+        // down arrow
+        if (!downArrow.classList.contains("disabled")) {
+            clickArrow('D')
+        }
+    }
+    else if (e.keyCode == '37') {
+        // left arrow
+        if (!leftArrow.classList.contains("disabled")) {
+            clickArrow('L')
+        }
+    }
+    else if (e.keyCode == '39') {
+        // right arrow
+        if (!rightArrow.classList.contains("disabled")) {
+            clickArrow('R')
+        }
+    }
+    else if (e.keyCode == '13') {
+        //enter
+        for (let i = 0; i < tile.modList.length; i++) {
+            const element = tile.modList[i];
+            if (element.name == "input") {
+                if (element.submitButton.complete == false) {
+                    document.getElementById(element.submitButton.id).click();
+
+                }
+            }
+        }
+
+    }
+
+}
 
 function clickArrow(dir) {
     switch (dir) {
@@ -511,6 +868,7 @@ function clickArrow(dir) {
     } else if (place[1] < 0) {
         place[1] = 0;
     }
+    display.scroll({ top: 0 });
     update()
 }
 
@@ -539,6 +897,7 @@ function changeArrowState(value, htmlElem) {
             break;
         case 2:
             htmlElem.classList.remove("disabled")
+            break;
     }
 }
 
@@ -566,11 +925,84 @@ function start() {
     for (let i = 0; i < tiles.length; i++) {
         const element = tiles[i];
         element.build();
-
     }
     update();
 }
 
 
+function startDemo() {
+    display.innerHTML = "";
+    mapx = 7;
+    mapy = 7;
+    map = Array(mapy).fill().map(() => Array(mapx).fill(0));
+    infoArray = Array(mapy).fill().map(() => Array(mapx).fill(0));
+    sx = 3;
+    sy = 0;
+    place = [sy, sx];
+    ma = ["&#9968; Intro Hills &#9968;", "&#127794; Forest of Trials &#127794;", "&#9889; Thuderous Plains &#9889;", "&#9970; Hopeful Paradise &#9970;"];
+    colOptLst = ["#ff0000", "#00ff00", "#0000ff", "#8f1a9c", "#f7e707"];
+    tiles = createDemoTiles();
+    start();
+}
 
-start()
+function startStory1() {
+    display.innerHTML = "";
+    mapx = 64;
+    mapy = 64;
+    map = Array(mapy).fill().map(() => Array(mapx).fill(0));
+    infoArray = Array(mapy).fill().map(() => Array(mapx).fill(0));
+    sx = 31;
+    sy = 15;
+    place = [sy, sx];
+    ma = ["&#x1F451; The King's Court &#x1F451;", "&#127793; Plains of Acceptance &#127793;", "&#x1F6A7; Under Contruction &#x1F6A7;", "&#127794; Forest of Trials &#127794;", "&#9889; Thuderous Plains &#9889;", "&#9970; Hopeful Paradise &#9970;"];
+    colOptLst = ["#ff0000", "#00ff00", "#0000ff", "#8f1a9c", "#f7e707", "#888"];
+    tiles = createStory1Tiles();
+    start();
+}
+
+
+function mainMenu() {
+    areaName.innerHTML = "&#x1F30F; World of Escapades &#x1F30F;";
+    codeNum.innerHTML = "&#x1F31F;";
+    filler.innerHTML = "&#x1F31F;";
+
+    let mainMenuDisplay = new TextMod(op, "1", [
+        new TitleModlet("Select the story you wish to play.")
+    ])
+
+    display.appendChild(mainMenuDisplay.create())
+
+    let main = document.createElement("div");
+    main.classList.add("modulette");
+    let mainDiv1 = document.createElement("div");
+    mainDiv1.classList.add("menuDiv");
+    mainDiv1.classList.add("flexItem");
+    let button1 = document.createElement("button");
+    button1.type = "button";
+    button1.innerHTML = "Demo";
+    button1.classList.add("menuButton");
+    button1.onclick = function () { startDemo() };
+    mainDiv1.appendChild(button1);
+
+    let main2 = document.createElement("div");
+    main2.classList.add("modulette");
+    let mainDiv2 = document.createElement("div");
+    mainDiv2.classList.add("menuDiv");
+    mainDiv2.classList.add("flexItem");
+    let button2 = document.createElement("button");
+    button2.type = "button";
+    button2.innerHTML = "Story 1";
+    button2.classList.add("menuButton");
+    button2.onclick = function () { startStory1() };
+    mainDiv2.appendChild(button2);
+
+    main.appendChild(mainDiv1);
+    main2.appendChild(mainDiv2);
+
+    display.appendChild(main);
+    display.appendChild(main2);
+}
+
+
+
+mainMenu()

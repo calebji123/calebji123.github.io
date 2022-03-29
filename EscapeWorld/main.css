@@ -47,6 +47,7 @@ input {
 
 p {
     font-family:'Courier New', Courier, monospace;
+    font-size: 15px;
 }
 
 
@@ -114,7 +115,7 @@ p {
 
 .disabled {
     pointer-events: none;
-    opacity: 0.3;
+    display: none;
 }
 
 #main {
@@ -136,22 +137,55 @@ p {
     overflow-y: scroll;
 }
 
+/* menu select */
+.menuButton {
+    outline: none;
+    font-family:'Courier New', Courier, monospace;
+    background-color:transparent;
+    border: none;
+    font-size: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.menuButton:hover {
+    text-decoration: underline;
+}
+
+.menuDiv {
+    width: 500px;
+}
+
+
+
 /* inside display */
 
-#codeNumDiv {
-    width: 16%;
+#header {
     height: 8%;
+    width: 100%;
+}
+
+#codeNumDiv {
+    width: 15%;
+    height: 100%;
     border-right: solid black 1px;
     border-bottom: solid black 1px;
 }
 
 #areaNameDiv {
-    width: 80%;
-    height: 8%;
+    width: 70%;
+    height: 100%;
     border-bottom: solid black 1px;
 }
 
-#codeNum {
+#filler {
+    width: 15%;
+    height: 100%;
+    border-left: solid black 1px;
+    border-bottom: solid black 1px;
+}
+
+#codeNum, #fillerFill {
     font-size: 20px;
     font-weight: 500;
 }
@@ -163,11 +197,21 @@ p {
 
 
 
+
+
 /* modules */
+.dividerDiv {
+    width: 500px;
+}
+
+.dividerImg {
+    width: 500px;
+}
 
 .textModule {
     align-items: stretch;
     flex-wrap: wrap;
+    justify-content: left;
 }
 
 .inptModule {
@@ -185,22 +229,21 @@ p {
 
 .charInp {
     max-width: 40px;
-    padding-top: 40px;
+    margin-top: 20px;
     margin-bottom: 40px;
     border:none;
     border-bottom: solid black 2px;
     outline: none;
-    font-size: 40px;
+    font-size: 30px;
     text-align: center;
 }
 
 .wordInpDiv {
     width: 500px;
-    height: 100px;
+    height: 60px;
 }
 
 .wordInp {
-    padding-top: 40px;
     border: none;
     border-bottom: solid black 2px;
     border-radius: 2px;
@@ -252,13 +295,46 @@ p {
     text-align: center;
 }
 
+.dispParaArr {
+    margin-right: 10px;
+    margin-left: 15px;
+    align-self: flex-start;
+}
+
 .dispParaDiv {
-    padding: 0px 30px;
+    /* padding: 0px 30px; */
+    width: 95%;
+    min-width: 475px;
+    justify-content: left;
 }
 
 .dispPara {
-    text-align: center;
+    /* text-align: center; */
 }
 
+.dispImgDiv {
+    width: 500px;
+}
 
+.dispImg {
+    padding: 20px;
+}
 
+.dispDiaDiv {
+    padding-left: 33.5px;
+    width: 90%;
+}
+
+.dispDiaName {
+    margin-right: 10px;
+    align-self: flex-start;
+    min-width: 60px;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.dispDiaPara {
+    padding-left: 5px;
+    min-width: 380px;
+    border-left:rgba(122, 122, 122, 0.5) 2px solid;
+}
