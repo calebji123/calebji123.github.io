@@ -607,12 +607,12 @@ function createStory1Tiles() {
             new TextMod(op, "1", [
                 new TitleModlet("Rapid Rapids")
                 , new ParaModlet("The river turns into a rapid, the water flow intermittently interrupted by large rocks.")
-                , new DiaModlet("Gilmore", "I hate the rapids. Here's a riddle you may hate also: Alphabetized Antynoms Associated Aside And Away Apt Application.")
+                , new DiaModlet("Gilmore", "I hate the rapids. Here's a riddle you may hate also: Associate Antynoms At Apt Application.")
             ])
             , new InputMod(op, "2", [
-                new WordModlet("a1", "acid", "February", false)
+                new WordModlet("a1", "acid", "Base", false)
                 , new WordModlet("a2", "add", "Subtract", false)
-                , new WordModlet("a3", "august", "Base", false)
+                , new WordModlet("a3", "apple", "Orange", false)
                 , new SubmitModlet("s1", "", true)
             ], [[1, [sy + 2, sx + 2]], [1, [sy + 3, sx + 2]], [2, 0, 2]])
             , new TextMod(hid, "3", [
@@ -630,7 +630,7 @@ function createStory1Tiles() {
             new TextMod(op, "1", [
                 new TitleModlet("Sole Campground")
                 , new ParaModlet("You enter into a clearing devoid of trees, save one, lonely and proud, preserved in the center. On one side is the river, on the other is a sparse collection of trees. A campfire, recently used, also occupies the center of the clearing.")
-                , new DiaModlet("Gilmore", "Good work adventurer, we're almost done. However it seems I have misplaced the paper with all my advice. It must have fell out when I was sitting in the shade of the best spot by the river. Please find it and tell me the first word on it.")
+                , new DiaModlet("Gilmore", "Good work adventurer, we're almost done. However it seems I have misplaced the paper with all my advice. It must have fell out when I was sitting in the shade of the best spot by the river. Please find it and tell me the first word on it. I will give you a hint: the content in a tile is sometimes larger than the box itself.")
             ], [[2, [sy + 1, sx + 1], 3]])
             , new InputMod(op, "2", [
                 new WordModlet("a1", "good", "", false)
