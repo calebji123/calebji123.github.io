@@ -251,7 +251,7 @@ const Hackathon = new Category({
 })
 
 export
-   const categoryList = [Idris, Web, Python, Elm, Processing, Hackathon]
+   const categoryList = [Idris, Web, Processing, Hackathon]
 
 
 

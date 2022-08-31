@@ -1,7 +1,7 @@
 import React from "react";
 import "./Elements.css"
 import "./index.css"
-import { Link, Element } from 'react-scroll'
+import { Link } from 'react-scroll'
 import 'animate.css';
 
 import github_logo from "./images/github.svg"
