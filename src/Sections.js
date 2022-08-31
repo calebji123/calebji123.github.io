@@ -11,6 +11,7 @@ import insta_logo from "./images/instagram.svg"
 
 
 
+
 export
    class TitlePage extends React.Component {
    constructor(props) {
