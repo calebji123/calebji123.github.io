@@ -27,6 +27,7 @@ class MainPage extends React.Component {
 	}
 
 	componentDidMount() {
+		document.title = "Caleb's Website"
 		window.addEventListener("scroll", this.onScroll);
 	}
 	componentWillUnmount() {
