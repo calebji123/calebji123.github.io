@@ -10,7 +10,6 @@ import rarrow_icon from "./images/right.svg"
 import darrow_icon from "./images/down.svg"
 import down_arrow_icon from "./images/arrowdown.svg"
 
-
 //text
 export
    function Title(props) {
