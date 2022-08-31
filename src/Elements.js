@@ -4,8 +4,6 @@ import "./index.css"
 import { Link, Element } from 'react-scroll'
 import 'animate.css';
 
-
-
 import github_logo from "./images/github.svg"
 import link_logo from "./images/link.svg"
 import rarrow_icon from "./images/right.svg"
