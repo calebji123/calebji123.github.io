@@ -5,3 +5,5 @@ This is a website coded and designed by Caleb Ji. The design was initially draft
 ## Coming 
 * Responsive design for smaller screens
 * Blog page
+
+Check it out at: http://calebji.com
