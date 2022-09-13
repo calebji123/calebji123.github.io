@@ -18,7 +18,7 @@ export
       super(props)
       this.name = props.name
       this.navNames = props.navNames
-      this.address = "title_page" + props.index
+      this.address = "title_page"
    }
 
 

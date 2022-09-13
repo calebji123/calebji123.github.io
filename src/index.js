@@ -8,7 +8,8 @@ import { AboutPage, TitlePage, FeaturedPage, BlogPage, ResumePage, ProjectsPage,
 
 
 
-
+document.title = "Caleb's Website"
+document.querySelector('meta[name="description"]').setAttribute("content", "Caleb's website, built with React.js");
 
 class MainPage extends React.Component {
 	constructor(props) {
@@ -23,11 +24,9 @@ class MainPage extends React.Component {
 		this.state = {
 			showNav: false
 		}
-
 	}
 
 	componentDidMount() {
-		document.title = "Caleb's Website"
 		window.addEventListener("scroll", this.onScroll);
 	}
 	componentWillUnmount() {
@@ -69,7 +68,7 @@ class MainPage extends React.Component {
 				/>
 				<MarginContainer>
 					<AboutPage
-						content="I’m an aspiring doctor studying at the University of Toronto for Life Sciences in my first year. I love computer science, especially making games. I started coding when I was 12 and I don’t plan on stopping. "
+						content="I am currently a student at the University of Toronto studying first year life sciences, thinking about applying into med school. I have been coding since I was 12, and I don't plan on stopping. I am currently focused on web development, particularly game development through javascript. I have recently also started learning functional programming through languages such as Elm and Idris."
 					/>
 					<FeaturedPage
 						featuredList={this.featuredList}
@@ -90,31 +89,6 @@ class MainPage extends React.Component {
 		)
 	}
 }
-
-
-{/* <div>
-				<TitlePage
-					nav_names={this.nav_names}
-					name="Caleb Ji"
-				/>
-				<MarginContainer>
-					<AboutPage
-						content="I’m an aspiring doctor studying at the University of Toronto for Life Sciences in my first year. I love computer science, especially making games. I started coding when I was 12 and I don’t plan on stopping. "
-					/>
-					<FeaturedPage
-						featured1={this.projects[0]}
-						featured2={this.projects[3]}
-						featured3={this.projects[2]}
-					/>
-					<BlogPage />
-					<ResumePage />
-					<ProjectsPage categories={this.categories} />
-					<ArchivePage
-						desc="A look back at some of my early years in coding, found by digging through my files. It serves as a reminder of how far I’ve come, but also how cool my first projects were. "
-						archiveList={archiveList}
-					/>
-				</MarginContainer>
-			</div> */}
 
 // ========================================
 

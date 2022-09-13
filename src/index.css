@@ -162,3 +162,16 @@ a:hover {
   display: flex;
   flex-direction: row;
 }
+
+.flex_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.align_center {
+  align-items: center;
+}
+
+.justify_center {
+  justify-content: center;
+}
