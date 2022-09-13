@@ -5,6 +5,7 @@ This is a website coded and designed by Caleb Ji. The design was initially draft
 ## Coming 
 * Responsive design for smaller screens
 * Functioning buttons in the contact page
+* Animations and other small design improvements
 * Blog page
 
 Check it out at: http://calebji.com
