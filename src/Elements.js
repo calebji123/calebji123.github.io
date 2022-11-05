@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Elements.css"
 import "./index.css"
 import { Link } from 'react-scroll'
@@ -15,8 +15,8 @@ export
    function Title(props) {
    return (
       <div className="title_container">
-         <p className="title title_size">{props.name}</p>
          <div className="title_bar"></div>
+         <p className="title title_size">{props.name}</p>
       </div>
    )
 }
@@ -24,7 +24,7 @@ export
 export
    function Header(props) {
    return (
-      <h1 className="header">{props.title}</h1>
+      <h1 className="header header_size">{props.title}</h1>
    )
 }
 
@@ -36,12 +36,11 @@ function NavText(props) {
          <Link activeClass="active" to={props.nav[1]} spy={true} smooth={true} offset={-100} duration={500} >
             <p className="nav_name">{props.nav[0]}</p>
          </Link>
-         <a href={props.nav[1]}></a>
       </div>
    )
 }
 
-function NavCircle(props) {
+function NavCircle() {
    return (
       <div className="circle_container">
          <div className="circle"></div>
@@ -49,35 +48,15 @@ function NavCircle(props) {
    )
 }
 
-function GenerateNav(props) {
-   if (props.index > 0) {
-      return (
-         <div key={props.index} className="nav_small_container">
-            <NavCircle />
-            <NavText nav={props.nav} />
-         </div>
-      )
-   }
-   else {
-      return (
-         <div key={props.index}>
-            <NavText nav={props.nav} />
-         </div>
-      )
-   }
-}
-
 export
    function NavBar(props) {
    return (
-      <div className="navbar_container animate__animated animate__fadeIn animate__delay-1s">
+      <div className="navbar_container flex_row animate__animated animate__fadeIn animate__delay-1s">
          {
             props.navs.map((nav, index) => (
-               <div key={index}>
-                  <GenerateNav
-                     nav={nav}
-                     index={index}
-                  />
+               <div key={index} className="flex_row align_center">
+                  { (index > 0) ? <NavCircle /> : null}
+                  <NavText nav={nav} />
                </div>
             ))
          }
@@ -86,29 +65,51 @@ export
    )
 }
 
-export function StickyNavBar(props) {
-   var outerClassName = "sticky_navbar_container"
-   if (!props.showNav) {
-      outerClassName = outerClassName + " display_none"
-   } else {
 
+export const StickyNavBar = (props) => {
+   const [state, setState] = useState({
+      showNav: false
+   });
+
+   useEffect(() => {
+      const onScroll = e => {
+         const yPos = window.pageYOffset
+         if (yPos > 850) {
+            if (!state.showNav){
+               setState({ showNav: true })
+            }
+         } else {
+            if (state.showNav){
+               setState({ showNav: false })
+            }
+         }
+      };
+
+      window.addEventListener("scroll", onScroll);
+      return () => {
+         window.removeEventListener("scroll", onScroll);
+      }
+   })
+
+   var outerClassName = "sticky_navbar_container"
+   if (!state.showNav) {
+      outerClassName = outerClassName + " display_none"
    }
    return (
       <div className={outerClassName}>
          <div className="sticky_background animate__animated animate__fadeIn">
             {
                props.navs.map((nav, index) => (
-                  <div key={index}>
-                     <GenerateNav
-                        nav={nav}
-                        index={index}
-                     />
+                  <div key={index} className="flex_row align_center">
+                  { (index > 0) ? <NavCircle /> : null }
+                  <NavText nav={nav} />
                   </div>
                ))
             }
          </div>
       </div>
    )
+
 }
 
 
@@ -139,21 +140,7 @@ function Github(props) {
    )
 }
 
-function PotentialLink(props) {
-   if (props.project.link != "") {
-      return (<GoLink link={props.project.link} />)
-   }
-   return null
-}
-
-function PotentialGithub(props) {
-   if (props.project.githubLink != "") {
-      return (<Github link={props.project.githubLink} />)
-   }
-   return null
-}
-
-function RightArrow(props) {
+function RightArrow() {
    return (
       <div className="rarrow_container">
          <img src={rarrow_icon} alt="closed" />
@@ -161,7 +148,7 @@ function RightArrow(props) {
    )
 }
 
-function DownArrow(props) {
+function DownArrow() {
    return (
       <div className="larrow_container">
          <img src={darrow_icon} alt="opne" />
@@ -219,12 +206,12 @@ export
       return (
          <>
             <div className="dropdown_container" id={this.project.address}>
-               <div className="read_more_container" onClick={this.changeOpenState}>
-                  {this.renderArrow()}
-               </div>
+            <a><div className="read_more_container" onClick={this.changeOpenState}>
+               {this.renderArrow()}
                <p className="dropdown_title sub_header_size">{this.project.title}{hasYear}{this.project.year}</p>
-               <PotentialLink project={this.project} />
-               <PotentialGithub project={this.project} />
+            </div></a>
+               {this.project.link ? <GoLink link={this.project.link} /> : null }
+               {this.project.githubLink ? <Github link={this.project.githubLink} /> : null }
             </div>
             <div className={descClassName}>
                <p className="desc normal_text_size">{this.project.descShort}</p>
@@ -243,13 +230,13 @@ export
    return (
       <div className="project_container">
          <Link activeClass="active" to={props.project.address} spy={true} smooth={true} offset={-100} duration={500} >
-            <div className="read_more_container" >
-               <img src={down_arrow_icon} alt="read more" />
+            <div className="read_more_container">
+               <img src={down_arrow_icon} alt="read more" className="featured_arrow" />
                <p className="project_title sub_header_size" >{props.project.title} ~ {props.project.year}</p>
             </div>
          </Link>
-         <PotentialLink project={props.project} />
-         <PotentialGithub project={props.project} />
+         {props.project.link ? <GoLink link={props.project.link} /> : null }
+         {props.project.githubLink ? <Github link={props.project.githubLink} /> : null }
       </div>
    )
 }
@@ -309,11 +296,11 @@ export
    function MarginContainer(props) {
    return (
       <div className="margin_container">
-         <div className="margin_left" />
-         <div className="content">
+         {/* <div className="margin_left" /> */}
+         {/* <div className="content"> */}
             {props.children}
-         </div>
-         <div className="margin_right" />
+         {/* </div> */}
+         {/* <div className="margin_right" /> */}
       </div>
    )
 }

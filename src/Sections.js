@@ -2,6 +2,7 @@ import React from "react";
 import "./Sections.css"
 import "./index.css"
 import { Header, NavBar, Title, FeaturedProject, BlogContent, ProjectCategory, GenerateProjects } from "./Elements";
+import { Link } from "react-scroll";
 import doubledown_icon from "./images/doubledown.svg"
 import docs_logo from "./images/doc.svg"
 import mail_logo from "./images/mail.svg"
@@ -21,24 +22,30 @@ export
       this.address = "title_page"
    }
 
-
    render() {
+      let titlePageClassName = "title_page_container";
+      if (this.props.isMobile) {
+         titlePageClassName = titlePageClassName + " mobile_title_page";
+      } else {
+         titlePageClassName = titlePageClassName + " non_mobile_title_page";
+      }
+      console.log(this.props.isMobile, titlePageClassName)
       return (
-         <div className="title_page_container" id={this.address}>
-            <div className="top_margin" />
+         <div className={titlePageClassName} id={this.address}>
             <div className="middle_content">
                <Title name={this.name} />
                <div className="welcome_container">
                   <p className="welcome normal_text_size animate__animated animate__fadeInDown">Welcome to my Website</p>
                </div>
             </div>
-            <div className="middle_margin" />
-            <NavBar navs={this.navNames} />
-            <div className="bottom_margin animate__animated animate__fadeIn animate__delay-2s">
+            {!this.props.isMobile ? <div className="nav_bar"><NavBar navs={this.navNames} /></div> : null}
+            {!this.props.isMobile ? <div className="bottom_margin animate__animated animate__fadeIn animate__delay-2s">
                <div className="doubledown_container">
-                  <img src={doubledown_icon} alt="scroll down" />
+                  <Link activeClass="active" to={this.props.navNames[0][1]} spy={true} smooth={true} offset={-100} duration={500} >
+                     <img src={doubledown_icon} alt="scroll down" />
+                  </Link>
                </div>
-            </div>
+            </div> : null}
          </div>
       )
    }
@@ -58,8 +65,9 @@ export
          <div className="about_container padding_module" id={this.address}>
             <div className="for_the_bar">
                <Header title="About Me" />
+               {this.props.isMobile ? <div className="about_bar horiz_bar" /> : null}
                <p className="about_para normal_text_size">{this.content}</p>
-               <div className="about_bar vert_bar" />
+               {!this.props.isMobile ? <div className="about_bar vert_bar" /> : null}
             </div>
          </div>
       )
@@ -111,9 +119,10 @@ export
          <div className="blog_container padding_module" id={this.address}>
             <div className="for_the_bar">
                <Header title="Latest Blog Post" />
+               {this.props.isMobile ? <div className="blog_bar horiz_bar" /> : null}
                <p className="normal_text_size"><i>Blog currently not available</i></p>
                <BlogContent latest_blog={this.latest_blog} />
-               <div className="blog_bar vert_bar" />
+               {!this.props.isMobile ? <div className="blog_bar vert_bar" /> : null}
             </div>
          </div>
       )
@@ -133,6 +142,7 @@ export
          <div className="resume_container padding_module" id={this.address}>
             <div className="for_the_bar">
                <Header title="Resume" />
+               {this.props.isMobile ? <div className="resume_bar horiz_bar" /> : null}
                <a href="https://docs.google.com/document/d/1YHDzxbHvglepmipuAW-07f3fIEjupKLdmMx8lfvMK7g/edit?usp=sharing" target="_blank">
                   <div className="google_docs_container">
                      <div className="docs_logo_container sixty_button button">
@@ -141,7 +151,7 @@ export
                      <p className="googledocs_header sub_header_size">Google Docs</p>
                   </div>
                </a>
-               <div className="resume_bar vert_bar" />
+               {!this.props.isMobile ? <div className="resume_bar vert_bar" /> : null}
             </div>
          </div>
       )
@@ -216,27 +226,34 @@ export
          <div className="contact_container padding_module" id={this.address}>
             <div className="for_the_bar">
                <Header title="Contact Me" />
+               {this.props.isMobile ? <div className="contact_bar horiz_bar" /> : null}
                <div className="icons">
                   <div className="mail contact_section_container flex_row">
-                     <div className="contact_logo_container eighty_button button">
-                        <img src={mail_logo} alt="mail" />
-                     </div>
+                     <a href="mailto:calebji1234@gmail.com" target="_blank">
+                        <div className="contact_logo_container eighty_button button">
+                           <img src={mail_logo} alt="mail" />
+                        </div>
+                     </a>
                      <div className="info normal_text_size">calebji1234@gmail.com</div>
                   </div>
                   <div className="github contact_section_container flex_row">
-                     <div className="contact_logo_container eighty_button button">
-                        <img src={github_logo} alt="github" />
-                     </div>
+                     <a href="https://github.com/calebji123" target="_blank">
+                        <div className="contact_logo_container eighty_button button">
+                           <img src={github_logo} alt="github" />
+                        </div>
+                     </a>
                      <div className="info normal_text_size">calebji123</div>
                   </div>
                   <div className="instagram contact_section_container flex_row">
-                     <div className="contact_logo_container eighty_button button">
-                        <img src={insta_logo} alt="instagram" />
-                     </div>
+                     <a href="https://www.instagram.com/calebjire47/?hl=en" target="_blank">
+                        <div className="contact_logo_container eighty_button button">
+                           <img src={insta_logo} alt="instagram" />
+                        </div>
+                     </a>
                      <div className="info normal_text_size">@calebjire47</div>
                   </div>
                </div>
-               <div className="contact_bar vert_bar" />
+               {!this.props.isMobile ? <div className="contact_bar vert_bar" /> : null}
             </div>
          </div>
       )

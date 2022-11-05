@@ -21,14 +21,17 @@
 
 /* header */
 .header {
-   font-size: 64px;
    margin: 10px 0px 30px 0px;
-   line-height: 80px;
 }
 
 
 
 /* navbar */
+.navbar_container {
+   flex-wrap: wrap;
+   justify-content: center;
+}
+
 
 .nav_button {
    padding: 0 5px;
@@ -50,18 +53,15 @@
    border-radius: 5px;
 }
 
-
-.navbar_container {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
+.menu_container {
+   position: relative;
 }
 
-.nav_small_container {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
+.menu_navbar_container {
+   position: absolute;
 }
+
+
 
 /* sticky nav */
 .sticky_navbar_container {
@@ -79,6 +79,7 @@
    flex-direction: row;
    align-items: center;
    justify-content: center;
+   flex-wrap: wrap;
    padding: 25px 20px 20px 20px;
    background-color: #F2FEF2;
    border-radius: 5px;
@@ -203,7 +204,6 @@
 }
 
 
-
 /* blog */
 .blog_title {
    margin-bottom: 20px;
@@ -213,20 +213,26 @@
 /* margin container */
 
 .margin_container {
-   display: flex;
    width: 100%;
-   align-items: stretch;
+   display: grid;
+   grid-template-columns: 1fr 5fr 1fr;
+   grid-template-rows: auto;
 }
 
-.margin_left {
+.margin_container_margin {
+   width: 256px;
+   min-width: 70px;
+}
+
+/* .margin_container .content {
+   max-width: 1000px; 
+   flex-grow: 2;
+} */
+
+/* .margin_left {
    width: 256px;
 }
 
 .margin_right {
    width: 256px;
-}
-
-.margin_container .content {
-   max-width: 1000px;
-   flex-grow: 2;
-}
+} */

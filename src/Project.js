@@ -37,7 +37,7 @@ const AnimalFarm = new Project({
    status: "Completed",
    descShort: "A simple clicker text-based game created on the web. 5 years in the making",
    descLong: "",
-   year: "2018-Present",
+   year: "2021",
    langList: ["HTML", "CSS", "Javascript"],
    toolList: [""],
    link: "https://calebji.com/AnimalFarm",
@@ -207,8 +207,24 @@ const iNFiniTe = new Project({
    address: "iNFiniTe project"
 })
 
+const Banana2 = new Project({
+   title: "Banana2",
+   icon: "",
+   status: "",
+   descShort: "2 hours of work = banana2",
+   descLong: "",
+   year: "2022",
+   langList: [""],
+   toolList: [""],
+   link: "https://calebji.com/Banana2",
+   githubLink: "https://github.com/calebji123/Banana2",
+   featured: true,
+   updateDesc: "",
+   address: "Banana2 project"
+})
+
 export
-   const projectList = [AnimalFarm, FroggerTwo, Banana, EscapeWorld, WordleInIdris, iNFiniTe]
+   const projectList = [AnimalFarm, FroggerTwo, Banana, EscapeWorld, WordleInIdris, iNFiniTe, Banana2]
 
 export
    const archiveList = [FirstWebsite, FirstAnimalFarm, ScienceProject]
@@ -223,7 +239,7 @@ const Idris = new Category({
 const Web = new Category({
    header: "Javascript, HTML, and CSS",
    desc: "These three languages combined are my goto method for coding a web app. Currently also my goto method for coding a game.",
-   projectList: [AnimalFarm, EscapeWorld, Banana]
+   projectList: [AnimalFarm, EscapeWorld, Banana, Banana2]
 })
 
 const Python = new Category({
