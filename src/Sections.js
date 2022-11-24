@@ -8,6 +8,7 @@ import docs_logo from "./images/doc.svg"
 import mail_logo from "./images/mail.svg"
 import github_logo from "./images/github.svg"
 import insta_logo from "./images/instagram.svg"
+import linkedin_logo from "./images/linkedin.svg"
 
 
 
@@ -243,6 +244,14 @@ export
                         </div>
                      </a>
                      <div className="info normal_text_size">calebji123</div>
+                  </div>
+                  <div className="linkedin contact_section_container flex_row">
+                     <a href="https://linkedin.com/in/caleb-ji" target="_blank">
+                        <div className="contact_logo_container eighty_button button">
+                           <img src={linkedin_logo} alt="linkedin" />
+                        </div>
+                     </a>
+                     <div className="info normal_text_size">linkedin.com/in/caleb-ji</div>
                   </div>
                   <div className="instagram contact_section_container flex_row">
                      <a href="https://www.instagram.com/calebjire47/?hl=en" target="_blank">
