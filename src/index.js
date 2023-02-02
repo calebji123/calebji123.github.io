@@ -44,25 +44,26 @@ class MainPage extends React.Component {
 		return outputList
 	}
 
-	// handleWindowSizeChange = () =>  {
-	// 	if (window.innerWidth <= 768) {
-	// 		if (!this.state.isMobile) {
-	// 			this.setState({isMobile: true})
-	// 		}
-	// 	} else {
-	// 		if (this.state.isMobile) {
-	// 			this.setState({isMobile: false})
-	// 		}
-	// 	}
-	// }
+	handleWindowSizeChange = () =>  {
+		if (window.innerWidth <= 768) {
+			if (!this.state.isMobile) {
+				this.setState({isMobile: true})
+			}
+		} else {
+			if (this.state.isMobile) {
+				this.setState({isMobile: false})
+			}
+		}
+	}
 
-	// componentDidMount() {
-	// 	window.addEventListener('resize', this.handleWindowSizeChange.bind(this));
-	// }
+	componentDidMount() {
+		this.handleWindowSizeChange()
+		window.addEventListener('resize', this.handleWindowSizeChange.bind(this));
+	}
 
-	// componentWillUnmount () {
-	// 	window.removeEventListener('resize', this.handleWindowSizeChange.bind(this));
-	// }
+	componentWillUnmount () {
+		window.removeEventListener('resize', this.handleWindowSizeChange.bind(this));
+	}
 
 	render() {
 		console.log(this.state.isMobile)
@@ -89,10 +90,11 @@ class MainPage extends React.Component {
 						content="I am currently a student at the University of Toronto studying first year life sciences, thinking about applying into med school. I have been coding since I was 12, and I don't plan on stopping. I am currently focused on web development, particularly game development through javascript. I have recently also started learning functional programming through languages such as Elm and Idris."
 						isMobile = {this.state.isMobile}
 					/>
-					<FeaturedPage
+
+					{!this.state.isMobile ? <FeaturedPage
 						featuredList={this.featuredList}
 						isMobile = {this.state.isMobile}
-					/>
+					/> : null}
 					<BlogPage
 						latest_blog={this.latest_blog}
 						isMobile = {this.state.isMobile}

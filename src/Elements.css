@@ -142,7 +142,6 @@
 /* dropdown */
 .dropdown_container {
    width: fit-content;
-   height: 50px;
    display: flex;
    align-items: center;
    margin-top: 20px;

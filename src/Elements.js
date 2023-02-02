@@ -23,8 +23,9 @@ export
 
 export
    function Header(props) {
+      var header = "header " + changeToMobile("header_size", props.isMobile)
    return (
-      <h1 className="header header_size">{props.title}</h1>
+      <h1 className={header}>{props.title}</h1>
    )
 }
 
@@ -117,10 +118,11 @@ export const StickyNavBar = (props) => {
 // For project dropdown
 
 function GoLink(props) {
+   var link_in_container = "link_in_container button " + changeToMobile("sixty_button", props.isMobile)
    return (
       <div className="link_out_container">
          <a href={props.link} target="_blank">
-            <div className="link_in_container sixty_button button">
+            <div className={link_in_container}>
                <img src={link_logo} alt="link" />
             </div>
          </a>
@@ -129,10 +131,11 @@ function GoLink(props) {
 }
 
 function Github(props) {
+   var github_in_container = "github_in_container button " + changeToMobile("sixty_button", props.isMobile)
    return (
       <div className="link_out_container">
          <a href={props.link} target="_blank">
-            <div className="github_in_container sixty_button button">
+            <div className={github_in_container}>
                <img src={github_logo} alt="github" />
             </div>
          </a>
@@ -203,18 +206,20 @@ export
       if (this.project.year != "") {
          hasYear = " ~ "
       }
+      var dropdown_title = "dropdown_title " + changeToMobile("sub_header_size", this.props.isMobile)
+      var desc = "desc " + changeToMobile("normal_text_size", this.props.isMobile)
       return (
          <>
             <div className="dropdown_container" id={this.project.address}>
             <a><div className="read_more_container" onClick={this.changeOpenState}>
                {this.renderArrow()}
-               <p className="dropdown_title sub_header_size">{this.project.title}{hasYear}{this.project.year}</p>
+               <p className={dropdown_title}>{this.project.title}{hasYear}{this.project.year}</p>
             </div></a>
-               {this.project.link ? <GoLink link={this.project.link} /> : null }
-               {this.project.githubLink ? <Github link={this.project.githubLink} /> : null }
+               {this.project.link ? <GoLink link={this.project.link} isMobile={this.props.isMobile}/> : null }
+               {this.project.githubLink ? <Github link={this.project.githubLink} isMobile={this.props.isMobile}/> : null }
             </div>
             <div className={descClassName}>
-               <p className="desc normal_text_size">{this.project.descShort}</p>
+               <p className={desc}>{this.project.descShort}</p>
             </div>
          </>
       )
@@ -248,7 +253,7 @@ export
          {
             props.projectList.map((project, index) => (
                <div key={index}>
-                  <ProjectDropdown project={project} />
+                  <ProjectDropdown project={project} isMobile={props.isMobile}/>
                </div>
             ))
          }
@@ -258,13 +263,15 @@ export
 
 export
    function ProjectCategory(props) {
+      var category_desc = "category_desc " + changeToMobile("normal_text_size", props.isMobile)
+      var category_header = "category_header " + changeToMobile("demi_header_size", props.isMobile)
    return (
       <div className="category_container">
-         <p className="category_header demi_header_size">{props.category.header}</p>
+         <p className={category_header}>{props.category.header}</p>
          <div className="desc_container">
             <div className="for_the_bar">
-               <p className="category_desc normal_text_size">{props.category.desc}</p>
-               <GenerateProjects projectList={props.category.projectList} />
+               <p className={category_desc}>{props.category.desc}</p>
+               <GenerateProjects projectList={props.category.projectList} isMobile={props.isMobile}/>
                <div className="project_bar" />
             </div>
          </div>
@@ -277,15 +284,19 @@ export
 //blog
 export
    function BlogContent(props) {
-   return (
-      <div className="blog_content_container">
-         <p className="blog_title sub_header_size">{props.latest_blog.title} - {props.latest_blog.date}</p>
-         <p className="blog_content normal_text_size">{props.latest_blog.partialContent}</p>
-         <a href={props.latest_blog.link} target="_blank">
-            <p className="read_more normal_text_size"><i>Read More</i></p>
-         </a>
-      </div>
-   )
+      var blog_content = "blog_content " + changeToMobile("normal_text_size", props.isMobile)
+      var read_more = "read_more " + changeToMobile("normal_text_size", props.isMobile)
+      var blog_title = "blog_title " + changeToMobile("sub_header_size", props.isMobile)
+      return (
+         <div className="blog_content_container">
+            <p className={blog_title}>{props.latest_blog.title} - {props.latest_blog.date}</p>
+            <p className={blog_content}>{props.latest_blog.partialContent}</p>
+            <a href={props.latest_blog.link} target="_blank">
+               <p className={read_more}><i>Read More</i></p>
+            </a>
+         </div>
+      )
+
 }
 
 
@@ -307,7 +318,13 @@ export
 
 
 
-
+export 
+   function changeToMobile(classes, isMobile) {
+      if (isMobile) {
+         return ("mobile_"+classes)
+      }
+      return classes
+   }
 
 
 
