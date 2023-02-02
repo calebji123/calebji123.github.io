@@ -5,6 +5,13 @@
    grid-column: 2 / span 1;
 }
 
+.mobile_padding_module {
+   margin-top: 50px;
+   margin-bottom: 50px;
+   padding: 20px 0 20px 0;
+   grid-column: 2 / span 1;
+}
+
 
 /* title */
 .title_page_container {
@@ -19,6 +26,12 @@
    height: 100vh;
 }
 
+.mobile_title_page {
+   margin: auto;
+   grid-template-columns: 0;
+   grid-template-rows: 0;
+   margin-top: 50px;
+}
 
 
 .middle_content {
@@ -64,7 +77,6 @@ canvas {
 }
 
 .about_para {
-   line-height: 40px;
 }
 
 
