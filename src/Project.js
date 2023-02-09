@@ -42,7 +42,7 @@ const AnimalFarm = new Project({
    toolList: [""],
    link: "https://calebji.com/AnimalFarm",
    githubLink: "https://github.com/calebji123/AnimalFarm",
-   featured: true,
+   featured: false,
    updateDesc: "Version 0.70 released, with it is finally a way to finish the game.",
    address: "animal_farm_project"
 })
@@ -90,7 +90,7 @@ const EscapeWorld = new Project({
    toolList: [""],
    link: "https://calebji.com/EscapeWorld",
    githubLink: "https://github.com/calebji123/EscapeWorld",
-   featured: true,
+   featured: false,
    updateDesc: "First part of story 1 implemented. Contact me for ideas!",
    address: "escape_world_project"
 })
@@ -218,13 +218,61 @@ const Banana2 = new Project({
    toolList: [""],
    link: "https://calebji.com/Banana2",
    githubLink: "https://github.com/calebji123/Banana2",
-   featured: true,
+   featured: false,
    updateDesc: "",
    address: "Banana2 project"
 })
 
+const OpenAI = new Project({
+   title: "Open AI",
+   icon: "",
+   status: "",
+   descShort: "An adventure into Open AI's newest chatbot, ChatGPT, and its ability to code.",
+   descLong: "",
+   year: "2022",
+   langList: ["Javascript", "HTML", "CSS"],
+   toolList: ["ChatGPT"],
+   link: "https://calebji.com/OpenAI",
+   githubLink: "https://github.com/calebji123/OpenAI",
+   featured: true,
+   updateDesc: "",
+   address: "Open AI showcase"
+})
+
+const TetrisAI = new Project({
+   title: "Tetris AI",
+   icon: "",
+   status: "",
+   descShort: "A trial at creating a complex game mainly with an AI",
+   descLong: "",
+   year: "2022",
+   langList: ["Javascript", "HTML", "CSS"],
+   toolList: ["ChatGPT"],
+   link: "https://calebji.com/TetrisAI",
+   githubLink: "https://github.com/calebji123/TetrisAI",
+   featured: false,
+   updateDesc: "",
+   address: "Tetris AI"
+})
+
+const FrogPuzzle = new Project({
+   title: "Frogame",
+   icon: "",
+   status: "",
+   descShort: "A very hard puzzle game co-created with my friend.",
+   descLong: "",
+   year: "2023",
+   langList: ["Javascript", "HTML", "CSS"],
+   toolList: ["ChatGPT"],
+   link: "https://calebji.com/Frogpuzzle",
+   githubLink: "https://github.com/calebji123/Frogpuzzle",
+   featured: true,
+   updateDesc: "",
+   address: "Frogame"
+})
+
 export
-   const projectList = [AnimalFarm, FroggerTwo, Banana, EscapeWorld, WordleInIdris, iNFiniTe, Banana2]
+   const projectList = [AnimalFarm, FroggerTwo, Banana, EscapeWorld, WordleInIdris, iNFiniTe, Banana2, OpenAI, TetrisAI, FrogPuzzle]
 
 export
    const archiveList = [FirstWebsite, FirstAnimalFarm, ScienceProject]
@@ -239,7 +287,7 @@ const Idris = new Category({
 const Web = new Category({
    header: "Javascript, HTML, and CSS",
    desc: "These three languages combined are my goto method for coding a web app. Currently also my goto method for coding a game.",
-   projectList: [AnimalFarm, EscapeWorld, Banana, Banana2]
+   projectList: [FrogPuzzle, OpenAI, TetrisAI, AnimalFarm, EscapeWorld, Banana, Banana2]
 })
 
 const Python = new Category({
@@ -285,8 +333,8 @@ class Blog {
 
 export
    const latest_blog = {
-      title: "Wordle In Idris",
-      date: "25.08.22",
-      partialContent: "Wordle in Idris is a project to demonstrate the power of type-constrained states for game logic. It is based on an example in chapter 14.3 of the book \"Type Driven Development in Idris\" by Edwin Brady. It follows the basic idea of the game wordle, as popularized by the New York Times, but with significantly fewer features.",
-      link: "https://github.com/calebji123/WordleInIdris"
+      title: "On The Millennium Prize Problems - P Versus NP",
+      date: "17 Jan 2023",
+      partialContent: "Without knowing what the P or the NP means, it is hard to grasp what the problem really is. In simplest terms, P is the set of all decision problems whose fastest algorithm to solve runs in polynomial time. On the other hand, NP is the set of all decision problems whose answer can be checked by an algorithm in polynomial time. The essence of the problem is to know if these two sets are really the same (P = NP), as in each problem in NP also exists in P.",
+      link: "https://blog.calebji.com/millenium%20problems/P-versus-NP"
    }

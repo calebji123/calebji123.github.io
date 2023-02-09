@@ -289,10 +289,12 @@ export
       var blog_title = "blog_title " + changeToMobile("sub_header_size", props.isMobile)
       return (
          <div className="blog_content_container">
-            <p className={blog_title}>{props.latest_blog.title} - {props.latest_blog.date}</p>
-            <p className={blog_content}>{props.latest_blog.partialContent}</p>
-            <a href={props.latest_blog.link} target="_blank">
-               <p className={read_more}><i>Read More</i></p>
+            <a href={props.latest_blog.link} target="_blank" rel="noreferrer">
+            <p className={blog_title}>{props.latest_blog.title} | {props.latest_blog.date}</p>
+            </a>
+            <p className={blog_content}>{props.latest_blog.partialContent}<br></br>... </p>
+            <a href="https://blog.calebji.com" target="_blank" rel="noreferrer">
+               <p className={read_more}><i>Link to Blog</i></p>
             </a>
          </div>
       )

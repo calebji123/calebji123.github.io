@@ -125,7 +125,6 @@ export
             <div className="for_the_bar">
                <Header title="Latest Blog Post" isMobile={this.props.isMobile}/>
                {this.props.isMobile ? <div className="blog_bar mobile_horiz_bar" /> : null}
-               <p className={changeToMobile("normal_text_size", this.props.isMobile)}><i>Blog currently not available</i></p>
                <BlogContent latest_blog={this.latest_blog} isMobile={this.props.isMobile}/>
                {!this.props.isMobile ? <div className="blog_bar vert_bar" /> : null}
             </div>
@@ -243,12 +242,12 @@ export
                {this.props.isMobile ? <div className="contact_bar mobile_horiz_bar" /> : null}
                <div className="icons">
                   <div className="mail contact_section_container flex_row">
-                     <a href="mailto:calebji1234@gmail.com" target="_blank">
+                     <a href="mailto:caleblingji@gmail.com" target="_blank">
                         <div className={contact_logo_container}>
                            <img src={mail_logo} alt="mail" />
                         </div>
                      </a>
-                     <div className={info}>calebji1234@gmail.com</div>
+                     <div className={info}>caleblingji@gmail.com</div>
                   </div>
                   <div className="github contact_section_container flex_row">
                      <a href="https://github.com/calebji123" target="_blank">
