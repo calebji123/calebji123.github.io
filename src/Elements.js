@@ -121,7 +121,7 @@ function GoLink(props) {
    var link_in_container = "link_in_container button " + changeToMobile("sixty_button", props.isMobile)
    return (
       <div className="link_out_container">
-         <a href={props.link} target="_blank">
+         <a href={props.link} target="_blank" rel="noreferrer">
             <div className={link_in_container}>
                <img src={link_logo} alt="link" />
             </div>
@@ -134,7 +134,7 @@ function Github(props) {
    var github_in_container = "github_in_container button " + changeToMobile("sixty_button", props.isMobile)
    return (
       <div className="link_out_container">
-         <a href={props.link} target="_blank">
+         <a href={props.link} target="_blank" rel="noreferrer">
             <div className={github_in_container}>
                <img src={github_logo} alt="github" />
             </div>
@@ -170,7 +170,7 @@ export
       }
       this.project = props.project
 
-      if (this.props.project.descShort == "") {
+      if (this.props.project.descShort === "") {
          this.hasDesc = false
       } else {
          this.hasDesc = true
@@ -182,6 +182,7 @@ export
       this.setState(prevState => ({
          open: !prevState.open
       }))
+      console.log(this)
    }
 
    renderArrow() {
@@ -203,7 +204,7 @@ export
          }
       }
       var hasYear = ""
-      if (this.project.year != "") {
+      if (this.project.year !== "") {
          hasYear = " ~ "
       }
       var dropdown_title = "dropdown_title " + changeToMobile("sub_header_size", this.props.isMobile)
@@ -211,7 +212,7 @@ export
       return (
          <>
             <div className="dropdown_container" id={this.project.address}>
-            <a><div className="read_more_container" onClick={this.changeOpenState}>
+            <a><div id={this.project.address + "id"} className="read_more_container" onClick={this.changeOpenState}>
                {this.renderArrow()}
                <p className={dropdown_title}>{this.project.title}{hasYear}{this.project.year}</p>
             </div></a>

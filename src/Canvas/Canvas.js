@@ -49,8 +49,6 @@ const Canvas = props => {
       }
       let posx = x/mr
       let posy = y/mr
-      console.log(e.clientX, e.clientY)
-      console.log(posx,posy)
       drot[0] = Math.sin(posx*Math.PI*0.5)*speed
       drot[1] = Math.sin(posy*Math.PI*0.5)*speed
    }
