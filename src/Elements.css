@@ -153,9 +153,11 @@
 }
 
 .project_desc_container {
-   padding: none;
+   padding: 0;
    opacity: 0;
    height: 0;
+   position: relative;
+   z-index: -1;
 }
 
 .project_desc_container.active {
