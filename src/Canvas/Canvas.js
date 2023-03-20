@@ -51,9 +51,9 @@ const Canvas = props => {
       let posy = y/mr
       drot[0] = Math.sin(posx*Math.PI*0.5)*speed
       drot[1] = Math.sin(posy*Math.PI*0.5)*speed
+      console.log(drot)
    }
 
-   
 let newpoints, e, grd, v, m, s, f, half;
   const draw = (ctx,c) => {
       ctx.globalAlpha = 0.4;
