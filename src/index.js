@@ -87,7 +87,9 @@ class MainPage extends React.Component {
 				
 				<MarginContainer>
 					<AboutPage
-						content="I am a first year student in the University of Toronto interested in bioinformatics and cell biology. I am always curious to learn new and complex things and create fun projects along the way. Interested in research and further studies like graduate school and medical school."
+						content="I am a second year student stuyding Bioinformatics and 
+                        Computational Biology at the University of Toronto. Currently researching in Wainberg Lab
+                        looking at machine learning application to finding causal genes of GWAS risk loci."
 						isMobile = {this.state.isMobile}
 					/>
 
